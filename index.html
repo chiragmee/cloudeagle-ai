@@ -35,6 +35,10 @@ a{text-decoration:none;color:inherit}
 .ntag.green{background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)}
 .cta-top{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--white);padding:10px 22px;border-radius:8px;font-size:13px;font-weight:700;white-space:nowrap;transition:opacity .15s;flex-shrink:0}
 .cta-top:hover{opacity:.82}
+.nav-contacts{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}
+.nav-contact{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:100px;font-size:10px;color:var(--mist);border:1px solid var(--rule);background:var(--surface);text-decoration:none;transition:border-color .15s,color .15s;white-space:nowrap}
+.nav-contact:hover{border-color:var(--blue);color:var(--blue)}
+.nav-contact-icon{font-size:10px}
 
 /* ── PAGE WRAP ── */
 .page{max-width:1160px;margin:0 auto;padding:0 48px}
@@ -161,6 +165,12 @@ a{text-decoration:none;color:inherit}
         <span class="ntag blue">Best Performer FY 24–25</span>
         <span class="ntag green">Immediate Joiner</span>
       </div>
+      <div class="nav-contacts">
+        <a href="mailto:chirag.mewara.18@gmail.com" class="nav-contact"><span class="nav-contact-icon">✉</span>chirag.mewara.18@gmail.com</a>
+        <a href="tel:+919079981978" class="nav-contact"><span class="nav-contact-icon">📱</span>+91 90799 81978</a>
+        <a href="https://linkedin.com/in/chiragmewara" target="_blank" class="nav-contact"><span class="nav-contact-icon" style="font-weight:800;font-size:9px">in</span>linkedin.com/in/chiragmewara</a>
+        <a href="https://github.com/chiragmee" target="_blank" class="nav-contact"><span class="nav-contact-icon">⌥</span>github.com/chiragmee</a>
+      </div>
     </div>
   </div>
   <a href="/full" class="cta-top">Read Complete Brief →</a>
@@ -173,25 +183,29 @@ a{text-decoration:none;color:inherit}
     <div class="sidebar">
       <div class="sidebar-label" style="font-size:11px;font-weight:700;color:var(--ink);text-transform:none;letter-spacing:0;margin-bottom:14px">Assignment Deliverables</div>
       <div class="del-stack">
-        <a href="/full" class="del-card featured">
-          <div class="del-num">D0</div>
-          <h3>Complete PM Brief</h3>
-          <p>All sections — problem, personas, architecture, metrics, and risks.</p>
-          <div class="del-link">Read full brief →</div>
-        </a>
-        <a href="https://cloudeagle-ai.vercel.app/ux" class="del-card">
+        <a href="https://cloudeagle-ai.vercel.app/ux" class="del-card featured">
           <div class="del-num">D1</div>
           <h3>UX Design</h3>
-          <p>Screen-by-screen Validator Interface — URL to production.</p>
-          <div class="del-link">View UX →</div>
+          <p>Screen-by-screen Validator Interface — from URL input to production deployment.</p>
+          <div class="del-link">View UX design →</div>
+        </a>
+        <a href="#safeguards" class="del-card">
+          <div class="del-num">D2</div>
+          <h3>Safeguards Framework</h3>
+          <p>Enterprise trust layer — sandbox mandate, PII masking, approval gate, audit trail.</p>
+          <div class="del-link">View safeguards ↓</div>
         </a>
         <a href="https://cloudeagle-ai.vercel.app/prototype" class="del-card">
           <div class="del-num">D3</div>
           <h3>Live Prototype</h3>
-          <p>Working AI demo — paste an API doc URL and watch it generate.</p>
+          <p>Working AI demo — paste an API doc URL and watch the integration generate.</p>
           <div class="del-link">Open prototype →</div>
         </a>
       </div>
+      <div class="sidebar-divider"></div>
+      <a href="/full" style="display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--mist);text-decoration:none;padding:8px 0;border-radius:6px;transition:color .15s" onmouseover="this.style.color='#1B4FCC'" onmouseout="this.style.color='#6B7FA0'">
+        <span>Full PM Brief (18 sections)</span><span>→</span>
+      </a>
       <div class="sidebar-divider"></div>
       <div class="sidebar-note">Senior PM Assignment · CloudEagle · AI Integration Builder</div>
     </div>
@@ -297,7 +311,7 @@ a{text-decoration:none;color:inherit}
       </div>
 
       <!-- SAFEGUARDS -->
-      <div class="content-section">
+      <div class="content-section" id="safeguards">
         <div class="sec-label">Safeguards &amp; Enterprise Trust</div>
         <h2>Customers are not developers. The system must protect them like they aren't.</h2>
         <p class="sub">We are asking IT Managers to trigger code generation and deployment. Every safeguard below exists to make that safe — technically and legally.</p>
