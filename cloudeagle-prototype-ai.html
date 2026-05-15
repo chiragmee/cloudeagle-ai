@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Integration Builder · CloudEagle</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#F6F8FB; --white:#FFFFFF; --surface:#EDF0F7;
+  --ink:#0B0F1A; --slate:#1E2B3C; --steel:#2E4057; --mist:#7A8FA8;
+  --rule:#D4DBE8; --ruleli:#E8ECF4;
+  --blue:#1D52CC; --bluefg:#EEF3FF; --blueborder:#B8CBFF;
+  --teal:#0B7A6E; --tealfg:#E6F5F3; --tealbd:#99D6CF;
+  --amber:#B45309; --amberfg:#FEF3C7; --amberbd:#FCD34D;
+  --red:#C0392B; --redfg:#FEF2F2; --redbd:#FECACA;
+  --green:#065F46; --greenfg:#ECFDF5; --greenbd:#A7F3D0;
+  --purple:#5B21B6; --purpfg:#EDE9FE; --purpbd:#C4B5FD;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Geist',system-ui,sans-serif;
+  --mono:'Geist Mono',monospace;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+/* ── NAV ── */
+nav{background:var(--white);border-bottom:1px solid var(--rule);height:56px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px}
+.logo-mark{width:30px;height:30px;background:var(--ink);border-radius:7px;color:var(--white);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.nav-sep{color:var(--ruleli);margin:0 4px}
+.nav-title{color:var(--mist);font-weight:400}
+.nav-right{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--mist)}
+.avatar{width:30px;height:30px;background:var(--blue);border-radius:50%;color:var(--white);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:calc(100vh - 56px)}
+
+/* ── SIDEBAR ── */
+.sidebar{width:260px;background:var(--white);border-right:1px solid var(--rule);padding:24px 0;flex-shrink:0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;display:flex;flex-direction:column}
+.sb-section{padding:0 16px;margin-bottom:32px}
+.sb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--mist);margin-bottom:10px;padding:0 4px}
+.sb-step{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border-radius:10px;margin-bottom:2px;cursor:default}
+.sb-step.active{background:var(--bluefg)}
+.sb-step.done .sb-n{background:var(--greenfg);border-color:var(--greenbd);color:var(--green)}
+.sb-step.active .sb-n{background:var(--blue);border-color:var(--blue);color:var(--white)}
+.sb-step.locked{opacity:.38}
+.sb-n{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--rule);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:var(--mist)}
+.sb-text{flex:1}
+.sb-name{font-size:13px;font-weight:600;color:var(--ink)}
+.sb-sub{font-size:11px;color:var(--mist);margin-top:1px}
+.sb-bottom{margin-top:auto;padding:16px;border-top:1px solid var(--rule)}
+.sb-help{background:var(--surface);border-radius:10px;padding:14px;font-size:12px;color:var(--mist);line-height:1.6}
+
+/* ── MAIN ── */
+.main{flex:1;padding:36px 40px;max-width:880px}
+.breadcrumb{font-size:12px;color:var(--mist);margin-bottom:12px}
+.breadcrumb strong{color:var(--blue)}
+.pg-title{font-family:var(--serif);font-size:26px;font-weight:400;margin-bottom:6px}
+.pg-sub{font-size:14px;color:var(--mist);margin-bottom:28px}
+
+/* ── PROGRESS ── */
+.prog-bar{background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:18px 24px;margin-bottom:24px;display:flex;gap:0;align-items:center}
+.pb-step{display:flex;align-items:center;gap:8px;flex:1;position:relative}
+.pb-step:not(:last-child)::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:calc(100% - 28px);height:1px;background:var(--rule);margin-left:28px;z-index:0}
+.pb-step.done:not(:last-child)::after{background:var(--green)}
+.pb-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;z-index:1;position:relative;flex-shrink:0}
+.pb-dot.d{background:var(--greenfg);color:var(--green);border:1.5px solid var(--greenbd)}
+.pb-dot.a{background:var(--blue);color:var(--white);box-shadow:0 0 0 4px rgba(29,82,204,.12)}
+.pb-dot.p{background:var(--white);color:var(--mist);border:1.5px solid var(--rule)}
+.pb-label{font-size:11px;font-weight:600;color:var(--mist);white-space:nowrap}
+.pb-label.al{color:var(--blue)}
+
+/* ── CARDS ── */
+.card{background:var(--white);border:1px solid var(--rule);border-radius:var(--radius);padding:24px;margin-bottom:18px}
+.card-hd{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.card-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.card-title{font-size:15px;font-weight:700}
+.card-sub{font-size:12px;color:var(--mist);margin-top:2px}
+
+/* ── NOTICES ── */
+.notice{border-radius:10px;padding:13px 16px;margin-bottom:16px;display:flex;gap:11px;align-items:flex-start;font-size:13px;line-height:1.6}
+.notice.info{background:var(--bluefg);border:1px solid var(--blueborder);color:#1D3A8A}
+.notice.warn{background:var(--amberfg);border:1px solid var(--amberbd);color:#78350F}
+.notice.ok{background:var(--greenfg);border:1px solid var(--greenbd);color:var(--green)}
+.n-icon{flex-shrink:0;font-size:15px;margin-top:1px}
+
+/* ── INPUT ── */
+label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+input,select,textarea{width:100%;padding:11px 14px;border:1.5px solid var(--rule);border-radius:10px;font-size:14px;font-family:var(--sans);color:var(--ink);background:var(--white);outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,82,204,.08)}
+.hint{font-size:12px;color:var(--mist);margin-top:-10px;margin-bottom:14px}
+.field{margin-bottom:16px}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:0;border:1px solid var(--rule);border-radius:10px;overflow:hidden;margin-bottom:18px;background:var(--surface)}
+.tab{flex:1;padding:10px;font-size:13px;font-weight:600;color:var(--mist);cursor:pointer;text-align:center;background:transparent;border:none;font-family:var(--sans);transition:background .15s,color .15s}
+.tab.active{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.05)}
+
+/* ── ENTITY GRAPH ── */
+.entity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.entity{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:14px 16px}
+.entity-name{font-size:13px;font-weight:700;margin-bottom:4px}
+.entity-attrs{font-size:11px;color:var(--mist);line-height:1.6;font-family:var(--mono)}
+
+/* ── MAPPING TABLE ── */
+.map-table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;border:1px solid var(--rule)}
+.map-table th{background:var(--surface);padding:11px 16px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--mist);border-bottom:1px solid var(--rule)}
+.map-table td{padding:13px 16px;border-bottom:1px solid var(--ruleli);font-size:13px;vertical-align:middle}
+.map-table tr:last-child td{border-bottom:none}
+.mono{font-family:var(--mono);font-size:12px}
+.conf{display:flex;align-items:center;gap:8px}
+.bar{width:56px;height:5px;background:var(--surface);border-radius:3px;overflow:hidden}
+.bar-f{height:100%;border-radius:3px}
+.conf-pct{font-size:11px;font-weight:700}
+.badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap}
+.badge.auto{background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)}
+.badge.review{background:var(--amberfg);color:var(--amber);border:1px solid var(--amberbd)}
+.badge.flag{background:var(--redfg);color:var(--red);border:1px solid var(--redbd)}
+.badge.const{background:var(--purpfg);color:var(--purple);border:1px solid var(--purpbd)}
+
+/* ── SPLIT PANE ── */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+.pane{background:var(--ink);border-radius:12px;overflow:hidden}
+.pane-hd{background:#111827;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)}
+.pane-title{font-size:12px;color:rgba(255,255,255,.5);font-family:var(--mono)}
+.dots{display:flex;gap:6px}
+.dot{width:10px;height:10px;border-radius:50%}
+.pane-body{padding:16px;font-family:var(--mono);font-size:12px;line-height:1.7;color:#A8B8D0;overflow-y:auto;max-height:320px}
+.pane-body pre{white-space:pre-wrap;word-break:break-word}
+.terminal-line{display:flex;gap:8px}
+.t-time{color:rgba(255,255,255,.25);flex-shrink:0}
+.t-ok{color:#10B981}
+.t-warn{color:#F59E0B}
+.t-run{color:#60A5FA}
+
+/* ── TEST RESULTS ── */
+.test-list{display:flex;flex-direction:column;gap:8px}
+.test{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;background:var(--white);border:1px solid var(--rule);border-radius:10px}
+.test-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px}
+.test-icon.ok{background:var(--greenfg)}
+.test-icon.wn{background:var(--amberfg)}
+.test-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.test-note{font-size:12px;color:var(--mist)}
+.test-ms{font-size:11px;color:var(--mist);font-family:var(--mono);margin-left:auto;flex-shrink:0;padding-top:2px}
+
+/* ── CHECKLIST ── */
+.chk-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.chk-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;font-size:14px}
+.chk-item.ok{background:var(--greenfg);border:1px solid var(--greenbd)}
+.chk-item.wn{background:var(--amberfg);border:1px solid var(--amberbd)}
+
+/* ── SCOPE AUDIT ── */
+.scope-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--ruleli);font-size:13px}
+.scope-row:last-child{border-bottom:none}
+.scope-name{font-family:var(--mono);font-size:12px}
+
+/* ── BUTTONS ── */
+.btn{padding:11px 22px;border-radius:9px;font-size:13px;font-weight:700;font-family:var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:7px;border:none;transition:opacity .12s,transform .12s}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--ink);color:var(--white)}
+.btn-secondary{background:var(--white);color:var(--ink);border:1.5px solid var(--rule)}
+.btn-success{background:var(--teal);color:var(--white)}
+.btn-disabled{opacity:.35;cursor:not-allowed}
+.btn-row{display:flex;gap:10px;margin-top:22px}
+
+/* ── SUCCESS ── */
+.success-state{text-align:center;padding:56px 0}
+.s-emoji{font-size:56px;margin-bottom:18px}
+.s-title{font-family:var(--serif);font-size:30px;color:var(--green);margin-bottom:10px;font-weight:400}
+.s-sub{font-size:16px;color:var(--mist);margin-bottom:36px}
+.s-stats{display:flex;justify-content:center;gap:48px;margin-bottom:36px}
+.s-stat-n{font-family:var(--serif);font-size:32px}
+.s-stat-l{font-size:12px;color:var(--mist);margin-top:4px}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">
+    <div class="logo-mark">CE</div>
+    CloudEagle <span class="nav-sep">/</span>
+    <span class="nav-title">AI Integration Builder</span>
+  </div>
+  <div class="nav-right">
+    <span>Ops Workspace</span>
+    <div class="avatar">SR</div>
+    <span style="font-size:13px;font-weight:500">Sarah R.</span>
+  </div>
+</nav>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-section">
+      <div class="sb-label">Build Steps</div>
+      <div class="sb-step" id="s1"><div class="sb-n" id="n1">1</div><div class="sb-text"><div class="sb-name">Ingestion Canvas</div><div class="sb-sub">Point to the API</div></div></div>
+      <div class="sb-step" id="s2"><div class="sb-n" id="n2">2</div><div class="sb-text"><div class="sb-name">Semantic Analysis</div><div class="sb-sub">Review what AI found</div></div></div>
+      <div class="sb-step" id="s3"><div class="sb-n" id="n3">3</div><div class="sb-text"><div class="sb-name">Logic Mapping</div><div class="sb-sub">Confirm field mappings</div></div></div>
+      <div class="sb-step" id="s4"><div class="sb-n" id="n4">4</div><div class="sb-text"><div class="sb-name">Integration Plan</div><div class="sb-sub">Approve before code</div></div></div>
+      <div class="sb-step" id="s5"><div class="sb-n" id="n5">5</div><div class="sb-text"><div class="sb-name">Sandbox</div><div class="sb-sub">Test safely</div></div></div>
+      <div class="sb-step" id="s6"><div class="sb-n" id="n6">6</div><div class="sb-text"><div class="sb-name">Approval Gate</div><div class="sb-sub">Security sign-off</div></div></div>
+      <div class="sb-step" id="s7"><div class="sb-n" id="n7">7</div><div class="sb-text"><div class="sb-name">Production</div><div class="sb-sub">Deploy & monitor</div></div></div>
+    </div>
+    <div class="sb-bottom">
+      <div class="sb-help">💡 <strong>No engineering ticket needed.</strong> This builder generates, validates, and tests your integration automatically. Your engineering team only reviews before the final approval.</div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main" id="main"></div>
+</div>
+
+<script>
+let cur=1;
+const STEPS=["Ingestion Canvas","Semantic Analysis","Logic Mapping","Integration Plan","Sandbox","Approval Gate","Production"];
+
+const ENTITIES=[
+  {name:"ScheduledEvent",attrs:"uri, start_time, end_time\nstatus, location, name"},
+  {name:"User",attrs:"uri, name, email\ntimezone, created_at"},
+  {name:"EventType",attrs:"uri, name, duration\nscheduling_url, slug"},
+  {name:"Organization",attrs:"uri, name, plan\nstage, created_at"},
+  {name:"Invitee",attrs:"uri, email, name\ncanceled, no_show"},
+  {name:"OrgMembership",attrs:"uri, user, role\norganization"},
+];
+
+const MAPPINGS=[
+  {from:"user.id",to:"user_id",conf:99,type:"auto",note:"Exact name + type match"},
+  {from:"users.email",to:"invitee_email",conf:93,type:"auto",note:"Joined from users table — finance pattern"},
+  {from:"portfolio_id",to:"event_type_uri",conf:74,type:"review",note:"Portfolio type → meeting type lookup"},
+  {from:"config.org_uri",to:"org_uri",conf:98,type:"const",note:"Constant from CloudEagle config store"},
+  {from:"kyc_status",to:"custom_answers[0]",conf:61,type:"flag",note:"Below 70% — confirm mapping before proceeding"},
+];
+
+const PLAN_STEPS=[
+  "Call GET /users/me to retrieve authenticated user and org URI",
+  "Call GET /organization_memberships?organization={org_uri}&count=100 to list all users",
+  "Paginate using page_token until no next_page_token returned",
+  "Call GET /scheduled_events?organization={org_uri}&count=100&min_start_time={30d_ago} to fetch usage",
+  "Map invitee_email → CloudEagle user record for license correlation",
+  "Handle 429 Too Many Requests: exponential backoff with jitter, parse Retry-After header",
+  "Handle 401 Unauthorized: trigger OAuth refresh flow, alert IT admin if refresh fails",
+  "Handle 5xx: retry up to 3 times with 2s base delay, log failure with full context",
+  "Store tokens in CloudEagle secrets vault — never in generated code",
+  "Request scopes: users:read, scheduled_events:read (minimum required for this task)",
+];
+
+const TESTS=[
+  {ok:true, name:"Doc ingestion — Calendly API v2 parsed",note:"12 endpoints, 4 OAuth scopes, pagination via page_token detected",ms:"18ms"},
+  {ok:true, name:"Auth flow: OAuth 2.1 + token refresh generated",note:"Authorize URL, token exchange, and rotation logic included",ms:"231ms"},
+  {ok:true, name:"User discovery: GET /organization_memberships",note:"Pagination loop executes correctly — 3 mock pages traversed",ms:"312ms"},
+  {ok:true, name:"Usage fetch: GET /scheduled_events with date filter",note:"Date filter applied, invitee_email mapped to internal user record",ms:"287ms"},
+  {ok:true, name:"Error resilience: 429 retry with exponential backoff",note:"Retry-After header parsed, backoff executed successfully",ms:"54ms"},
+  {ok:false,name:"kyc_status → custom_answers[0] — review required",note:"Confidence 61%: confirm this mapping reflects your Calendly event type's custom question config",ms:"9ms"},
+];
+
+function cColor(c){return c>=80?"#059669":c>=70?"#B45309":"#C0392B"}
+
+function setSidebar(){
+  for(let i=1;i<=7;i++){
+    const s=document.getElementById("s"+i), n=document.getElementById("n"+i);
+    s.className="sb-step"+(i<cur?" done":i===cur?" active":" locked");
+    n.className="sb-n"+(i<cur?" done":i===cur?" active":"");
+    n.innerHTML=i<cur?"✓":i;
+  }
+}
+
+function progressBar(){
+  return `<div class="prog-bar">${STEPS.map((l,i)=>{
+    const n=i+1,done=n<cur,active=n===cur;
+    return `<div class="pb-step ${done?"done":active?"active":""}">
+      <div class="pb-dot ${done?"d":active?"a":"p"}">${done?"✓":n}</div>
+      <div class="pb-label ${active?"al":""}">${l}</div>
+    </div>`;
+  }).join("")}</div>`;
+}
+
+function go(n){cur=n;render();window.scrollTo(0,0)}
+
+const pages={
+  1:()=>`
+    <div class="breadcrumb">Integrations › <strong>New Integration</strong> › Step 1</div>
+    <div class="pg-title">Ingestion Canvas</div>
+    <div class="pg-sub">Point the AI to the tool's API documentation. It will read, extract, and summarise everything before generating a single line of code.</div>
+    <div class="notice info"><div class="n-icon">ℹ</div><div>The AI generates a <strong>summary of its understanding first</strong> — you confirm it before anything is built. This is the first trust checkpoint.</div></div>
+    <div class="card">
+      <div class="card-hd"><div class="card-icon" style="background:var(--bluefg)">📄</div><div><div class="card-title">API Documentation Source</div><div class="card-sub">Choose how you want to provide the API specification</div></div></div>
+      <div class="tabs">
+        <div class="tab active">Documentation URL</div>
+        <div class="tab">OpenAPI / Swagger Spec</div>
+        <div class="tab">Postman Collection</div>
+      </div>
+      <div class="field">
+        <label>API documentation URL</label>
+        <input type="text" value="https://developer.calendly.com/api-docs/4b402d5ab3edd-calendly-developer" placeholder="https://developer.your-tool.com/api-docs"/>
+      </div>
+      <div class="field">
+        <label>What do you want to achieve with this integration?</label>
+        <select>
+          <option>Fetch users and usage data (for license management)</option>
+          <option>Sync and deprovision users automatically</option>
+          <option>Monitor scheduled events and activity</option>
+          <option>Pull billing and subscription data</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Language preference for generated code</label>
+        <select><option>Python</option><option>TypeScript / Node.js</option><option>Go</option></select>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="go(2)">Analyse API Documentation →</button>
+      </div>
+    </div>`,
+
+  2:()=>`
+    <div class="breadcrumb">Integrations › <strong>New Integration</strong> › Step 2</div>
+    <div class="pg-title">Semantic Analysis</div>
+    <div class="pg-sub">Here is what the AI understood from the Calendly API documentation. Review and confirm before proceeding to code generation.</div>
+    <div class="notice ok"><div class="n-icon">✓</div><div><strong>Analysis complete.</strong> 12 endpoints found · 4 OAuth scopes identified · Pagination via page_token · Rate limit: 100 req/min</div></div>
+    <div class="card">
+      <div class="card-hd"><div class="card-icon" style="background:var(--tealfg)">🔐</div><div><div class="card-title">Authentication Model Detected</div><div class="card-sub">OAuth 2.1 with Personal Access Token fallback</div></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+        ${[["Auth Type","OAuth 2.1 / PAT","var(--bluefg)"],["Scopes Required","users:read, scheduled_events:read","var(--greenfg)"],["Token Refresh","Yes — rotation logic needed","var(--amberfg)"],["Base URL","api.calendly.com","var(--surface)"],["Pagination","Cursor via page_token","var(--surface)"],["Rate Limit","100 req/min · 10K req/hr","var(--surface)"]].map(([l,v,bg])=>`
+        <div style="background:${bg};border:1px solid var(--rule);border-radius:10px;padding:14px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mist);margin-bottom:6px">${l}</div>
+          <div style="font-size:13px;font-weight:600">${v}</div>
+        </div>`).join("")}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div class="card-icon" style="background:var(--purpfg)">🗂</div><div><div class="card-title">Entities Discovered</div><div class="card-sub">Objects the AI identified in the documentation</div></div></div>
+      <div class="entity-grid">${ENTITIES.map(e=>`<div class="entity"><div class="entity-name">${e.name}</div><div class="entity-attrs">${e.attrs}</div></div>`).join("")}</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="go(1)">← Back</button>
+      <button class="btn btn-primary" onclick="go(3)">Confirm Understanding → Logic Mapping</button>
+    </div>`,
+
+  3:()=>`
+    <div class="breadcrumb">Integrations › <strong>New Integration</strong> › Step 3</div>
+    <div class="pg-title">Logic Mapping Workspace</div>
+    <div class="pg-sub">The AI has matched your system's data fields to what Calendly requires. Green = automatic. Amber = please review. Red = needs your confirmation.</div>
+    <div class="notice warn"><div class="n-icon">⚠</div><div><strong>1 mapping needs your attention</strong> — confidence below 70%. Confirm before generating code. All other mappings are automatic.</div></div>
+    <div class="card">
+      <table class="map-table">
+        <tr><th>Your system field</th><th>Maps to (Calendly)</th><th>Confidence</th><th>Status</th><th>Reason</th></tr>
+        ${MAPPINGS.map(m=>`
+        <tr>
+          <td class="mono">${m.from}</td>
+          <td class="mono" style="color:var(--blue)">${m.to}</td>
+          <td><div class="conf"><div class="bar"><div class="bar-f" style="width:${m.conf}%;background:${cColor(m.conf)}"></div></div><span class="conf-pct" style="color:${cColor(m.conf)}">${m.conf}%</span></div></td>
+          <td><span class="badge ${m.type==="auto"?"auto":m.type==="const"?"const":m.type==="review"?"review":"flag"}">${m.type==="auto"?"✓ Auto":m.type==="const"?"📌 Constant":m.type==="review"?"👀 Review":"⚠ Confirm"}</span></td>
+          <td style="font-size:12px;color:var(--mist)">${m.note}</td>
+        </tr>
+        ${m.type==="flag"?`<tr style="background:#FFF8F0"><td colspan="5" style="padding:12px 16px">
+          <div style="font-size:13px;color:#78350F;margin-bottom:10px"><strong>How should we handle kyc_status?</strong> Select how this field should be passed to Calendly's custom_answers.</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-secondary" style="font-size:12px;padding:7px 14px" onclick="this.style.background='var(--greenfg)';this.style.borderColor='var(--greenbd)'">✓ Pass as metadata (position 0)</button>
+            <button class="btn btn-secondary" style="font-size:12px;padding:7px 14px">Skip this field</button>
+            <button class="btn btn-secondary" style="font-size:12px;padding:7px 14px">Choose different field</button>
+          </div>
+        </td></tr>`:""}
+        `).join("")}
+      </table>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="go(2)">← Back</button>
+      <button class="btn btn-primary" onclick="go(4)">Confirm Mappings → Generate Plan</button>
+    </div>`,
+
+  4:()=>`
+    <div class="breadcrumb">Integrations › <strong>New Integration</strong> › Step 4</div>
+    <div class="pg-title">Integration Plan</div>
+    <div class="pg-sub">Review what the AI plans to build — before a single line of code is written. Approve this plan to proceed to code generation.</div>
+    <div class="notice info"><div class="n-icon">ℹ</div><div>The AI generates a <strong>plan first, not code first.</strong> This is intentional — it lets you verify the logic matches your intent before any code is produced.</div></div>
+    <div class="card">
+      <div class="card-hd"><div class="card-icon" style="background:var(--bluefg)">📋</div><div><div class="card-title">Calendly Integration Plan — Fetch Users & Usage</div><div class="card-sub">Language: Python · Scopes: users:read, scheduled_events:read</div></div></div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        ${PLAN_STEPS.map((s,i)=>`<div style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--ruleli)">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--surface);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--mist);flex-shrink:0;margin-top:1px">${i+1}</div>
+          <div style="font-size:13px;line-height:1.65">${s}</div>
+        </div>`).join("")}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px">
+        <div style="background:var(--greenfg);border:1px solid var(--greenbd);border-radius:10px;padding:12px 14px"><div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:4px">SCOPE CHECK</div><div style="font-size:13px">Minimum required scopes only</div></div>
+        <div style="background:var(--greenfg);border:1px solid var(--greenbd);border-radius:10px;padding:12px 14px"><div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:4px">RESILIENCE</div><div style="font-size:13px">Retry, backoff, rate-limit included</div></div>
+        <div style="background:var(--greenfg);border:1px solid var(--greenbd);border-radius:10px;padding:12px 14px"><div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:4px">CREDENTIALS</div><div style="font-size:13px">Stored in vault — not in code</div></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="go(3)">← Back</button>
+      <button class="btn btn-primary" onclick="go(5)">Approve Plan → Generate Code & Sandbox</button>
+    </div>`,
+
+  5:()=>`
+    <div class="breadcrumb">Integrations › <strong>New Integration</strong> › Step 5</div>
+    <div class="pg-title">Sandbox Testing</div>
+    <div class="pg-sub">Code is generated and tested against CloudEagle's mock Calendly server. No real data is used. No real API calls are made.</div>
+    <div class="notice ok"><div class="n-icon">🛡</div><div><strong>Sandbox isolated.</strong> The generated code runs inside a containerised environment with no outbound internet access except to CloudEagle's mock server. Calendly's real API is never contacted.</div></div>
+    <div class="split">
+      <div class="pane">
+        <div class="pane-hd">
+          <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FEBC2E"></div><div class="dot" style="background:#28C840"></div></div>
+          <div class="pane-title">calendly_integration.py</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.3)">AI-generated · annotated</div>
+        </div>
+        <div class="pane-body"><pre><span style="color:#6B8CAE"># CloudEagle AI Integration Builder
+# Tool: Calendly v2 · Scopes: users:read, scheduled_events:read
+# Generated: 2026-05-14 · Confidence: 87% avg</span>
+
+<span style="color:#C792EA">import</span> os, time, logging
+<span style="color:#C792EA">from</span> typing <span style="color:#C792EA">import</span> Generator, Dict
+<span style="color:#C792EA">import</span> requests
+
+<span style="color:#6B8CAE"># Auth via CloudEagle secrets vault — never hardcoded</span>
+TOKEN = os.environ[<span style="color:#C3E88D">"CALENDLY_TOKEN"</span>]
+ORG   = os.environ[<span style="color:#C3E88D">"CALENDLY_ORG_URI"</span>]
+BASE  = (<span style="color:#C3E88D">"https://mock.cloudeagle.ai/calendly"</span>
+         <span style="color:#C792EA">if</span> os.getenv(<span style="color:#C3E88D">"CE_ENV"</span>)==<span style="color:#C3E88D">"sandbox"</span>
+         <span style="color:#C792EA">else</span> <span style="color:#C3E88D">"https://api.calendly.com"</span>)
+
+<span style="color:#6B8CAE"># Resilience module — injected automatically</span>
+<span style="color:#C792EA">def</span> <span style="color:#82AAFF">call</span>(endpoint, **params):
+    <span style="color:#C792EA">for</span> attempt <span style="color:#C792EA">in</span> range(<span style="color:#F78C6C">3</span>):
+        r = requests.get(f<span style="color:#C3E88D">"{BASE}{endpoint}"</span>,
+            headers={<span style="color:#C3E88D">"Authorization"</span>: f<span style="color:#C3E88D">"Bearer {TOKEN}"</span>},
+            params=params, timeout=<span style="color:#F78C6C">30</span>)
+        <span style="color:#C792EA">if</span> r.status_code == <span style="color:#F78C6C">429</span>:
+            wait = <span style="color:#82AAFF">int</span>(r.headers.get(<span style="color:#C3E88D">"Retry-After"</span>, <span style="color:#F78C6C">2</span>**attempt))
+            time.sleep(wait)
+        <span style="color:#C792EA">elif</span> r.ok: <span style="color:#C792EA">return</span> r.json()
+        <span style="color:#C792EA">else</span>: r.raise_for_status()
+
+<span style="color:#6B8CAE"># Pagination — follows page_token until exhausted</span>
+<span style="color:#C792EA">def</span> <span style="color:#82AAFF">paginate</span>(endpoint, **params) -> Generator:
+    token = <span style="color:#C792EA">None</span>
+    <span style="color:#C792EA">while True</span>:
+        <span style="color:#C792EA">if</span> token: params[<span style="color:#C3E88D">"page_token"</span>] = token
+        data = call(endpoint, **params)
+        <span style="color:#C792EA">yield from</span> data.get(<span style="color:#C3E88D">"collection"</span>, [])
+        token = data.get(<span style="color:#C3E88D">"pagination"</span>,{}).get(<span style="color:#C3E88D">"next_page_token"</span>)
+        <span style="color:#C792EA">if not</span> token: <span style="color:#C792EA">break</span></pre></div>
+      </div>
+      <div class="pane">
+        <div class="pane-hd">
+          <div class="dots"><div class="dot" style="background:#FF5F57"></div><div class="dot" style="background:#FEBC2E"></div><div class="dot" style="background:#28C840"></div></div>
+          <div class="pane-title">sandbox terminal</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.3)">mock.cloudeagle.ai</div>
+        </div>
+        <div class="pane-body">
+          ${[
+            ["14:02:01","run","Sandbox initialised — network isolated"],
+            ["14:02:01","run","Mock Calendly server ready at mock.cloudeagle.ai"],
+            ["14:02:02","ok","GET /users/me → 200 (mock) · 18ms"],
+            ["14:02:02","ok","Org URI resolved: mock-org-wefunder-7f3a"],
+            ["14:02:03","ok","GET /organization_memberships · page 1/3 → 200"],
+            ["14:02:03","ok","GET /organization_memberships · page 2/3 → 200"],
+            ["14:02:04","ok","GET /organization_memberships · page 3/3 → 200"],
+            ["14:02:04","ok","Total users fetched: 24 (mock dataset)"],
+            ["14:02:05","ok","GET /scheduled_events · 30d range → 200"],
+            ["14:02:05","ok","429 simulated → backoff 2s → retry success"],
+            ["14:02:07","warn","kyc_status mapping: needs manual confirmation"],
+            ["14:02:07","ok","Credential check: no hardcoded secrets found"],
+            ["14:02:07","ok","Scope check: minimum required only ✓"],
+          ].map(([t,type,msg])=>`<div class="terminal-line">
+            <span class="t-time">${t}</span>
+            <span class="${type==="ok"?"t-ok":type==="warn"?"t-warn":"t-run"}">${type==="ok"?"✓":type==="warn"?"⚠":"→"} ${msg}</span>
+          </div>`).join("")}
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="font-weight:700;font-size:15px">Test Results</div>
+        <span class="badge review">5 passed · 1 needs review</span>
+      </div>
+      <div class="test-list">${TESTS.map(t=>`
+        <div class="test">
+          <div class="test-icon ${t.ok?"ok":"wn"}">${t.ok?"✓":"⚠"}</div>
+          <div style="flex:1">
+            <div class="test-name" style="color:${t.ok?"var(--ink)":"var(--amber)"}">${t.name}</div>
+            <div class="test-note">${t.note}</div>
+          </div>
+          <div class="test-ms">${t.ms}</div>
+        </div>`).join("")}
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="go(4)">← Back</button>
+      <button class="btn btn-primary" onclick="go(6)">Tests Reviewed → Approval Gate</button>
+    </div>`,
+
+  6:()=>`
+    <div class="breadcrumb">Integrations › <strong>New Integration</strong> › Step 6</div>
+    <div class="pg-title">Approval Gate</div>
+    <div class="pg-sub">A named approver must sign off before this integration is deployed to production. This creates an audit trail for your compliance team.</div>
+    <div class="card">
+      <div class="card-hd"><div class="card-icon" style="background:var(--redfg)">🔍</div><div><div class="card-title">Security Risk Report</div><div class="card-sub">Auto-generated before every production deployment</div></div></div>
+      <div style="margin-bottom:18px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);margin-bottom:10px">Data Sensitivity</div>
+        <div style="display:flex;gap:10px">
+          ${[["User PII","Email addresses · Names","amber"],["Usage Data","Event frequency · Activity","blue"],["Financial Data","None requested","green"]].map(([l,v,c])=>`
+          <div style="flex:1;background:var(--${c==="blue"?"bluefg":c==="amber"?"amberfg":"greenfg"});border:1px solid var(--${c==="blue"?"blueborder":c==="amber"?"amberbd":"greenbd"});border-radius:10px;padding:12px 14px">
+            <div style="font-size:11px;font-weight:700;color:var(--${c==="blue"?"blue":c==="amber"?"amber":"green"});margin-bottom:4px">${l}</div>
+            <div style="font-size:13px">${v}</div>
+          </div>`).join("")}
+        </div>
+      </div>
+      <div style="margin-bottom:18px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);margin-bottom:10px">Scope Audit</div>
+        <div style="border:1px solid var(--rule);border-radius:10px;overflow:hidden">
+          ${[["users:read","Required ✓","Needed for user list"],["scheduled_events:read","Required ✓","Needed for usage"],["admin:write","Not requested ✓","Minimum privilege enforced"],["webhooks:write","Not requested ✓","Minimum privilege enforced"]].map(([s,st,n])=>`
+          <div class="scope-row" style="padding:11px 16px">
+            <span class="mono">${s}</span>
+            <span style="font-size:12px;color:${st.includes("Not")?"var(--green)":"var(--blue)"};font-weight:600">${st}</span>
+            <span style="font-size:12px;color:var(--mist)">${n}</span>
+          </div>`).join("")}
+        </div>
+      </div>
+      <div style="margin-bottom:18px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);margin-bottom:10px">Pre-Deployment Checklist</div>
+        <ul class="chk-list">
+          <li class="chk-item ok"><span>✅</span>Sandbox tests passed (5/6 — 1 mapping confirmed by team)</li>
+          <li class="chk-item ok"><span>✅</span>No hardcoded credentials found (SAST scan passed)</li>
+          <li class="chk-item ok"><span>✅</span>Minimum required scopes only</li>
+          <li class="chk-item ok"><span>✅</span>Retry, backoff, and rate-limit handling included</li>
+          <li class="chk-item ok"><span>✅</span>Tokens stored via CloudEagle secrets vault</li>
+          <li class="chk-item wn"><span>⚠️</span>kyc_status mapping: confirmed by Sarah R. (ops) — pending Security Lead sign-off</li>
+        </ul>
+      </div>
+      <div class="field"><label>Approver — Security Lead digital signature</label><input type="text" placeholder="Enter your name to sign off this deployment"/></div>
+      <div class="field"><label>Notes for audit log (optional)</label><textarea rows="3" placeholder="Approved for Wefunder prod — Calendly integration for investor usage tracking"></textarea></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="go(5)">← Back</button>
+      <button class="btn btn-success" onclick="go(7)">Sign & Deploy to Production →</button>
+    </div>`,
+
+  7:()=>`
+    <div class="breadcrumb">Integrations › <strong>New Integration</strong> › <strong>Live</strong></div>
+    <div class="card">
+      <div class="success-state">
+        <div class="s-emoji">✅</div>
+        <div class="s-title">Integration is live.</div>
+        <div class="s-sub">Wefunder ↔ Calendly v2 is active. EagleEye is now monitoring for API changes and will auto-patch if the documentation shifts.</div>
+        <div class="s-stats">
+          <div><div class="s-stat-n">&lt; 4h</div><div class="s-stat-l">Total setup time</div></div>
+          <div><div class="s-stat-n">0</div><div class="s-stat-l">Engineering tickets</div></div>
+          <div><div class="s-stat-n">24</div><div class="s-stat-l">Users now governed</div></div>
+          <div><div class="s-stat-n">∞</div><div class="s-stat-l">Future rebuilds covered</div></div>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:center">
+          <button class="btn btn-primary" onclick="cur=1;render()">+ Connect another tool</button>
+          <a href="/" class="btn btn-secondary" style="text-decoration:none">← Back to pitch</a>
+        </div>
+      </div>
+    </div>
+  `
+};
+
+function render(){
+  setSidebar();
+  document.getElementById("main").innerHTML=progressBar()+pages[cur]();
+}
+render();
+</script>
+</body>
+</html>

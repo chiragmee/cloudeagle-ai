@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>UX Design · AI Integration Builder · CloudEagle</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#0C111D;--paper:#F8FAFD;--white:#FFFFFF;--surface:#F0F4FA;
+  --slate:#1A2640;--mist:#6B7FA0;--fog:#9AABC5;--rule:#DDE3EE;--ruleli:#EEF1F8;
+  --blue:#1B4FCC;--bluefg:#EBF1FF;--blueborder:#B8CBFF;
+  --green:#065F46;--greenfg:#ECFDF5;--greenbd:#A7F3D0;
+  --amber:#9A5000;--amberfg:#FEF3E2;--amberbd:#F9C97C;
+  --red:#B42318;--redfg:#FEF3F2;--redbd:#FCA5A5;
+  --teal:#0A7369;--tealfg:#E4F5F3;--tealbd:#86CFCA;
+  --purple:#4A1D96;--purpfg:#F5F3FF;--purpbd:#C4B5FD;
+  --serif:'Lora',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --mono:'DM Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+nav{background:var(--white);border-bottom:1px solid var(--rule);padding:0 40px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px}
+.logo-mark{width:28px;height:28px;background:var(--ink);border-radius:6px;color:var(--white);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.nav-links{display:flex;gap:8px}
+.nav-pill{padding:6px 16px;border-radius:100px;font-size:12px;font-weight:600;text-decoration:none;background:var(--surface);color:var(--mist);border:1px solid var(--rule)}
+.nav-pill.active{background:var(--ink);color:var(--white);border-color:var(--ink)}
+
+.hero{padding:60px 40px 48px;max-width:1080px;margin:0 auto;border-bottom:1px solid var(--rule)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--bluefg);border:1px solid var(--blueborder);color:var(--blue);padding:4px 14px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-bottom:24px}
+.hero h1{font-family:var(--serif);font-size:42px;line-height:1.1;font-weight:600;margin-bottom:14px}
+.hero h1 em{font-style:italic;color:var(--mist)}
+.hero-sub{font-size:16px;color:var(--mist);max-width:560px;line-height:1.75;margin-bottom:28px}
+.hero-note{font-size:13px;color:var(--fog);display:flex;gap:28px}
+.hero-note strong{color:var(--ink);font-weight:600}
+
+.screen-index{background:var(--white);border-bottom:1px solid var(--rule);padding:16px 40px;display:flex;gap:0;overflow-x:auto}
+.si-step{display:flex;align-items:center;gap:10px;padding:8px 16px;border-radius:8px;cursor:pointer;flex-shrink:0;text-decoration:none}
+.si-step:hover{background:var(--surface)}
+.si-step.current{background:var(--bluefg)}
+.si-num{width:24px;height:24px;border-radius:50%;background:var(--surface);border:1.5px solid var(--rule);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--mist);flex-shrink:0}
+.si-step.current .si-num{background:var(--blue);border-color:var(--blue);color:var(--white)}
+.si-label{font-size:12px;font-weight:600;color:var(--mist);white-space:nowrap}
+.si-step.current .si-label{color:var(--blue)}
+.si-sep{color:var(--rule);padding:0 4px;font-size:18px;flex-shrink:0;display:flex;align-items:center}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+.screen-section{padding:64px 0;border-bottom:1px solid var(--rule)}
+
+.screen-header{margin-bottom:40px}
+.screen-num{font-family:var(--mono);font-size:11px;color:var(--fog);margin-bottom:8px;letter-spacing:1px}
+.screen-header h2{font-family:var(--serif);font-size:32px;font-weight:600;line-height:1.15;margin-bottom:10px}
+.screen-header h2 em{font-style:italic;color:var(--mist)}
+.screen-purpose{font-size:15px;color:var(--mist);line-height:1.7;max-width:580px}
+
+.screen-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.screen-mock{background:var(--white);border:1px solid var(--rule);border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(12,17,29,.06)}
+.mock-bar{background:var(--ink);padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mock-dots{display:flex;gap:6px}
+.mock-dot{width:10px;height:10px;border-radius:50%}
+.mock-title{flex:1;text-align:center;font-size:11px;color:rgba(255,255,255,.4);font-family:var(--mono)}
+.mock-body{padding:24px}
+
+/* Mock UI elements */
+.mk-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--fog);margin-bottom:8px}
+.mk-input{background:var(--surface);border:1.5px solid var(--rule);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--mist);margin-bottom:14px;font-family:var(--sans)}
+.mk-input.active{border-color:var(--blue);color:var(--ink)}
+.mk-tabs{display:flex;gap:0;border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin-bottom:16px;background:var(--surface)}
+.mk-tab{flex:1;padding:8px;font-size:11px;font-weight:600;text-align:center;color:var(--mist)}
+.mk-tab.active{background:var(--white);color:var(--ink)}
+.mk-btn{background:var(--ink);color:var(--white);border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;text-align:center;margin-top:8px;display:inline-block}
+.mk-btn.sm{padding:7px 16px;font-size:12px}
+.mk-btn.ghost{background:transparent;color:var(--mist);border:1px solid var(--rule)}
+.mk-btn.green{background:var(--green)}
+.mk-notice{border-radius:8px;padding:11px 14px;font-size:12px;margin-bottom:12px;display:flex;gap:9px;align-items:flex-start;line-height:1.55}
+.mk-notice.info{background:var(--bluefg);border:1px solid var(--blueborder);color:#1B3A8A}
+.mk-notice.warn{background:var(--amberfg);border:1px solid var(--amberbd);color:#78350F}
+.mk-notice.ok{background:var(--greenfg);border:1px solid var(--greenbd);color:var(--green)}
+.mk-card{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:14px;margin-bottom:10px}
+.mk-card-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.mk-card-sub{font-size:11px;color:var(--mist);line-height:1.5}
+.mk-tag{display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700}
+.mk-tag.blue{background:var(--bluefg);color:var(--blue);border:1px solid var(--blueborder)}
+.mk-tag.green{background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)}
+.mk-tag.amber{background:var(--amberfg);color:var(--amber);border:1px solid var(--amberbd)}
+.mk-tag.red{background:var(--redfg);color:var(--red);border:1px solid var(--redbd)}
+.mk-divider{height:1px;background:var(--ruleli);margin:12px 0}
+.mk-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--ruleli);font-size:12px}
+.mk-row:last-child{border-bottom:none}
+.mk-progress{display:flex;align-items:center;gap:4px;margin-bottom:16px}
+.mk-prog-step{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700}
+.mk-prog-step.done{background:var(--green);color:var(--white)}
+.mk-prog-step.active{background:var(--blue);color:var(--white)}
+.mk-prog-step.pending{background:var(--surface);color:var(--fog);border:1px solid var(--rule)}
+.mk-prog-line{flex:1;height:1px;background:var(--ruleli)}
+.mk-prog-line.done{background:var(--green)}
+.mk-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.mk-pane{background:#0D1117;border-radius:8px;padding:12px;font-family:var(--mono);font-size:10px;line-height:1.7;color:#A8B8D0}
+.mk-entity{background:var(--white);border:1px solid var(--rule);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.mk-entity-name{font-size:12px;font-weight:700;margin-bottom:3px}
+.mk-entity-attrs{font-size:10px;color:var(--mist);font-family:var(--mono);line-height:1.5}
+.mk-conf-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--ruleli);font-size:11px}
+.mk-conf-row:last-child{border-bottom:none}
+.mk-bar{width:48px;height:4px;background:var(--surface);border-radius:2px;overflow:hidden}
+.mk-bar-f{height:100%;border-radius:2px}
+.mk-chk{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--rule);display:inline-block;margin-right:4px}
+.mk-chk.checked{background:var(--green);border-color:var(--green)}
+.mk-scope-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--ruleli);font-size:11px}
+.mk-scope-row:last-child{border-bottom:none}
+.mk-success{text-align:center;padding:20px 16px}
+
+/* Annotation side */
+.annotations{display:flex;flex-direction:column;gap:20px}
+.ann{display:flex;gap:12px}
+.ann-num{width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.ann-body{}
+.ann-title{font-size:14px;font-weight:700;margin-bottom:4px}
+.ann-text{font-size:13px;color:var(--mist);line-height:1.6}
+.ann-tag{display:inline-block;margin-top:6px;font-size:11px;font-weight:700;padding:2px 10px;border-radius:100px}
+
+.screen-meta{background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:0;margin-top:28px;overflow:hidden}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0}
+.meta-cell{padding:18px 20px;border-right:1px solid var(--rule)}
+.meta-cell:last-child{border-right:none}
+.meta-cell-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--fog);margin-bottom:8px}
+.meta-cell-val{font-size:13px;color:var(--slate);line-height:1.5}
+
+.design-note{background:var(--amberfg);border:1px solid var(--amberbd);border-radius:10px;padding:14px 18px;margin-top:20px;font-size:13px;color:#78350F;line-height:1.6;display:flex;gap:10px}
+
+a{color:inherit;text-decoration:none}
+.back-link{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--mist);background:var(--surface);border:1px solid var(--rule);padding:8px 18px;border-radius:8px;margin-top:16px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><div class="logo-mark">CE</div>CloudEagle · AI Integration Builder</div>
+  <div class="nav-links">
+    <a href="/" class="nav-pill">← Full Pitch</a>
+    <a href="/prototype" class="nav-pill">Live Simulation →</a>
+    <span class="nav-pill active">UX Design</span>
+  </div>
+</nav>
+
+<div class="hero wrap">
+  <div class="hero-eyebrow">Deliverable 1 · UX Design</div>
+  <h1>Screen-by-screen design of the<br/><em>AI Integration Builder</em></h1>
+  <p class="hero-sub">Seven screens. Each designed around a specific user goal, a primary decision, and a safeguard. The design principle throughout: AI assists, humans approve — never the reverse.</p>
+  <div class="hero-note">
+    <div><strong>Primary user</strong> · Rohan, IT Head (non-technical)</div>
+    <div><strong>Platform</strong> · CloudEagle web dashboard</div>
+    <div><strong>Screens</strong> · 7 core screens</div>
+  </div>
+</div>
+
+<div class="screen-index">
+  <a href="#sc1" class="si-step current"><div class="si-num">1</div><div class="si-label">Ingestion Canvas</div></a>
+  <div class="si-sep">›</div>
+  <a href="#sc2" class="si-step"><div class="si-num">2</div><div class="si-label">Semantic Analysis</div></a>
+  <div class="si-sep">›</div>
+  <a href="#sc3" class="si-step"><div class="si-num">3</div><div class="si-label">Select Use Case</div></a>
+  <div class="si-sep">›</div>
+  <a href="#sc4" class="si-step"><div class="si-num">4</div><div class="si-label">Integration Plan</div></a>
+  <div class="si-sep">›</div>
+  <a href="#sc5" class="si-step"><div class="si-num">5</div><div class="si-label">Generated Code</div></a>
+  <div class="si-sep">›</div>
+  <a href="#sc6" class="si-step"><div class="si-num">6</div><div class="si-label">Sandbox Testing</div></a>
+  <div class="si-sep">›</div>
+  <a href="#sc7" class="si-step"><div class="si-num">7</div><div class="si-label">Approval Gate</div></a>
+</div>
+
+<!-- SCREEN 1 -->
+<div class="screen-section" id="sc1">
+  <div class="wrap">
+    <div class="screen-header">
+      <div class="screen-num">Screen 01 / 07</div>
+      <h2>Ingestion Canvas — <em>point the AI at the tool</em></h2>
+      <p class="screen-purpose">The entry point. Rohan pastes a URL. Nothing more. The screen must feel simple enough that a non-technical IT Head doesn't hesitate to proceed. No jargon visible at this stage.</p>
+    </div>
+    <div class="screen-grid">
+      <div class="screen-mock">
+        <div class="mock-bar"><div class="mock-dots"><div class="mock-dot" style="background:#FF5F57"></div><div class="mock-dot" style="background:#FEBC2E"></div><div class="mock-dot" style="background:#28C840"></div></div><div class="mock-title">cloudeagle.ai / integrations / new</div></div>
+        <div class="mock-body">
+          <div class="mk-progress">
+            <div class="mk-prog-step active">1</div><div class="mk-prog-line"></div>
+            <div class="mk-prog-step pending">2</div><div class="mk-prog-line"></div>
+            <div class="mk-prog-step pending">3</div><div class="mk-prog-line"></div>
+            <div class="mk-prog-step pending">4</div><div class="mk-prog-line"></div>
+            <div class="mk-prog-step pending">5</div><div class="mk-prog-line"></div>
+            <div class="mk-prog-step pending">6</div><div class="mk-prog-line"></div>
+            <div class="mk-prog-step pending">7</div>
+          </div>
+          <div style="font-size:17px;font-weight:700;margin-bottom:6px">Connect a new tool</div>
+          <div style="font-size:12px;color:var(--mist);margin-bottom:20px">Point to any tool's documentation. The AI reads it, understands it, and guides you through the rest.</div>
+          <div class="mk-tabs">
+            <div class="mk-tab active">Documentation URL</div>
+            <div class="mk-tab">Upload API Spec</div>
+            <div class="mk-tab">Postman Collection</div>
+          </div>
+          <div class="mk-label">Tool documentation URL</div>
+          <div class="mk-input active">https://developer.calendly.com/api-docs/...</div>
+          <div class="mk-notice info"><span>ℹ</span><span>The AI will read the documentation and show you a summary of what it understood — before generating anything. You confirm first.</span></div>
+          <div class="mk-label">What do you want to achieve?</div>
+          <div class="mk-input" style="margin-bottom:8px">Track who uses this tool and how often ▾</div>
+          <div class="mk-btn">Analyse Documentation →</div>
+        </div>
+      </div>
+      <div class="annotations">
+        <div class="ann"><div class="ann-num">A</div><div class="ann-body"><div class="ann-title">Three input modes — pick the one you have</div><div class="ann-text">Not every IT Head has a URL. Some will have an OpenAPI spec from their vendor. Some will have a Postman collection. All three paths lead to the same outcome. The default is URL because it requires the least technical knowledge.</div><div class="ann-tag" style="background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)">Reduces friction</div></div></div>
+        <div class="ann"><div class="ann-num">B</div><div class="ann-body"><div class="ann-title">The reassurance notice — set the expectation early</div><div class="ann-text">The blue notice tells Rohan that nothing is built until he sees and confirms what the AI understood. This is the trust-building moment before any technical complexity appears. It answers the question "what will happen next?" before he has to ask.</div><div class="ann-tag" style="background:var(--bluefg);color:var(--blue);border:1px solid var(--blueborder)">Builds trust</div></div></div>
+        <div class="ann"><div class="ann-num">C</div><div class="ann-body"><div class="ann-title">Plain-language use case selection</div><div class="ann-text">No API endpoints visible here. No technical configuration. Rohan picks what he wants to accomplish in plain English. The system translates his choice into the specific API calls needed — that translation is invisible to him at this stage.</div><div class="ann-tag" style="background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)">Non-technical entry</div></div></div>
+        <div class="ann"><div class="ann-num">D</div><div class="ann-body"><div class="ann-title">Primary CTA — single, unambiguous</div><div class="ann-text">One button. No secondary options competing for attention. The design is intentionally sparse — the only decision on this screen is "do I want to proceed?" Everything else comes after.</div></div></div>
+      </div>
+    </div>
+    <div class="screen-meta">
+      <div class="meta-grid">
+        <div class="meta-cell"><div class="meta-cell-label">User goal on this screen</div><div class="meta-cell-val">Tell the system which tool to connect and what to do with it</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Primary CTA</div><div class="meta-cell-val">Analyse Documentation</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Key decision</div><div class="meta-cell-val">Which tool? Which use case? Which input method?</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Risk reduced</div><div class="meta-cell-val">Confusion about what to do first. Solved by single, clear CTA and plain-language options.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen-section" id="sc2">
+  <div class="wrap">
+    <div class="screen-header">
+      <div class="screen-num">Screen 02 / 07</div>
+      <h2>Semantic Analysis — <em>AI shows its understanding before building</em></h2>
+      <p class="screen-purpose">The most trust-critical screen. The AI presents what it found in the documentation — in plain language. Rohan reads and confirms. No code has been written yet. This screen is the first checkpoint.</p>
+    </div>
+    <div class="screen-grid">
+      <div class="screen-mock">
+        <div class="mock-bar"><div class="mock-dots"><div class="mock-dot" style="background:#FF5F57"></div><div class="mock-dot" style="background:#FEBC2E"></div><div class="mock-dot" style="background:#28C840"></div></div><div class="mock-title">Semantic Analysis · Calendly API v2</div></div>
+        <div class="mock-body">
+          <div class="mk-notice ok"><span>✓</span><span>Analysis complete — 12 endpoints found · OAuth 2.1 detected · Pagination via page_token · Rate limit: 100 req/min</span></div>
+          <div class="mk-label">What the AI found</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+            <div class="mk-card"><div class="mk-card-title">Auth Type</div><div class="mk-card-sub">OAuth 2.1 with token refresh</div></div>
+            <div class="mk-card"><div class="mk-card-title">Endpoints</div><div class="mk-card-sub">12 endpoints discovered</div></div>
+            <div class="mk-card"><div class="mk-card-title">Pagination</div><div class="mk-card-sub">Cursor-based (page_token)</div></div>
+            <div class="mk-card"><div class="mk-card-title">Rate Limits</div><div class="mk-card-sub">100 req/min · 10K req/hr</div></div>
+          </div>
+          <div class="mk-label">Data objects the AI identified</div>
+          <div class="mk-entity"><div class="mk-entity-name">ScheduledEvent</div><div class="mk-entity-attrs">uri, start_time, end_time, status, name</div></div>
+          <div class="mk-entity"><div class="mk-entity-name">User / OrgMembership</div><div class="mk-entity-attrs">uri, email, name, role, created_at</div></div>
+          <div class="mk-entity"><div class="mk-entity-name">EventType</div><div class="mk-entity-attrs">uri, name, duration, scheduling_url</div></div>
+          <div style="display:flex;gap:8px;margin-top:14px">
+            <div class="mk-btn ghost mk-btn" style="flex:1;text-align:center">Something looks wrong</div>
+            <div class="mk-btn" style="flex:1;text-align:center">Confirm & Continue →</div>
+          </div>
+        </div>
+      </div>
+      <div class="annotations">
+        <div class="ann"><div class="ann-num">A</div><div class="ann-body"><div class="ann-title">Plan before code — the cardinal rule of this product</div><div class="ann-text">The AI summarises its understanding in a human-readable format before a single line of code is generated. If the AI misunderstood the documentation (e.g. confused v1 and v2 endpoints), Rohan can catch it here — not after deployment.</div><div class="ann-tag" style="background:var(--amberfg);color:var(--amber);border:1px solid var(--amberbd)">Safety gate #1</div></div></div>
+        <div class="ann"><div class="ann-num">B</div><div class="ann-body"><div class="ann-title">Plain language, not API jargon</div><div class="ann-text">"Cursor-based pagination" becomes "pages of results, navigated using a token." Auth types are shown with a plain description, not an RFC number. Rohan doesn't need to know what OAuth 2.1 is — he needs to know the system found a secure login method.</div><div class="ann-tag" style="background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)">Accessible to non-technical users</div></div></div>
+        <div class="ann"><div class="ann-num">C</div><div class="ann-body"><div class="ann-title">Two CTAs — proceed or flag a problem</div><div class="ann-text">The secondary CTA "Something looks wrong" is deliberately available. It opens a feedback field where Rohan (or his engineer colleague) can describe the inaccuracy. This feedback loop improves the AI's doc parsing over time and prevents silent errors from propagating.</div></div></div>
+        <div class="ann"><div class="ann-num">D</div><div class="ann-body"><div class="ann-title">Data objects shown — not endpoint paths</div><div class="ann-text">The screen shows what kind of data exists in the tool (Users, Events, EventTypes) — not the raw API paths. This is intentional: Rohan thinks in terms of data and business objects, not URL structures. The technical mapping is handled in the next screen.</div></div></div>
+      </div>
+    </div>
+    <div class="screen-meta">
+      <div class="meta-grid">
+        <div class="meta-cell"><div class="meta-cell-label">User goal</div><div class="meta-cell-val">Verify the AI understood the tool correctly before proceeding</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Primary CTA</div><div class="meta-cell-val">Confirm & Continue</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Key decision</div><div class="meta-cell-val">Is this understanding accurate? Yes → proceed. No → flag for correction.</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Risk reduced</div><div class="meta-cell-val">AI misunderstanding the API structure and generating incorrect code. Caught here before code is written.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen-section" id="sc3">
+  <div class="wrap">
+    <div class="screen-header">
+      <div class="screen-num">Screen 03 / 07</div>
+      <h2>Integration Plan — <em>approve the logic before the code</em></h2>
+      <p class="screen-purpose">The AI generates a step-by-step plan of what it will build. Rohan reads it in plain English and approves. This is the second checkpoint — the last stop before code generation begins.</p>
+    </div>
+    <div class="screen-grid">
+      <div class="screen-mock">
+        <div class="mock-bar"><div class="mock-dots"><div class="mock-dot" style="background:#FF5F57"></div><div class="mock-dot" style="background:#FEBC2E"></div><div class="mock-dot" style="background:#28C840"></div></div><div class="mock-title">Integration Plan · Calendly → CloudEagle</div></div>
+        <div class="mock-body">
+          <div style="font-size:14px;font-weight:700;margin-bottom:4px">Here's what I plan to build</div>
+          <div style="font-size:12px;color:var(--mist);margin-bottom:14px">Review the plan. Once you approve, I'll generate the code.</div>
+          <div style="display:flex;flex-direction:column;gap:0">
+            <div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--ruleli)"><span style="font-family:var(--mono);font-size:10px;background:var(--surface);border-radius:4px;padding:1px 6px;color:var(--mist);flex-shrink:0;height:fit-content;margin-top:1px">01</span><span style="font-size:12px;color:var(--slate);line-height:1.55">Fetch the list of all users in your Calendly organisation</span></div>
+            <div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--ruleli)"><span style="font-family:var(--mono);font-size:10px;background:var(--surface);border-radius:4px;padding:1px 6px;color:var(--mist);flex-shrink:0;height:fit-content;margin-top:1px">02</span><span style="font-size:12px;color:var(--slate);line-height:1.55">Collect all scheduled meetings from the last 30 days — page by page until complete</span></div>
+            <div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--ruleli)"><span style="font-family:var(--mono);font-size:10px;background:var(--surface);border-radius:4px;padding:1px 6px;color:var(--mist);flex-shrink:0;height:fit-content;margin-top:1px">03</span><span style="font-size:12px;color:var(--slate);line-height:1.55">Match each meeting to a user by their email address</span></div>
+            <div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--ruleli)"><span style="font-family:var(--mono);font-size:10px;background:var(--surface);border-radius:4px;padding:1px 6px;color:var(--mist);flex-shrink:0;height:fit-content;margin-top:1px">04</span><span style="font-size:12px;color:var(--slate);line-height:1.55">If the system is too busy and asks us to wait, pause and retry automatically</span></div>
+            <div style="display:flex;gap:10px;padding:9px 0"><span style="font-family:var(--mono);font-size:10px;background:var(--surface);border-radius:4px;padding:1px 6px;color:var(--mist);flex-shrink:0;height:fit-content;margin-top:1px">05</span><span style="font-size:12px;color:var(--slate);line-height:1.55">Store your login credentials securely — never inside the code</span></div>
+          </div>
+          <div class="mk-divider"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:14px">
+            <div class="mk-card" style="padding:10px"><div class="mk-card-title" style="font-size:11px">Permissions needed</div><div style="font-size:10px;color:var(--mist)">Read users<br/>Read meetings</div></div>
+            <div class="mk-card" style="padding:10px"><div class="mk-card-title" style="font-size:11px">Handles errors</div><div style="font-size:10px;color:var(--mist)">Auto-retry on failures<br/>Rate limit aware</div></div>
+            <div class="mk-card" style="padding:10px"><div class="mk-card-title" style="font-size:11px">Data security</div><div style="font-size:10px;color:var(--mist)">Credentials in vault<br/>Minimum access only</div></div>
+          </div>
+          <div class="mk-btn">Approve Plan — Generate Code →</div>
+        </div>
+      </div>
+      <div class="annotations">
+        <div class="ann"><div class="ann-num">A</div><div class="ann-body"><div class="ann-title">Numbered steps in plain English — not pseudocode</div><div class="ann-text">Each step describes the integration logic the way Rohan would describe it to a colleague — not the way an engineer would write it in comments. "Collect all meetings page by page until complete" is a human description of pagination. This is intentional.</div><div class="ann-tag" style="background:var(--bluefg);color:var(--blue);border:1px solid var(--blueborder)">Human-readable logic</div></div></div>
+        <div class="ann"><div class="ann-num">B</div><div class="ann-body"><div class="ann-title">Permission summary — visible before approval</div><div class="ann-text">Before Rohan approves, he sees exactly what permissions the integration will request. If it says "admin access" when only read access was needed, he can flag it. This is where the scope minimiser's output surfaces to the user.</div><div class="ann-tag" style="background:var(--amberfg);color:var(--amber);border:1px solid var(--amberbd)">Scope transparency</div></div></div>
+        <div class="ann"><div class="ann-num">C</div><div class="ann-body"><div class="ann-title">Security stated plainly — not assumed</div><div class="ann-text">"Credentials stored securely — never in the code" appears as step 05. This is not a disclaimer in fine print — it is a named step in the plan. The security decision is visible and explicit, not hidden.</div></div></div>
+        <div class="ann"><div class="ann-num">D</div><div class="ann-body"><div class="ann-title">This is safety gate #2</div><div class="ann-text">If the plan looks wrong — wrong permissions, wrong data collected, wrong logic — Rohan can go back and adjust the use case selection. Catching an error here costs 2 minutes. Catching it after deployment costs hours and trust.</div><div class="ann-tag" style="background:var(--amberfg);color:var(--amber);border:1px solid var(--amberbd)">Safety gate #2</div></div></div>
+      </div>
+    </div>
+    <div class="screen-meta">
+      <div class="meta-grid">
+        <div class="meta-cell"><div class="meta-cell-label">User goal</div><div class="meta-cell-val">Confirm the integration logic is correct before code is written</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Primary CTA</div><div class="meta-cell-val">Approve Plan — Generate Code</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Key decision</div><div class="meta-cell-val">Does this plan do what I need? Are the permissions right?</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Risk reduced</div><div class="meta-cell-val">Code generated for the wrong use case or with excessive permissions. Both caught here.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 4 -->
+<div class="screen-section" id="sc4">
+  <div class="wrap">
+    <div class="screen-header">
+      <div class="screen-num">Screen 04 / 07</div>
+      <h2>Generated Code — <em>with explanations, not just syntax</em></h2>
+      <p class="screen-purpose">The code is shown with inline plain-English comments explaining why each decision was made. Rohan doesn't need to read the code — but his engineering team can review it and understand the AI's reasoning without documentation.</p>
+    </div>
+    <div class="screen-grid">
+      <div class="screen-mock">
+        <div class="mock-bar"><div class="mock-dots"><div class="mock-dot" style="background:#FF5F57"></div><div class="mock-dot" style="background:#FEBC2E"></div><div class="mock-dot" style="background:#28C840"></div></div><div class="mock-title">calendly_integration.py · AI-generated</div></div>
+        <div class="mock-body" style="padding:0">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--ruleli)">
+            <div style="display:flex;gap:8px"><div class="mk-tag blue">Python</div><div class="mk-tag green">Security ✓</div><div class="mk-tag green">Scope ✓</div></div>
+            <div style="font-size:11px;color:var(--mist);display:flex;gap:12px"><span>Copy</span><span>Download</span></div>
+          </div>
+          <div class="mk-pane" style="margin:12px;border-radius:8px;font-size:10.5px">
+            <span style="color:#6B8CAE"># CloudEagle AI Integration Builder</span><br/>
+            <span style="color:#6B8CAE"># Tool: Calendly v2 · Scope: users:read, events:read</span><br/>
+            <span style="color:#6B8CAE"># Security: credentials via vault, never in code</span><br/><br/>
+            <span style="color:#C792EA">import</span> os, time, requests<br/><br/>
+            <span style="color:#6B8CAE"># Token fetched from CloudEagle vault at runtime</span><br/>
+            TOKEN = os.environ[<span style="color:#C3E88D">"CALENDLY_TOKEN"</span>]<br/><br/>
+            <span style="color:#6B8CAE"># Sandbox/production switch — one variable controls it</span><br/>
+            BASE = (<span style="color:#C3E88D">"https://mock.cloudeagle.ai/calendly"</span><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#C792EA">if</span> os.getenv(<span style="color:#C3E88D">"CE_ENV"</span>) == <span style="color:#C3E88D">"sandbox"</span><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#C792EA">else</span> <span style="color:#C3E88D">"https://api.calendly.com"</span>)<br/><br/>
+            <span style="color:#6B8CAE"># Handles rate limits — waits and retries automatically</span><br/>
+            <span style="color:#C792EA">def</span> <span style="color:#82AAFF">call</span>(endpoint, **params):<br/>
+            &nbsp;&nbsp;<span style="color:#C792EA">for</span> attempt <span style="color:#C792EA">in</span> range(<span style="color:#F78C6C">3</span>):<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;r = requests.get(f<span style="color:#C3E88D">"{BASE}{endpoint}"</span>, ...)<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#C792EA">if</span> r.status_code == <span style="color:#F78C6C">429</span>:<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.sleep(<span style="color:#F78C6C">2</span> ** attempt)<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#C792EA">elif</span> r.ok: <span style="color:#C792EA">return</span> r.json()
+          </div>
+          <div style="padding:10px 14px;border-top:1px solid var(--ruleli)">
+            <div class="mk-btn" style="text-align:center">Test in Sandbox →</div>
+          </div>
+        </div>
+      </div>
+      <div class="annotations">
+        <div class="ann"><div class="ann-num">A</div><div class="ann-body"><div class="ann-title">Every non-obvious line has a comment</div><div class="ann-text">Comments are written in plain English — not developer shorthand. "Handles rate limits — waits and retries automatically" is more valuable to an IT Head's engineering team than "exponential backoff on 429." The code is self-documenting for the review step.</div><div class="ann-tag" style="background:var(--bluefg);color:var(--blue);border:1px solid var(--blueborder)">Explainable AI</div></div></div>
+        <div class="ann"><div class="ann-num">B</div><div class="ann-body"><div class="ann-title">Security badges — not buried in the code</div><div class="ann-text">The green tags at the top ("Security ✓", "Scope ✓") show that the automated checks passed. These are not cosmetic — they represent the output of the SAST scanner and scope minimiser. An IT Head should be able to see "this passed security review" without reading the code.</div><div class="ann-tag" style="background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)">Trust signal</div></div></div>
+        <div class="ann"><div class="ann-num">C</div><div class="ann-body"><div class="ann-title">The sandbox/production switch is visible</div><div class="ann-text">Rohan can see the one variable that controls whether the code runs against real data or test data. This transparency is deliberate — it shows the system is designed for safe testing, not blind deployment.</div></div></div>
+        <div class="ann"><div class="ann-num">D</div><div class="ann-body"><div class="ann-title">Rohan's action on this screen: nothing</div><div class="ann-text">He doesn't need to read or approve the code itself. His action is simply to proceed to sandbox testing. The code review (if needed) happens with his engineering team — the download option supports that handoff without slowing the primary flow.</div></div></div>
+      </div>
+    </div>
+    <div class="screen-meta">
+      <div class="meta-grid">
+        <div class="meta-cell"><div class="meta-cell-label">User goal</div><div class="meta-cell-val">Have confidence the code is safe and correct — without reading it</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Primary CTA</div><div class="meta-cell-val">Test in Sandbox</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Key decision</div><div class="meta-cell-val">Does this look right to me? Should I involve my engineering team before testing?</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Risk reduced</div><div class="meta-cell-val">Opaque AI output that users can't assess. Solved by security badges, plain-English comments, and download for team review.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 5 (merged as sandbox) -->
+<div class="screen-section" id="sc5">
+  <div class="wrap">
+    <div class="screen-header">
+      <div class="screen-num">Screen 05 / 07</div>
+      <h2>Sandbox Testing — <em>safe testing with no real data</em></h2>
+      <p class="screen-purpose">The code runs against CloudEagle's mock version of Calendly. No real data, no real credentials, no real API calls. The split-pane view shows the code running in real time on the left and the test results on the right.</p>
+    </div>
+    <div class="screen-grid">
+      <div class="screen-mock">
+        <div class="mock-bar"><div class="mock-dots"><div class="mock-dot" style="background:#FF5F57"></div><div class="mock-dot" style="background:#FEBC2E"></div><div class="mock-dot" style="background:#28C840"></div></div><div class="mock-title">Sandbox · mock.cloudeagle.ai</div></div>
+        <div class="mock-body">
+          <div class="mk-notice ok" style="margin-bottom:12px"><span>🛡</span><span>Safe environment — no real Calendly data used. Your credentials are not sent to Calendly during testing.</span></div>
+          <div class="mk-split">
+            <div class="mk-pane">
+              <div style="color:#6B8CAE"># Running against mock server</div>
+              <div style="color:#10B981">✓ GET /users/me → 200</div>
+              <div style="color:#10B981">✓ Org URI resolved</div>
+              <div style="color:#10B981">✓ GET /memberships p.1 → 200</div>
+              <div style="color:#10B981">✓ GET /memberships p.2 → 200</div>
+              <div style="color:#10B981">✓ GET /events 30d → 200</div>
+              <div style="color:#F59E0B">⚠ 429 simulated → retry</div>
+              <div style="color:#10B981">✓ Retry after 2s → success</div>
+              <div style="color:#10B981">✓ No hardcoded secrets</div>
+            </div>
+            <div class="mk-pane">
+              <div style="color:#6B8CAE"># Sample data captured</div>
+              <div style="color:#C3E88D">users: 24 (mock)</div>
+              <div style="color:#C3E88D">active: 18 / inactive: 6</div>
+              <div style="color:#C3E88D">events_30d: 147</div>
+              <div style="color:#C3E88D">avg_per_user: 8.2</div>
+              <div style="color:#C3E88D">top_user: j.r@mock.ai</div>
+              <div style="color:#6B8CAE"># This data is fake</div>
+              <div style="color:#6B8CAE"># Real data after deploy</div>
+            </div>
+          </div>
+          <div class="mk-divider"></div>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+            <div style="flex:1;font-size:12px;font-weight:700">Test Results</div>
+            <div class="mk-tag green">7 passed</div>
+            <div class="mk-tag amber">1 review</div>
+          </div>
+          <div style="font-size:11px;color:var(--mist);margin-bottom:10px">All core tests passed. One field mapping needs your confirmation before deployment.</div>
+          <div class="mk-btn">Review & Proceed to Approval →</div>
+        </div>
+      </div>
+      <div class="annotations">
+        <div class="ann"><div class="ann-num">A</div><div class="ann-body"><div class="ann-title">Split pane — code running + data preview simultaneously</div><div class="ann-text">Left pane: the terminal showing each test step as it runs, in real time. Right pane: a preview of what data would be captured in production. Rohan sees both — the process and the output — without switching screens.</div><div class="ann-tag" style="background:var(--bluefg);color:var(--blue);border:1px solid var(--blueborder)">Full transparency</div></div></div>
+        <div class="ann"><div class="ann-num">B</div><div class="ann-body"><div class="ann-title">The rate limit simulation is visible</div><div class="ann-text">The amber line "429 simulated → retry" shows the error handling working correctly. Rohan can see that when Calendly says "slow down," the system automatically waits and tries again. This is a feature being demonstrated, not hidden.</div></div></div>
+        <div class="ann"><div class="ann-num">C</div><div class="ann-body"><div class="ann-title">Mock data is clearly labelled as fake</div><div class="ann-text">"This data is fake" appears directly in the data preview. This is not assumed — it is stated. The fake names use @mock.ai email domains. There is zero chance of Rohan confusing mock results with real organisational data.</div><div class="ann-tag" style="background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)">No data confusion</div></div></div>
+        <div class="ann"><div class="ann-num">D</div><div class="ann-body"><div class="ann-title">Safety gate #3 — no bypassing sandbox</div><div class="ann-text">The "Proceed to Approval" button only appears after all core tests have run. The one amber warning (field mapping review) is surfaced clearly — Rohan cannot miss it and cannot skip it. This is not a warning banner — it is a step in the flow.</div><div class="ann-tag" style="background:var(--amberfg);color:var(--amber);border:1px solid var(--amberbd)">Safety gate #3 — mandatory</div></div></div>
+      </div>
+    </div>
+    <div class="screen-meta">
+      <div class="meta-grid">
+        <div class="meta-cell"><div class="meta-cell-label">User goal</div><div class="meta-cell-val">Confirm the integration works correctly before touching real data</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Primary CTA</div><div class="meta-cell-val">Review & Proceed to Approval</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Key decision</div><div class="meta-cell-val">Did all tests pass? Is the data preview capturing what I expected?</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Risk reduced</div><div class="meta-cell-val">Unvalidated code reaching production. Sandbox is mandatory and non-bypassable for first-time integrations.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 6: APPROVAL GATE -->
+<div class="screen-section" id="sc6">
+  <div class="wrap">
+    <div class="screen-header">
+      <div class="screen-num">Screen 06 / 07</div>
+      <h2>Approval Gate — <em>security sign-off before production</em></h2>
+      <p class="screen-purpose">A named approver — IT Head or Security Lead — reviews the Security Risk Report and provides a digital sign-off. This creates an audit trail. The Deploy button is locked until this step is complete.</p>
+    </div>
+    <div class="screen-grid">
+      <div class="screen-mock">
+        <div class="mock-bar"><div class="mock-dots"><div class="mock-dot" style="background:#FF5F57"></div><div class="mock-dot" style="background:#FEBC2E"></div><div class="mock-dot" style="background:#28C840"></div></div><div class="mock-title">Approval Gate · Calendly Integration</div></div>
+        <div class="mock-body">
+          <div style="font-size:13px;font-weight:700;margin-bottom:12px">Security Risk Report</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">
+            <div class="mk-card" style="padding:9px"><div class="mk-card-title" style="font-size:10px">Data accessed</div><div style="font-size:10px;color:var(--mist)">Emails · Usage data</div></div>
+            <div class="mk-card" style="padding:9px"><div class="mk-card-title" style="font-size:10px">Permissions</div><div style="font-size:10px;color:var(--mist)">Read-only · Minimum</div></div>
+            <div class="mk-card" style="padding:9px"><div class="mk-card-title" style="font-size:10px">Sandbox</div><div style="font-size:10px;color:var(--mist)">7/8 passed ✓</div></div>
+          </div>
+          <div class="mk-label">Scopes requested</div>
+          <div class="mk-scope-row"><span style="font-family:var(--mono);font-size:11px">users:read</span><span class="mk-tag green">Required</span></div>
+          <div class="mk-scope-row"><span style="font-family:var(--mono);font-size:11px">scheduled_events:read</span><span class="mk-tag green">Required</span></div>
+          <div class="mk-scope-row"><span style="font-family:var(--mono);font-size:11px">admin:write</span><span class="mk-tag green">Not requested ✓</span></div>
+          <div class="mk-divider"></div>
+          <div class="mk-label">Confirm each item</div>
+          <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;font-size:12px">
+            <div style="display:flex;gap:8px;align-items:center"><div class="mk-chk checked"></div>Sandbox tests reviewed and accepted</div>
+            <div style="display:flex;gap:8px;align-items:center"><div class="mk-chk checked"></div>No admin or write permissions requested</div>
+            <div style="display:flex;gap:8px;align-items:center"><div class="mk-chk checked"></div>Credentials will be stored in vault, not in code</div>
+            <div style="display:flex;gap:8px;align-items:center"><div class="mk-chk"></div><span style="color:var(--amber)">KYC field mapping — confirm intended behaviour</span></div>
+          </div>
+          <div class="mk-label">Approver name (for audit log)</div>
+          <div class="mk-input active">Rohan Mehta · IT Head</div>
+          <div class="mk-btn green">Sign & Deploy to Production →</div>
+        </div>
+      </div>
+      <div class="annotations">
+        <div class="ann"><div class="ann-num">A</div><div class="ann-body"><div class="ann-title">Checklist — not a single sign button</div><div class="ann-text">Each item in the checklist must be individually checked. The approver cannot sign off by clicking one "I agree" button. For flagged items (like the amber KYC field), the checkbox cannot be ticked until the user has addressed the flag. This prevents rubber-stamping.</div><div class="ann-tag" style="background:var(--amberfg);color:var(--amber);border:1px solid var(--amberbd)">Prevents blind approval</div></div></div>
+        <div class="ann"><div class="ann-num">B</div><div class="ann-body"><div class="ann-title">Scope audit — what was and wasn't requested</div><div class="ann-text">Not just what permissions are being requested — also showing what was NOT requested. "admin:write — Not requested ✓" is as important as showing the read permissions. It proves the system is following minimum privilege, not just claiming it.</div></div></div>
+        <div class="ann"><div class="ann-num">C</div><div class="ann-body"><div class="ann-title">Named approver creates accountability</div><div class="ann-text">The approver's name and role appear in the audit log. This is not just about compliance — it is about accountability within the organisation. If an integration is questioned later, there is a clear record of who reviewed and approved it, and when.</div><div class="ann-tag" style="background:var(--purpfg);color:var(--purple);border:1px solid var(--purpbd)">Audit trail</div></div></div>
+        <div class="ann"><div class="ann-num">D</div><div class="ann-body"><div class="ann-title">The green Deploy button only appears when checklist is complete</div><div class="ann-text">As long as any checklist item is unchecked, the Deploy button is disabled — not greyed out, not hidden. Disabled and visually clear. The user knows exactly why they cannot proceed and exactly what they need to do.</div></div></div>
+      </div>
+    </div>
+    <div class="screen-meta">
+      <div class="meta-grid">
+        <div class="meta-cell"><div class="meta-cell-label">User goal</div><div class="meta-cell-val">Formally review and approve the integration before it goes live</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Primary CTA</div><div class="meta-cell-val">Sign & Deploy to Production</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Key decision</div><div class="meta-cell-val">Am I confident enough to approve this? Have I reviewed everything that was flagged?</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Risk reduced</div><div class="meta-cell-val">Unapproved or unreviewed integrations reaching production. Deploy is locked until every checklist item is confirmed individually.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 7: SUCCESS -->
+<div class="screen-section" id="sc7">
+  <div class="wrap">
+    <div class="screen-header">
+      <div class="screen-num">Screen 07 / 07</div>
+      <h2>Integration Live — <em>and now it watches itself</em></h2>
+      <p class="screen-purpose">Deployment is complete. The success screen shows what is now active, what is being monitored, and what happens next — including how the system will notify Rohan if the tool's API ever changes.</p>
+    </div>
+    <div class="screen-grid">
+      <div class="screen-mock">
+        <div class="mock-bar"><div class="mock-dots"><div class="mock-dot" style="background:#FF5F57"></div><div class="mock-dot" style="background:#FEBC2E"></div><div class="mock-dot" style="background:#28C840"></div></div><div class="mock-title">Integration Live · Calendly ↔ CloudEagle</div></div>
+        <div class="mock-body">
+          <div class="mk-success">
+            <div style="font-size:40px;margin-bottom:12px">✅</div>
+            <div style="font-size:16px;font-weight:700;margin-bottom:4px">Integration is live</div>
+            <div style="font-size:12px;color:var(--mist);margin-bottom:16px">Calendly usage data is now flowing into your CloudEagle governance dashboard</div>
+            <div style="display:flex;justify-content:center;gap:24px;margin-bottom:16px">
+              <div><div style="font-size:20px;font-weight:700">24</div><div style="font-size:11px;color:var(--mist)">Users governed</div></div>
+              <div><div style="font-size:20px;font-weight:700">&lt;3h</div><div style="font-size:11px;color:var(--mist)">Setup time</div></div>
+              <div><div style="font-size:20px;font-weight:700">0</div><div style="font-size:11px;color:var(--mist)">Engineering tickets</div></div>
+            </div>
+          </div>
+          <div class="mk-divider"></div>
+          <div class="mk-label">What happens next — automatically</div>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px">
+            <div style="font-size:12px;color:var(--slate);display:flex;gap:8px"><span style="color:var(--green)">→</span>Usage data syncs daily to your governance dashboard</div>
+            <div style="font-size:12px;color:var(--slate);display:flex;gap:8px"><span style="color:var(--green)">→</span>Unused licences will appear in your savings report</div>
+            <div style="font-size:12px;color:var(--slate);display:flex;gap:8px"><span style="color:var(--green)">→</span>If Calendly's API changes, you'll be notified before anything breaks</div>
+            <div style="font-size:12px;color:var(--slate);display:flex;gap:8px"><span style="color:var(--green)">→</span>Health score monitored — alert fires if data stops flowing</div>
+          </div>
+          <div class="mk-btn">View Governance Dashboard →</div>
+          <div class="mk-btn ghost" style="margin-top:8px;text-align:center">Connect another tool</div>
+        </div>
+      </div>
+      <div class="annotations">
+        <div class="ann"><div class="ann-num">A</div><div class="ann-body"><div class="ann-title">Three numbers that matter to Rohan's CFO</div><div class="ann-text">Users governed, setup time, engineering tickets. These are the numbers Rohan will use to justify the platform investment. The success screen frames the outcome in his language — not the system's language.</div><div class="ann-tag" style="background:var(--bluefg);color:var(--blue);border:1px solid var(--blueborder)">Business value framing</div></div></div>
+        <div class="ann"><div class="ann-num">B</div><div class="ann-body"><div class="ann-title">"What happens next" — Rohan doesn't have to do anything</div><div class="ann-text">The four bullet points tell Rohan that the system takes care of everything from here. He doesn't need to schedule a sync, set up monitoring, or check back in. This is the "set and forget" promise — backed by EagleEye's continuous monitoring.</div></div></div>
+        <div class="ann"><div class="ann-num">C</div><div class="ann-body"><div class="ann-title">API change notification — mentioned on the success screen</div><div class="ann-text">"If Calendly's API changes, you'll be notified before anything breaks." This is the versioning promise stated in plain English at the moment of completion. It sets the expectation that the integration is not a one-time build — it is a managed, monitored connection.</div><div class="ann-tag" style="background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)">Versioning promise</div></div></div>
+        <div class="ann"><div class="ann-num">D</div><div class="ann-body"><div class="ann-title">Two CTAs — next logical actions</div><div class="ann-text">The primary CTA takes Rohan to where the value is delivered: the governance dashboard. The secondary CTA opens the door to expanding coverage. Both are natural next steps — the screen doesn't leave him wondering what to do after a successful integration.</div></div></div>
+      </div>
+    </div>
+    <div class="screen-meta">
+      <div class="meta-grid">
+        <div class="meta-cell"><div class="meta-cell-label">User goal</div><div class="meta-cell-val">Confirm success and understand what the system will do from here</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Primary CTA</div><div class="meta-cell-val">View Governance Dashboard</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Key decision</div><div class="meta-cell-val">What do I do next? Connect another tool? Review the data?</div></div>
+        <div class="meta-cell"><div class="meta-cell-label">Risk reduced</div><div class="meta-cell-val">Post-deployment confusion or neglect. Solved by stating what the system monitors automatically and surfacing the value outcome immediately.</div></div>
+      </div>
+    </div>
+    <div style="text-align:center;padding-top:48px;border-top:1px solid var(--ruleli);margin-top:48px">
+      <div style="font-size:14px;color:var(--mist);margin-bottom:20px">This UX Design document is Deliverable 1. The working simulation is Deliverable 3.</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="/" style="background:var(--ink);color:var(--white);padding:11px 24px;border-radius:9px;font-size:13px;font-weight:700;display:inline-flex;gap:8px">← Return to Full Pitch</a>
+        <a href="/prototype" style="background:var(--surface);color:var(--ink);padding:11px 24px;border-radius:9px;font-size:13px;font-weight:700;display:inline-flex;gap:8px;border:1px solid var(--rule)">▶ Open Working Simulation</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
