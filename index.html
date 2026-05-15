@@ -120,7 +120,7 @@ a{color:inherit;text-decoration:none}
 <div class="hero" id="s0">
   <div class="wrap">
     <div class="hero-tag"><div class="pulse"></div>Senior PM Assignment &middot; CloudEagle &middot; AI Integration Builder</div>
-    <h1 id="hero-h1"></h1>
+    <h1 id="hero-h1" data-plain="CloudEagle manages $20B in SaaS spend. But adding a new integration" data-em="still takes weeks."></h1>
     <p class="hero-sub">This is the contradiction at the heart of CloudEagle's next growth phase. The platform that promises to eliminate SaaS chaos hasn't yet eliminated the operational chaos in its own integration delivery. This brief is about closing that gap &mdash; and why it is the highest-leverage move available right now.</p>
     <div class="hero-meta">
       <div><strong>Primary User</strong> &middot; IT Head (non-technical)</div>
@@ -1082,23 +1082,24 @@ sections.forEach(s=>{if(s.id)obs.observe(s)});
 </script>
 <script>
 (function(){
-  var h1=document.getElementById('hero-h1');
-  var words=[
-    {t:’CloudEagle’},{t:’manages’},{t:’$20B’},{t:’in’},{t:’SaaS’},{t:’spend.’},
-    {t:’But’},{t:’adding’},{t:’a’},{t:’new’},{t:’integration’},
-    {t:’still’,em:true},{t:’takes’,em:true},{t:’weeks.’,em:true}
-  ];
-  var i=0;
-  function next(){
-    if(i>=words.length){h1.classList.add('done');return;}
-    var w=words[i];
-    var node=document.createElement(w.em?'em':'span');
-    node.textContent=(i===0?'':' ')+w.t;
-    h1.appendChild(node);
-    i++;
-    setTimeout(next, i<10?65:55);
+  var el=document.getElementById("hero-h1");
+  if(!el){return;}
+  var plain=el.getAttribute("data-plain").split(" ");
+  var em=el.getAttribute("data-em").split(" ");
+  var all=[];
+  for(var p=0;p<plain.length;p++){all.push({t:plain[p],e:false});}
+  for(var e=0;e<em.length;e++){all.push({t:em[e],e:true});}
+  var idx=0;
+  function tick(){
+    if(idx>=all.length){el.classList.add("done");return;}
+    var w=all[idx];
+    var node=document.createElement(w.e?"em":"span");
+    node.textContent=(idx===0?"":" ")+w.t;
+    el.appendChild(node);
+    idx++;
+    setTimeout(tick,60);
   }
-  setTimeout(next,120);
+  setTimeout(tick,150);
 })();
 </script>
 </body>
