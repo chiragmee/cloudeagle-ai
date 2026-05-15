@@ -204,6 +204,26 @@ input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 
     </div>
     <div class="sb-bottom">
       <div class="sb-help">💡 <strong>No engineering ticket needed.</strong> This builder generates, validates, and tests your integration automatically. Your engineering team only reviews before the final approval.</div>
+      <div style="margin-top:16px;border-top:1px solid var(--rule);padding-top:16px">
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mist);margin-bottom:10px">AI Model Architecture</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:10px 12px">
+            <div style="font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Step 1–2 · Architect</div>
+            <div style="font-size:12px;font-weight:600;color:var(--ink)">Claude Sonnet 4</div>
+            <div style="font-size:11px;color:var(--mist);margin-top:2px;line-height:1.5">Reads API docs (200K context), extracts schemas, auth flows, endpoints. Plans the integration.</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:10px 12px">
+            <div style="font-size:9px;font-weight:700;color:#7C3AED;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Step 3–4 · Developer</div>
+            <div style="font-size:12px;font-weight:600;color:var(--ink)">GPT-4o</div>
+            <div style="font-size:11px;color:var(--mist);margin-top:2px;line-height:1.5">Writes the integration code — API client, auth setup, pagination, error handling — from the approved plan.</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:10px 12px">
+            <div style="font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">Step 5 · Auditor</div>
+            <div style="font-size:12px;font-weight:600;color:var(--ink)">Code Llama (fine-tuned)</div>
+            <div style="font-size:11px;color:var(--mist);margin-top:2px;line-height:1.5">Security audit — detects over-permissioned scopes, hardcoded secrets, missing retry logic before sandbox runs.</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

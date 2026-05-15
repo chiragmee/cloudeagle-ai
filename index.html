@@ -106,6 +106,14 @@ a{text-decoration:none;color:inherit}
 .vcard h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
 .vcard p{font-size:12px;color:var(--mist);line-height:1.6}
 
+/* ── SAFEGUARDS ── */
+.sgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.scard{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:18px 16px}
+.scard-icon{font-size:20px;margin-bottom:8px}
+.scard-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--fog);margin-bottom:5px}
+.scard h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.scard p{font-size:12px;color:var(--mist);line-height:1.6}
+
 /* ── FOOTER ── */
 .page-footer{padding:32px 0;text-align:center}
 .page-footer p{font-size:12px;color:var(--fog)}
@@ -272,6 +280,60 @@ a{text-decoration:none;color:inherit}
             <div class="vcard-label">Parallel Integrations</div>
             <h4>Migrate entire stacks at once</h4>
             <p>Architected to handle multiple integrations simultaneously — IT teams can migrate entire software stacks in a single session.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAFEGUARDS -->
+      <div class="content-section">
+        <div class="sec-label">Safeguards &amp; Enterprise Trust</div>
+        <h2>Customers are not developers. The system must protect them like they aren't.</h2>
+        <p class="sub">We are asking IT Managers to trigger code generation and deployment. Every safeguard below exists to make that safe — technically and legally.</p>
+
+        <div style="background:#FFF8F0;border:1px solid #FDE8C8;border-radius:10px;padding:18px 20px;margin-bottom:24px;display:flex;gap:12px;align-items:flex-start">
+          <div style="font-size:18px;flex-shrink:0">⚠️</div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#92400E;margin-bottom:4px">Sandbox Before Production — Non-Negotiable</div>
+            <div style="font-size:13px;color:#78350F;line-height:1.65">Every integration runs in an isolated sandbox environment before it is allowed anywhere near production data. The Deploy button is physically locked until all sandbox stages pass. No override exists for first-time integrations. This is not a setting — it is architecture.</div>
+          </div>
+        </div>
+
+        <div class="sgrid">
+          <div class="scard">
+            <div class="scard-icon">🔒</div>
+            <div class="scard-label">Input Safety</div>
+            <h4>Scope Minimiser</h4>
+            <p>AI requests only the permissions required for the stated use case. Over-permissioned scopes are flagged and rejected before code is shown to the user.</p>
+          </div>
+          <div class="scard">
+            <div class="scard-icon">🛡️</div>
+            <div class="scard-label">Generation Safety</div>
+            <h4>SAST + Security Pass</h4>
+            <p>Static analysis runs automatically on every generated file. Code with hardcoded secrets is regenerated, never shown. Code Llama runs a dedicated security audit pass.</p>
+          </div>
+          <div class="scard">
+            <div class="scard-icon">📦</div>
+            <div class="scard-label">Environment Safety</div>
+            <h4>Zero-Trust Sandbox</h4>
+            <p>Containerised execution with outbound network blocked except to CloudEagle's mock server. Three stages must all pass before Approve is enabled.</p>
+          </div>
+          <div class="scard">
+            <div class="scard-icon">👤</div>
+            <div class="scard-label">Human Approval Gate</div>
+            <h4>Security Lead Sign-off</h4>
+            <p>Each flagged item requires individual checkbox acknowledgment — not one "I agree" click. Approvals under 60 seconds on flagged integrations trigger a mandatory re-review prompt.</p>
+          </div>
+          <div class="scard">
+            <div class="scard-icon">🔐</div>
+            <div class="scard-label">Data Privacy</div>
+            <h4>PII Masking + AES-256</h4>
+            <p>All sensitive data is scrubbed locally before any LLM call. API credentials use AES-256 encryption and are stored in a secrets vault — never passed to AI APIs.</p>
+          </div>
+          <div class="scard">
+            <div class="scard-icon">📋</div>
+            <div class="scard-label">Audit &amp; Compliance</div>
+            <h4>Complete Signed Trail</h4>
+            <p>Every action — generation, review, approval, deployment — is logged with timestamp and actor. No-training clause enforced via enterprise API agreements with all LLM providers.</p>
           </div>
         </div>
       </div>
