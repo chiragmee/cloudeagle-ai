@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Design Mockup · AI Integration Builder · CloudEagle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1E1E1E;font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* ── FIGMA TOOLBAR ── */
+.figma-toolbar{
+  height:40px;background:#2C2C2C;border-bottom:1px solid #3C3C3C;
+  display:flex;align-items:center;justify-content:space-between;padding:0 16px;
+  position:sticky;top:0;z-index:1000;
+}
+.ft-left{display:flex;align-items:center;gap:12px}
+.ft-logo{width:20px;height:20px;display:flex;align-items:center;justify-content:center}
+.ft-logo svg{width:16px;height:16px}
+.ft-breadcrumb{font-size:12px;color:#AAAAAA;display:flex;align-items:center;gap:6px}
+.ft-breadcrumb span{color:#E0E0E0;font-weight:500}
+.ft-sep{color:#555}
+.ft-right{display:flex;align-items:center;gap:8px}
+.ft-btn{background:#3C3C3C;color:#CCCCCC;border:none;padding:5px 12px;border-radius:6px;font-size:11px;font-family:inherit;cursor:pointer;font-weight:500}
+.ft-btn.primary{background:#1B4FCC;color:#fff}
+.ft-btn:hover{opacity:.85}
+
+/* ── CANVAS ── */
+.canvas{display:flex;gap:0;min-height:calc(100vh - 40px)}
+
+/* ── LEFT PANEL ── */
+.left-panel{width:220px;background:#2C2C2C;border-right:1px solid #3C3C3C;flex-shrink:0;padding:0;overflow-y:auto}
+.lp-section{border-bottom:1px solid #3C3C3C;padding:12px 0}
+.lp-title{font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.8px;padding:0 12px 8px}
+.lp-item{display:flex;align-items:center;gap:8px;padding:5px 12px;cursor:pointer;border-radius:0}
+.lp-item:hover{background:#383838}
+.lp-item.selected{background:#1B4FCC22}
+.lp-icon{width:14px;height:14px;flex-shrink:0;color:#888;font-size:11px;display:flex;align-items:center;justify-content:center}
+.lp-name{font-size:12px;color:#CCCCCC}
+.lp-item.selected .lp-name{color:#6FA3FF}
+.lp-item.frame .lp-icon::before{content:'□';font-size:12px}
+.lp-item.component .lp-icon::before{content:'◈';font-size:11px;color:#A78BFA}
+.lp-item.group .lp-icon::before{content:'▷';font-size:10px}
+.lp-indent{padding-left:28px}
+
+/* ── MAIN CANVAS AREA ── */
+.canvas-area{flex:1;overflow:auto;padding:48px;display:flex;flex-direction:column;align-items:center;gap:48px;background:#1E1E1E}
+.frame-label{font-size:11px;color:#888;font-family:'DM Mono',monospace;margin-bottom:8px;align-self:flex-start}
+.frame-wrap{position:relative;align-self:flex-start;width:100%;max-width:1100px}
+
+/* ── ANNOTATION PINS ── */
+.ann{position:absolute;z-index:50;cursor:default}
+.ann-dot{width:20px;height:20px;border-radius:50%;background:#1B4FCC;color:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.ann-label{position:absolute;background:#1B4FCC;color:#fff;font-size:10px;font-weight:600;padding:4px 9px;border-radius:5px;white-space:nowrap;left:24px;top:-2px;opacity:0;pointer-events:none;transition:opacity .15s;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.ann:hover .ann-label{opacity:1}
+
+/* ── RIGHT PANEL ── */
+.right-panel{width:240px;background:#2C2C2C;border-left:1px solid #3C3C3C;flex-shrink:0;overflow-y:auto;padding:0}
+.rp-section{border-bottom:1px solid #3C3C3C;padding:14px}
+.rp-title{font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
+.rp-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.rp-key{font-size:11px;color:#888}
+.rp-val{font-size:11px;color:#CCCCCC;font-family:'DM Mono',monospace}
+.rp-swatch{width:14px;height:14px;border-radius:3px;border:1px solid #444}
+.color-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.color-name{font-size:11px;color:#CCCCCC}
+.color-hex{font-size:10px;color:#888;font-family:'DM Mono',monospace;margin-left:auto}
+
+/* ── BROWSER CHROME ── */
+.browser{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6);width:100%}
+.browser-bar{background:#F2F2F2;padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #E0E0E0}
+.browser-dots{display:flex;gap:6px}
+.browser-dot{width:11px;height:11px;border-radius:50%}
+.browser-dot.r{background:#FF5F57}
+.browser-dot.y{background:#FEBC2E}
+.browser-dot.g{background:#28C840}
+.browser-url{flex:1;background:#E8E8E8;border-radius:5px;padding:4px 12px;font-size:11px;color:#666;font-family:'DM Mono',monospace}
+
+/* ══════════════════════════════
+   LANDING PAGE DESIGN CONTENT
+══════════════════════════════ */
+.lp{font-family:'DM Sans',sans-serif;background:#fff;color:#0C111D;font-size:14px;line-height:1.6}
+
+/* Nav */
+.lp-nav{border-bottom:1px solid #E5EAF2;padding:12px 40px;display:flex;align-items:center;justify-content:space-between;background:#fff}
+.lp-avatar{width:36px;height:36px;border-radius:50%;overflow:hidden;border:2px solid #E5EAF2;flex-shrink:0}
+.lp-avatar img{width:100%;height:100%;object-fit:cover;object-position:center 55%;transform:scale(2.2);transform-origin:center 55%;display:block}
+.lp-nav-info{margin-left:10px}
+.lp-nav-name{font-size:13px;font-weight:700;color:#0C111D}
+.lp-nav-role{font-size:10px;color:#6B7FA0}
+.lp-nav-tags{display:flex;gap:4px;margin-top:3px}
+.lp-ntag{padding:1px 7px;border-radius:100px;font-size:8px;font-weight:700}
+.lp-ntag.gray{background:rgba(0,0,0,.05);color:#6B7FA0}
+.lp-ntag.blue{background:#EBF1FF;color:#1B4FCC;border:1px solid #C7D9FF}
+.lp-ntag.green{background:#ECFDF5;color:#10B981;border:1px solid #86EFCA}
+.lp-cta-btn{background:#0C111D;color:#fff;padding:8px 16px;border-radius:7px;font-size:11px;font-weight:700}
+
+/* Two-col layout */
+.lp-body{display:grid;grid-template-columns:200px 1fr;gap:0}
+
+/* Sidebar */
+.lp-sidebar{border-right:1px solid #E5EAF2;padding:28px 20px;background:#fff}
+.lp-sid-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#9AABC5;margin-bottom:12px}
+.lp-del-card{border:1.5px solid #E5EAF2;border-radius:9px;padding:14px 12px;margin-bottom:8px}
+.lp-del-card.dark{background:#0C111D;border-color:#0C111D}
+.lp-del-num{font-size:8px;color:#9AABC5;font-family:'DM Mono',monospace;margin-bottom:3px}
+.lp-del-card.dark .lp-del-num{color:rgba(255,255,255,.3)}
+.lp-del-title{font-size:11px;font-weight:700;color:#0C111D;margin-bottom:3px}
+.lp-del-card.dark .lp-del-title{color:#fff}
+.lp-del-desc{font-size:10px;color:#6B7FA0;line-height:1.45;margin-bottom:6px}
+.lp-del-card.dark .lp-del-desc{color:rgba(255,255,255,.4)}
+.lp-del-link{font-size:10px;font-weight:700;color:#1B4FCC}
+.lp-del-card.dark .lp-del-link{color:#6EE7B7}
+.lp-sid-note{font-size:9px;color:#9AABC5;line-height:1.5;margin-top:10px;border-top:1px solid #E5EAF2;padding-top:10px}
+
+/* Hero */
+.lp-hero{padding:36px 36px 28px}
+.lp-eyebrow{display:inline-flex;align-items:center;gap:6px;background:#EBF1FF;border:1px solid #C7D9FF;color:#1B4FCC;padding:3px 10px;border-radius:100px;font-size:8px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:18px}
+.lp-pulse{width:5px;height:5px;background:#1B4FCC;border-radius:50%}
+.lp-h1{font-family:'DM Serif Display',serif;font-size:28px;line-height:1.1;letter-spacing:-.3px;margin-bottom:14px;max-width:500px}
+.lp-h1 em{font-style:italic;color:#6B7FA0}
+.lp-body-text{font-size:12px;color:#6B7FA0;line-height:1.75;margin-bottom:18px;max-width:460px}
+.lp-body-text strong{color:#0C111D}
+.lp-sec-strip{display:grid;grid-template-columns:1fr 1fr;border:1px solid #E5EAF2;border-radius:8px;overflow:hidden;max-width:460px}
+.lp-sec-item{display:flex;align-items:center;gap:6px;padding:9px 12px;font-size:10px;color:#334869;font-weight:500;border-right:1px solid #E5EAF2;border-bottom:1px solid #E5EAF2}
+.lp-sec-item:nth-child(2){border-right:none}
+.lp-sec-item:nth-child(3){border-bottom:none}
+.lp-sec-item:nth-child(4){border-right:none;border-bottom:none}
+.lp-sec-dot{width:5px;height:5px;border-radius:50%;background:#10B981;flex-shrink:0}
+
+/* Cost table */
+.lp-section{padding:24px 36px;border-top:1px solid #E5EAF2}
+.lp-sec-lbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#9AABC5;margin-bottom:6px}
+.lp-section h2{font-family:'DM Serif Display',serif;font-size:18px;font-weight:600;margin-bottom:5px}
+.lp-sub{font-size:11px;color:#6B7FA0;margin-bottom:16px}
+.lp-table{width:100%;border-collapse:collapse;font-size:11px}
+.lp-table th{text-align:left;padding:7px 12px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#9AABC5;border-bottom:1.5px solid #E5EAF2}
+.lp-table td{padding:10px 12px;border-bottom:1px solid #E5EAF2;vertical-align:top;line-height:1.4}
+.lp-table tr:last-child td{border-bottom:none;background:#F7F8FA;font-weight:700}
+.lp-table td:first-child{font-weight:600;white-space:nowrap;width:20%}
+.lp-table td:nth-child(2){color:#6B7FA0;width:15%}
+.lp-ai-val{display:flex;align-items:flex-start;gap:6px}
+.lp-ai-dot{width:5px;height:5px;border-radius:50%;background:#10B981;margin-top:4px;flex-shrink:0}
+.lp-gain{display:inline-flex;background:#ECFDF5;color:#10B981;border:1px solid #86EFCA;border-radius:100px;padding:2px 8px;font-size:9px;font-weight:700;white-space:nowrap}
+
+/* Validator */
+.lp-pull{border-left:3px solid #1B4FCC;padding:12px 18px;background:#EBF1FF;border-radius:0 8px 8px 0;margin-bottom:16px}
+.lp-pull p{font-family:'DM Serif Display',serif;font-size:14px;line-height:1.4;font-style:italic}
+.lp-vgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0}
+.lp-vcard{background:#F7F8FA;border:1px solid #E5EAF2;border-radius:8px;padding:12px 14px}
+.lp-vc-lbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#9AABC5;margin-bottom:4px}
+.lp-vcard h4{font-size:11px;font-weight:700;margin-bottom:3px}
+.lp-vcard p{font-size:10px;color:#6B7FA0;line-height:1.5}
+
+/* Safeguards */
+.lp-warn{background:#FFF8F0;border:1px solid #FDE8C8;border-radius:8px;padding:12px 14px;margin-bottom:12px;display:flex;gap:10px}
+.lp-warn-icon{font-size:14px;flex-shrink:0}
+.lp-warn-title{font-size:10px;font-weight:700;color:#92400E;margin-bottom:3px}
+.lp-warn-text{font-size:10px;color:#78350F;line-height:1.5}
+.lp-sgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.lp-scard{background:#F7F8FA;border:1px solid #E5EAF2;border-radius:8px;padding:12px 14px}
+.lp-scard-icon{font-size:14px;margin-bottom:6px}
+.lp-scard-lbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#9AABC5;margin-bottom:3px}
+.lp-scard h4{font-size:11px;font-weight:700;margin-bottom:3px}
+.lp-scard p{font-size:10px;color:#6B7FA0;line-height:1.5}
+
+/* Footer */
+.lp-footer{padding:16px 36px;border-top:1px solid #E5EAF2;text-align:center}
+.lp-footer p{font-size:10px;color:#9AABC5}
+.lp-footer a{color:#1B4FCC;font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- FIGMA TOOLBAR -->
+<div class="figma-toolbar">
+  <div class="ft-left">
+    <div class="ft-logo">
+      <svg viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 28.5A9.5 9.5 0 1 1 28.5 19 9.5 9.5 0 0 1 19 28.5z" fill="#1ABCFE"/>
+        <path d="M9.5 47.5a9.5 9.5 0 0 1 9.5-9.5h9.5v9.5a9.5 9.5 0 1 1-19 0z" fill="#0ACF83"/>
+        <path d="M9.5 19A9.5 9.5 0 0 1 19 9.5h9.5V28.5H19A9.5 9.5 0 0 1 9.5 19z" fill="#FF7262"/>
+        <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" fill="#F24E1E"/>
+        <path d="M0 19A9.5 9.5 0 0 1 9.5 9.5H19V28.5H9.5A9.5 9.5 0 0 1 0 19z" fill="#FF7262"/>
+      </svg>
+    </div>
+    <div class="ft-breadcrumb">
+      <span>CloudEagle PM Assignment</span>
+      <span class="ft-sep">/</span>
+      <span>Landing Page</span>
+      <span class="ft-sep">/</span>
+      <span style="color:#6FA3FF">Desktop 1440</span>
+    </div>
+  </div>
+  <div class="ft-right">
+    <button class="ft-btn" onclick="window.open('/','_blank')">Open Live Site ↗</button>
+    <button class="ft-btn primary">Share</button>
+  </div>
+</div>
+
+<div class="canvas">
+
+  <!-- LEFT LAYER PANEL -->
+  <div class="left-panel">
+    <div class="lp-section">
+      <div class="lp-title">Pages</div>
+      <div class="lp-item selected"><div class="lp-icon">▪</div><div class="lp-name">Landing Page</div></div>
+      <div class="lp-item"><div class="lp-icon">▪</div><div class="lp-name">UX Design</div></div>
+      <div class="lp-item"><div class="lp-icon">▪</div><div class="lp-name">Prototype</div></div>
+    </div>
+    <div class="lp-section">
+      <div class="lp-title">Layers</div>
+      <div class="lp-item frame"><div class="lp-icon"></div><div class="lp-name">Desktop 1440</div></div>
+      <div class="lp-item group lp-indent"><div class="lp-icon"></div><div class="lp-name">Nav Bar</div></div>
+      <div class="lp-item group lp-indent"><div class="lp-icon"></div><div class="lp-name">Layout / 2-Col</div></div>
+      <div class="lp-item component lp-indent" style="padding-left:40px"><div class="lp-icon" style="color:#A78BFA">◈</div><div class="lp-name" style="color:#A78BFA">Sidebar Cards</div></div>
+      <div class="lp-item group lp-indent" style="padding-left:40px"><div class="lp-icon"></div><div class="lp-name">Hero</div></div>
+      <div class="lp-item group lp-indent" style="padding-left:40px"><div class="lp-icon"></div><div class="lp-name">Cost Table</div></div>
+      <div class="lp-item group lp-indent" style="padding-left:40px"><div class="lp-icon"></div><div class="lp-name">Validator</div></div>
+      <div class="lp-item group lp-indent" style="padding-left:40px"><div class="lp-icon"></div><div class="lp-name">Safeguards</div></div>
+    </div>
+    <div class="lp-section">
+      <div class="lp-title">Components</div>
+      <div class="lp-item component"><div class="lp-icon" style="color:#A78BFA">◈</div><div class="lp-name">DelCard</div></div>
+      <div class="lp-item component"><div class="lp-icon" style="color:#A78BFA">◈</div><div class="lp-name">SecItem</div></div>
+      <div class="lp-item component"><div class="lp-icon" style="color:#A78BFA">◈</div><div class="lp-name">ValidatorCard</div></div>
+      <div class="lp-item component"><div class="lp-icon" style="color:#A78BFA">◈</div><div class="lp-name">SafeguardCard</div></div>
+      <div class="lp-item component"><div class="lp-icon" style="color:#A78BFA">◈</div><div class="lp-name">CostTable.Row</div></div>
+    </div>
+  </div>
+
+  <!-- CANVAS AREA -->
+  <div class="canvas-area">
+
+    <div class="frame-wrap">
+      <div class="frame-label">Landing Page — Desktop 1440 · 100%</div>
+
+      <!-- BROWSER CHROME -->
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <div class="browser-dot r"></div>
+            <div class="browser-dot y"></div>
+            <div class="browser-dot g"></div>
+          </div>
+          <div class="browser-url">cloudeagle-ai.vercel.app</div>
+        </div>
+
+        <!-- LANDING PAGE DESIGN -->
+        <div class="lp">
+
+          <!-- NAV -->
+          <div class="lp-nav">
+            <div style="display:flex;align-items:center">
+              <div class="lp-avatar"><img src="/chirag.jpeg" alt="Chirag"/></div>
+              <div class="lp-nav-info">
+                <div class="lp-nav-name">Chirag Mewara</div>
+                <div class="lp-nav-role">Product Manager · ANAROCK · Bengaluru, India</div>
+                <div class="lp-nav-tags">
+                  <span class="lp-ntag gray">~5 Years PM Experience</span>
+                  <span class="lp-ntag blue">0→1 B2B Enterprise SaaS</span>
+                  <span class="lp-ntag blue">Best Performer FY 24–25</span>
+                  <span class="lp-ntag green">Immediate Joiner</span>
+                </div>
+              </div>
+            </div>
+            <div class="lp-cta-btn">Read Complete Brief →</div>
+          </div>
+
+          <!-- TWO-COL BODY -->
+          <div class="lp-body">
+
+            <!-- SIDEBAR -->
+            <div class="lp-sidebar">
+              <div class="lp-sid-label">Explore the Submission</div>
+              <div class="lp-del-card dark">
+                <div class="lp-del-num">D0</div>
+                <div class="lp-del-title">Complete PM Brief</div>
+                <div class="lp-del-desc">All sections — problem, personas, architecture, metrics, and risks.</div>
+                <div class="lp-del-link">Read full brief →</div>
+              </div>
+              <div class="lp-del-card">
+                <div class="lp-del-num">D1</div>
+                <div class="lp-del-title">UX Design</div>
+                <div class="lp-del-desc">Screen-by-screen Validator Interface — URL to production.</div>
+                <div class="lp-del-link">View UX →</div>
+              </div>
+              <div class="lp-del-card">
+                <div class="lp-del-num">D3</div>
+                <div class="lp-del-title">Live Prototype</div>
+                <div class="lp-del-desc">Working AI demo — paste an API doc URL and watch it generate.</div>
+                <div class="lp-del-link">Open prototype →</div>
+              </div>
+              <div class="lp-sid-note">Senior PM Assignment · CloudEagle · AI Integration Builder</div>
+            </div>
+
+            <!-- RIGHT CONTENT -->
+            <div>
+
+              <!-- HERO -->
+              <div class="lp-hero" style="border-bottom:1px solid #E5EAF2">
+                <div class="lp-eyebrow"><div class="lp-pulse"></div>Senior PM Assignment · CloudEagle</div>
+                <div class="lp-h1">CloudEagle manages $20B in SaaS spend. But adding a new integration <em>still takes weeks.</em></div>
+                <p class="lp-body-text">CloudEagle's integration bottleneck costs <strong>$40K and 8 weeks</strong> of engineering per custom integration. The <strong>AI Integration Builder</strong> eliminates this — AI reads API documentation, maps schemas, generates secure code, and runs it in a sandbox. PMs and IT Managers act as <strong>Validators, not builders.</strong></p>
+                <div class="lp-sec-strip">
+                  <div class="lp-sec-item"><div class="lp-sec-dot"></div>AES-256 Encryption</div>
+                  <div class="lp-sec-item"><div class="lp-sec-dot"></div>Zero-Trust Sandbox</div>
+                  <div class="lp-sec-item"><div class="lp-sec-dot"></div>No LLM Training on Data</div>
+                  <div class="lp-sec-item"><div class="lp-sec-dot"></div>PII Masking Before API Calls</div>
+                </div>
+              </div>
+
+              <!-- COST TABLE -->
+              <div class="lp-section">
+                <div class="lp-sec-lbl">The Economic Shift</div>
+                <h2 class="lp-h2" style="font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:4px">$40,000 per integration → $0.50</h2>
+                <p class="lp-sub">Every phase of the manual integration workflow — eliminated or automated.</p>
+                <table class="lp-table">
+                  <thead><tr><th>Phase</th><th>Traditional</th><th>AI Integration Builder</th><th>Efficiency</th></tr></thead>
+                  <tbody>
+                    <tr><td>Requirements Gathering</td><td>1 Week</td><td><div class="lp-ai-val"><div class="lp-ai-dot"></div>Instant — Doc Scraper reads API documentation automatically</div></td><td><span class="lp-gain">99%</span></td></tr>
+                    <tr><td>Technical Mapping</td><td>2 Weeks</td><td><div class="lp-ai-val"><div class="lp-ai-dot"></div>Automated — Auto-Schema maps fields, auth models, rate limits</div></td><td><span class="lp-gain">98%</span></td></tr>
+                    <tr><td>Development</td><td>4 Weeks</td><td><div class="lp-ai-val"><div class="lp-ai-dot"></div>Real-time — Code Gen produces API client, auth, pagination</div></td><td><span class="lp-gain">100%</span></td></tr>
+                    <tr><td>QA &amp; Testing</td><td>1 Week</td><td><div class="lp-ai-val"><div class="lp-ai-dot"></div>Automated — Test cases generated and run in sandbox</div></td><td><span class="lp-gain">90%</span></td></tr>
+                    <tr><td>Total Cost</td><td>~$40,000</td><td><div class="lp-ai-val"><div class="lp-ai-dot"></div>~$0.50 in AI compute</div></td><td><span class="lp-gain">90%+ Faster</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- VALIDATOR -->
+              <div class="lp-section">
+                <div class="lp-sec-lbl">The Human Element</div>
+                <div class="lp-pull"><p>"The shift is not from manual to automatic — it is from building to validating."</p></div>
+                <div class="lp-vgrid">
+                  <div class="lp-vcard"><div class="lp-vc-lbl">Custom Test Cases</div><h4>You define the edge cases</h4><p>Input specific validation rules before deployment — e.g. "Tenant ID never allows special characters."</p></div>
+                  <div class="lp-vcard"><div class="lp-vc-lbl">Pass / Fail Suite</div><h4>Human-defined checklist</h4><p>Every integration runs a validator-defined Pass/Fail suite. Nothing ships without human sign-off.</p></div>
+                  <div class="lp-vcard"><div class="lp-vc-lbl">Version Drift Detection</div><h4>API changes flagged automatically</h4><p>Engine monitors API docs for updates and flags breaking changes with an auto-update patch.</p></div>
+                  <div class="lp-vcard"><div class="lp-vc-lbl">Parallel Integrations</div><h4>Migrate entire stacks at once</h4><p>Handles multiple integrations simultaneously — IT teams can migrate whole stacks in one session.</p></div>
+                </div>
+              </div>
+
+              <!-- SAFEGUARDS -->
+              <div class="lp-section">
+                <div class="lp-sec-lbl">Safeguards &amp; Enterprise Trust</div>
+                <h2 style="font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:4px;line-height:1.2">Customers are not developers. The system must protect them like they aren't.</h2>
+                <p class="lp-sub" style="margin-bottom:12px">Every safeguard below exists to make code generation safe — technically and legally.</p>
+                <div class="lp-warn">
+                  <div class="lp-warn-icon">⚠️</div>
+                  <div><div class="lp-warn-title">Sandbox Before Production — Non-Negotiable</div><div class="lp-warn-text">The Deploy button is physically locked until all sandbox stages pass. No override for first-time integrations.</div></div>
+                </div>
+                <div class="lp-sgrid">
+                  <div class="lp-scard"><div class="lp-scard-icon">🔒</div><div class="lp-scard-lbl">Input Safety</div><h4>Scope Minimiser</h4><p>Only permissions required for the stated use case. Over-permissioned scopes flagged and rejected.</p></div>
+                  <div class="lp-scard"><div class="lp-scard-icon">🛡️</div><div class="lp-scard-lbl">Generation Safety</div><h4>SAST + Security Pass</h4><p>Static analysis on every file. Code Llama runs a dedicated security audit before sandbox.</p></div>
+                  <div class="lp-scard"><div class="lp-scard-icon">📦</div><div class="lp-scard-lbl">Environment Safety</div><h4>Zero-Trust Sandbox</h4><p>Containerised execution. Outbound network blocked except to CloudEagle's mock server.</p></div>
+                  <div class="lp-scard"><div class="lp-scard-icon">👤</div><div class="lp-scard-lbl">Approval Gate</div><h4>Security Lead Sign-off</h4><p>Flagged items require individual checkbox acknowledgment. 60-second approval triggers re-review.</p></div>
+                  <div class="lp-scard"><div class="lp-scard-icon">🔐</div><div class="lp-scard-lbl">Data Privacy</div><h4>PII Masking + AES-256</h4><p>Sensitive data scrubbed before LLM calls. Credentials in secrets vault, never in AI APIs.</p></div>
+                  <div class="lp-scard"><div class="lp-scard-icon">📋</div><div class="lp-scard-lbl">Audit Trail</div><h4>Complete Signed Log</h4><p>Every action logged with timestamp and actor. No-training clause in all LLM enterprise agreements.</p></div>
+                </div>
+              </div>
+
+              <!-- FOOTER -->
+              <div class="lp-footer">
+                <p>Chirag Mewara · <a>chirag.mewara.18@gmail.com</a> · <a>github.com/chiragmee</a></p>
+              </div>
+
+            </div>
+          </div>
+        </div><!-- end lp -->
+      </div><!-- end browser -->
+
+      <!-- ANNOTATION PINS -->
+      <div class="ann" style="top:44px;left:610px"><div class="ann-dot">1</div><div class="ann-label">Nav Bar — Sticky, blur backdrop</div></div>
+      <div class="ann" style="top:110px;left:195px"><div class="ann-dot">2</div><div class="ann-label">Sidebar — Sticky, deliverable cards</div></div>
+      <div class="ann" style="top:200px;left:610px"><div class="ann-dot">3</div><div class="ann-label">Hero — Typewriter animation on H1</div></div>
+      <div class="ann" style="top:420px;left:610px"><div class="ann-dot">4</div><div class="ann-label">Security Strip — 2×2 grid, green dots</div></div>
+      <div class="ann" style="top:520px;left:610px"><div class="ann-dot">5</div><div class="ann-label">Cost Table — Green gain pills, bold last row</div></div>
+      <div class="ann" style="top:760px;left:610px"><div class="ann-dot">6</div><div class="ann-label">Validator Cards — 2×2 grid</div></div>
+      <div class="ann" style="top:980px;left:610px"><div class="ann-dot">7</div><div class="ann-label">Safeguards — Amber warning + 3×2 cards</div></div>
+    </div>
+
+  </div><!-- end canvas-area -->
+
+  <!-- RIGHT DESIGN PANEL -->
+  <div class="right-panel">
+    <div class="rp-section">
+      <div class="rp-title">Frame</div>
+      <div class="rp-row"><span class="rp-key">Width</span><span class="rp-val">1440</span></div>
+      <div class="rp-row"><span class="rp-key">Height</span><span class="rp-val">Auto</span></div>
+      <div class="rp-row"><span class="rp-key">Layout</span><span class="rp-val">Grid — 2 col</span></div>
+      <div class="rp-row"><span class="rp-key">Sidebar</span><span class="rp-val">240px sticky</span></div>
+    </div>
+    <div class="rp-section">
+      <div class="rp-title">Typography</div>
+      <div class="rp-row"><span class="rp-key">Heading</span><span class="rp-val">DM Serif Display</span></div>
+      <div class="rp-row"><span class="rp-key">Body</span><span class="rp-val">DM Sans</span></div>
+      <div class="rp-row"><span class="rp-key">Mono</span><span class="rp-val">DM Mono</span></div>
+      <div class="rp-row"><span class="rp-key">H1 size</span><span class="rp-val">44px / 1.1</span></div>
+      <div class="rp-row"><span class="rp-key">Body size</span><span class="rp-val">15px / 1.8</span></div>
+      <div class="rp-row"><span class="rp-key">Label size</span><span class="rp-val">10px / 700</span></div>
+    </div>
+    <div class="rp-section">
+      <div class="rp-title">Colour Tokens</div>
+      <div class="color-row"><div class="rp-swatch" style="background:#0C111D"></div><span class="color-name">Ink</span><span class="color-hex">#0C111D</span></div>
+      <div class="color-row"><div class="rp-swatch" style="background:#1B4FCC"></div><span class="color-name">Blue</span><span class="color-hex">#1B4FCC</span></div>
+      <div class="color-row"><div class="rp-swatch" style="background:#10B981"></div><span class="color-name">Green</span><span class="color-hex">#10B981</span></div>
+      <div class="color-row"><div class="rp-swatch" style="background:#6B7FA0"></div><span class="color-name">Mist</span><span class="color-hex">#6B7FA0</span></div>
+      <div class="color-row"><div class="rp-swatch" style="background:#F7F8FA;border:1px solid #ddd"></div><span class="color-name">Surface</span><span class="color-hex">#F7F8FA</span></div>
+      <div class="color-row"><div class="rp-swatch" style="background:#E5EAF2"></div><span class="color-name">Rule</span><span class="color-hex">#E5EAF2</span></div>
+      <div class="color-row"><div class="rp-swatch" style="background:#EBF1FF"></div><span class="color-name">Blue Fill</span><span class="color-hex">#EBF1FF</span></div>
+      <div class="color-row"><div class="rp-swatch" style="background:#FFF8F0"></div><span class="color-name">Amber Fill</span><span class="color-hex">#FFF8F0</span></div>
+    </div>
+    <div class="rp-section">
+      <div class="rp-title">Spacing</div>
+      <div class="rp-row"><span class="rp-key">Section pad</span><span class="rp-val">52px</span></div>
+      <div class="rp-row"><span class="rp-key">Card radius</span><span class="rp-val">10–12px</span></div>
+      <div class="rp-row"><span class="rp-key">Card gap</span><span class="rp-val">12–14px</span></div>
+      <div class="rp-row"><span class="rp-key">Grid cols</span><span class="rp-val">1fr 1fr / 1fr 1fr 1fr</span></div>
+    </div>
+    <div class="rp-section">
+      <div class="rp-title">Annotations</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+        <div style="display:flex;align-items:flex-start;gap:8px"><div style="width:18px;height:18px;border-radius:50%;background:#1B4FCC;color:#fff;font-size:8px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div><span style="font-size:10px;color:#AAAAAA;line-height:1.4">Nav Bar</span></div>
+        <div style="display:flex;align-items:flex-start;gap:8px"><div style="width:18px;height:18px;border-radius:50%;background:#1B4FCC;color:#fff;font-size:8px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div><span style="font-size:10px;color:#AAAAAA;line-height:1.4">Deliverable Sidebar</span></div>
+        <div style="display:flex;align-items:flex-start;gap:8px"><div style="width:18px;height:18px;border-radius:50%;background:#1B4FCC;color:#fff;font-size:8px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div><span style="font-size:10px;color:#AAAAAA;line-height:1.4">Hero + Typewriter H1</span></div>
+        <div style="display:flex;align-items:flex-start;gap:8px"><div style="width:18px;height:18px;border-radius:50%;background:#1B4FCC;color:#fff;font-size:8px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</div><span style="font-size:10px;color:#AAAAAA;line-height:1.4">Security Strip</span></div>
+        <div style="display:flex;align-items:flex-start;gap:8px"><div style="width:18px;height:18px;border-radius:50%;background:#1B4FCC;color:#fff;font-size:8px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">5</div><span style="font-size:10px;color:#AAAAAA;line-height:1.4">Cost Table</span></div>
+        <div style="display:flex;align-items:flex-start;gap:8px"><div style="width:18px;height:18px;border-radius:50%;background:#1B4FCC;color:#fff;font-size:8px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">6</div><span style="font-size:10px;color:#AAAAAA;line-height:1.4">Validator Cards</span></div>
+        <div style="display:flex;align-items:flex-start;gap:8px"><div style="width:18px;height:18px;border-radius:50%;background:#1B4FCC;color:#fff;font-size:8px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">7</div><span style="font-size:10px;color:#AAAAAA;line-height:1.4">Safeguards</span></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end canvas -->
+</body>
+</html>
