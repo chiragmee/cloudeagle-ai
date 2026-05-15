@@ -60,16 +60,15 @@ nav{background:var(--white);border-bottom:1px solid var(--rule);height:56px;padd
 .pg-sub{font-size:14px;color:var(--mist);margin-bottom:28px}
 
 /* ── PROGRESS ── */
-.prog-bar{background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:18px 24px;margin-bottom:24px;display:flex;gap:0;align-items:center}
-.pb-step{display:flex;align-items:center;gap:8px;flex:1;position:relative}
-.pb-step:not(:last-child)::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:calc(100% - 28px);height:1px;background:var(--rule);margin-left:28px;z-index:0}
-.pb-step.done:not(:last-child)::after{background:var(--green)}
-.pb-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;z-index:1;position:relative;flex-shrink:0}
+.prog-bar{background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:4px;overflow-x:auto}
+.pb-step{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.pb-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
 .pb-dot.d{background:var(--greenfg);color:var(--green);border:1.5px solid var(--greenbd)}
 .pb-dot.a{background:var(--blue);color:var(--white);box-shadow:0 0 0 4px rgba(29,82,204,.12)}
 .pb-dot.p{background:var(--white);color:var(--mist);border:1.5px solid var(--rule)}
 .pb-label{font-size:11px;font-weight:600;color:var(--mist);white-space:nowrap}
 .pb-label.al{color:var(--blue)}
+.pb-sep{color:var(--ruleli);font-size:14px;flex-shrink:0;padding:0 2px;line-height:1}
 
 /* ── CARDS ── */
 .card{background:var(--white);border:1px solid var(--rule);border-radius:var(--radius);padding:24px;margin-bottom:18px}
@@ -269,10 +268,11 @@ function setSidebar(){
 function progressBar(){
   return `<div class="prog-bar">${STEPS.map((l,i)=>{
     const n=i+1,done=n<cur,active=n===cur;
-    return `<div class="pb-step ${done?"done":active?"active":""}">
+    const sep=i<STEPS.length-1?`<div class="pb-sep">›</div>`:'';
+    return `<div class="pb-step">
       <div class="pb-dot ${done?"d":active?"a":"p"}">${done?"✓":n}</div>
       <div class="pb-label ${active?"al":""}">${l}</div>
-    </div>`;
+    </div>${sep}`;
   }).join("")}</div>`;
 }
 
