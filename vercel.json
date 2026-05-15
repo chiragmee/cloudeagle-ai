@@ -1,5 +1,8 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
+    { "source": "/full", "destination": "/full-brief.html" },
     { "source": "/ux", "destination": "/cloudeagle-ux-ai.html" },
     { "source": "/prototype", "destination": "/cloudeagle-prototype-ai.html" }
   ]
