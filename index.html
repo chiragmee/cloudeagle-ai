@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>AI Integration Builder · CloudEagle · Chirag Mewara</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root{--ink:#0C111D;--paper:#FAFBFD;--white:#FFFFFF;--surface:#F2F5FA;--slate:#1A2640;--steel:#334869;--mist:#6B7FA0;--fog:#9AABC5;--rule:#DDE3EE;--ruleli:#EEF1F8;--blue:#1B4FCC;--bluefg:#EBF1FF;--blueborder:#B8CBFF;--teal:#0A7369;--tealfg:#E4F5F3;--tealbd:#86CFCA;--amber:#9A5000;--amberfg:#FEF3E2;--amberbd:#F9C97C;--red:#B42318;--redfg:#FEF3F2;--redbd:#FCA5A5;--green:#065F46;--greenfg:#ECFDF5;--greenbd:#A7F3D0;--purple:#4A1D96;--purpfg:#F5F3FF;--purpbd:#C4B5FD;--serif:'Lora',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace;--sw:256px}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;font-size:15px}body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;display:flex}
@@ -151,34 +152,28 @@ a{color:inherit;text-decoration:none}
     <div class="fw-node"><div class="fw-node-title">Customer Value</div><div class="fw-node-sub">Retention + expansion</div></div>
   </div>
   
-<div style="margin:24px 0">
-  <svg viewBox="0 0 480 220" width="100%" style="display:block;max-width:520px">
-    <defs>
-      <style>text{font-family:'DM Sans',sans-serif}</style>
-    </defs>
-    <!-- Donut chart -->
-    <!-- Total: 150000. Deep: 500 (0.33%). Blind: 149500 (99.67%) -->
-    <!-- Circle at cx=120 cy=110 r=85, circumference=534 -->
-    <!-- Deep slice: 534 * 0.0033 = 1.76 -->
-    <!-- Blind slice: 534 * 0.9967 = 531.9 -->
-    <circle cx="120" cy="110" r="85" fill="none" stroke="#EEF1F8" stroke-width="38"/>
-    <circle cx="120" cy="110" r="85" fill="none" stroke="#1B4FCC" stroke-width="38"
-      stroke-dasharray="1.8 532.4" stroke-dashoffset="134"
-      transform="rotate(-90 120 110)"/>
-    <!-- Inner label -->
-    <text x="120" y="104" text-anchor="middle" font-size="22" font-weight="700" fill="#0C111D">99.7%</text>
-    <text x="120" y="122" text-anchor="middle" font-size="11" fill="#6B7FA0">governance gap</text>
-    <!-- Legend -->
-    <rect x="230" y="60" width="12" height="12" rx="3" fill="#1B4FCC"/>
-    <text x="248" y="71" font-size="13" font-weight="600" fill="#0C111D">500 apps</text>
-    <text x="248" y="87" font-size="11" fill="#6B7FA0">Deeply integrated &amp; governed</text>
-    <rect x="230" y="108" width="12" height="12" rx="3" fill="#EEF1F8"/>
-    <text x="248" y="119" font-size="13" font-weight="600" fill="#0C111D">149,500 apps</text>
-    <text x="248" y="135" font-size="11" fill="#6B7FA0">Known to SaaSMap but ungoverned</text>
-    <line x1="230" y1="162" x2="440" y2="162" stroke="#DDE3EE" stroke-width="1"/>
-    <text x="230" y="180" font-size="11" fill="#6B7FA0">Source: CloudEagle SaaSMap · 150,000 apps catalogued</text>
-    <text x="230" y="196" font-size="11" fill="#6B7FA0">Only 0.33% have deep governance today</text>
-  </svg>
+<div style="margin:24px 0;display:flex;align-items:center;gap:32px;flex-wrap:wrap">
+  <div style="position:relative;width:220px;height:220px;flex-shrink:0">
+    <canvas id="donutChart" width="220" height="220"></canvas>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none">
+      <div style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;color:#0C111D;line-height:1">99.7%</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#6B7FA0;margin-top:3px">governance gap</div>
+    </div>
+  </div>
+  <div style="flex:1;min-width:200px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <div style="width:12px;height:12px;border-radius:3px;background:#1B4FCC;flex-shrink:0"></div>
+      <div><div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#0C111D">500 apps</div><div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#6B7FA0">Deeply integrated &amp; governed</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+      <div style="width:12px;height:12px;border-radius:3px;background:#EEF1F8;border:1px solid #DDE3EE;flex-shrink:0"></div>
+      <div><div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#0C111D">149,500 apps</div><div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#6B7FA0">Known to SaaSMap but ungoverned</div></div>
+    </div>
+    <div style="border-top:1px solid #DDE3EE;padding-top:14px">
+      <div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#6B7FA0">Source: CloudEagle SaaSMap · 150,000 apps catalogued</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#6B7FA0">Only 0.33% have deep governance today</div>
+    </div>
+  </div>
 </div>
 <div class="fw-label">The SaaSMap data flywheel &mdash; every integration makes the next one faster and more accurate</div>
 </div></div>
@@ -295,57 +290,10 @@ a{color:inherit;text-decoration:none}
 <div style="margin:24px 0;background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:20px 24px">
   <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--fog);margin-bottom:4px">Shadow AI tool adoption in enterprises — 2021 to 2025</div>
   <div style="font-size:12px;color:var(--mist);margin-bottom:16px">Avg. number of AI tools used without IT approval per 1,000 employees</div>
-  <svg viewBox="0 0 480 140" width="100%" style="display:block">
-    <defs>
-      <linearGradient id="shadowFill" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#1B4FCC" stop-opacity="0.15"/>
-        <stop offset="100%" stop-color="#1B4FCC" stop-opacity="0.0"/>
-      </linearGradient>
-      <style>text{font-family:'DM Sans',sans-serif}</style>
-    </defs>
-    <!-- Grid -->
-    <line x1="50" y1="10" x2="470" y2="10" stroke="#EEF1F8" stroke-width="1"/>
-    <line x1="50" y1="40" x2="470" y2="40" stroke="#EEF1F8" stroke-width="1"/>
-    <line x1="50" y1="70" x2="470" y2="70" stroke="#EEF1F8" stroke-width="1"/>
-    <line x1="50" y1="100" x2="470" y2="100" stroke="#EEF1F8" stroke-width="1"/>
-    <!-- Y labels -->
-    <text x="44" y="14" text-anchor="end" font-size="10" fill="#9AABC5">40+</text>
-    <text x="44" y="44" text-anchor="end" font-size="10" fill="#9AABC5">30</text>
-    <text x="44" y="74" text-anchor="end" font-size="10" fill="#9AABC5">20</text>
-    <text x="44" y="104" text-anchor="end" font-size="10" fill="#9AABC5">10</text>
-    <!-- Data: 2021=3, 2022=5, 2023(ChatGPT)=12, 2024=28, 2025=42+ -->
-    <!-- Y: 0=110, 40=10. So y = 110 - (val/40)*100 -->
-    <!-- 3→102.5, 5→97.5, 12→70, 28→30, 42→5 -->
-    <!-- X: 50,155,260,365,470 -->
-    <polygon points="50,102.5 155,97.5 260,70 365,30 470,5 470,110 50,110"
-      fill="url(#shadowFill)"/>
-    <polyline points="50,102.5 155,97.5 260,70 365,30 470,5"
-      fill="none" stroke="#1B4FCC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Data points -->
-    <circle cx="50" cy="102.5" r="4" fill="#1B4FCC"/>
-    <circle cx="155" cy="97.5" r="4" fill="#1B4FCC"/>
-    <circle cx="260" cy="70" r="5" fill="#1B4FCC"/>
-    <circle cx="365" cy="30" r="4" fill="#1B4FCC"/>
-    <circle cx="470" cy="5" r="4" fill="#1B4FCC"/>
-    <!-- Value labels -->
-    <text x="50" y="96" text-anchor="middle" font-size="10" fill="#6B7FA0">3</text>
-    <text x="155" y="91" text-anchor="middle" font-size="10" fill="#6B7FA0">5</text>
-    <text x="260" y="63" text-anchor="middle" font-size="11" font-weight="700" fill="#1B4FCC">12</text>
-    <text x="365" y="23" text-anchor="middle" font-size="11" font-weight="700" fill="#1B4FCC">28</text>
-    <text x="470" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="#1B4FCC">42+</text>
-    <!-- X labels -->
-    <text x="50" y="125" text-anchor="middle" font-size="10" fill="#9AABC5">2021</text>
-    <text x="155" y="125" text-anchor="middle" font-size="10" fill="#9AABC5">2022</text>
-    <text x="260" y="125" text-anchor="middle" font-size="10" fill="#9AABC5">2023</text>
-    <text x="365" y="125" text-anchor="middle" font-size="10" fill="#9AABC5">2024</text>
-    <text x="470" y="125" text-anchor="middle" font-size="10" fill="#9AABC5">2025</text>
-    <!-- Annotation: ChatGPT launch -->
-    <line x1="260" y1="68" x2="260" y2="40" stroke="#1B4FCC" stroke-width="1" stroke-dasharray="3 2"/>
-    <rect x="220" y="28" width="80" height="16" rx="3" fill="#EBF1FF"/>
-    <text x="260" y="39" text-anchor="middle" font-size="9" font-weight="700" fill="#1B4FCC">ChatGPT launch</text>
-    <!-- Source -->
-    <text x="50" y="138" font-size="9" fill="#9AABC5">Source: Gartner, MuleSoft Shadow IT Reports 2021–2025 · Indicative trend</text>
-  </svg>
+  <div style="position:relative;height:180px">
+    <canvas id="shadowLineChart"></canvas>
+  </div>
+  <div style="font-size:9px;color:#9AABC5;margin-top:8px">Source: Gartner, MuleSoft Shadow IT Reports 2021–2025 · Indicative trend</div>
 </div>
 </div></div>
 
@@ -460,44 +408,21 @@ a{color:inherit;text-decoration:none}
 <h3 style="margin:24px 0 6px">RICE visualised &mdash; feature prioritisation at a glance</h3>
 <div style="font-size:12px;color:var(--mist);margin-bottom:16px">Axes: Reach (x) &times; Impact (y) &middot; Bubble size = Confidence &middot; Colour = Priority</div>
 <div style="background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:20px 24px;margin-bottom:18px">
-  <svg viewBox="0 0 480 220" width="100%" style="display:block">
-    <defs><style>text{font-family:'DM Sans',sans-serif}</style></defs>
-    <line x1="60" y1="10" x2="60" y2="175" stroke="#DDE3EE" stroke-width="1.5"/>
-    <line x1="60" y1="175" x2="460" y2="175" stroke="#DDE3EE" stroke-width="1.5"/>
-    <text x="15" y="95" text-anchor="middle" font-size="10" fill="#9AABC5" transform="rotate(-90 15 95)">IMPACT</text>
-    <text x="260" y="196" text-anchor="middle" font-size="10" fill="#9AABC5">REACH</text>
-    <line x1="60" y1="92" x2="460" y2="92" stroke="#EEF1F8" stroke-width="1" stroke-dasharray="3 3"/>
-    <line x1="260" y1="10" x2="260" y2="175" stroke="#EEF1F8" stroke-width="1" stroke-dasharray="3 3"/>
-    <text x="155" y="24" text-anchor="middle" font-size="9" fill="#9AABC5">Low Reach &middot; High Impact</text>
-    <text x="360" y="24" text-anchor="middle" font-size="9" fill="#1B4FCC" font-weight="700">High Reach &middot; High Impact &larr; MVP zone</text>
-    <text x="155" y="168" text-anchor="middle" font-size="9" fill="#9AABC5">Low Reach &middot; Low Impact</text>
-    <text x="360" y="168" text-anchor="middle" font-size="9" fill="#9AABC5">High Reach &middot; Low Impact</text>
-    <circle cx="420" cy="30" r="18" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="2"/>
-    <text x="420" y="34" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">Doc Ingest</text>
-    <circle cx="380" cy="45" r="18" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="2"/>
-    <text x="380" y="49" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">Plan View</text>
-    <circle cx="410" cy="62" r="18" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="2"/>
-    <text x="410" y="66" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">Sandbox</text>
-    <circle cx="350" cy="40" r="18" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="2"/>
-    <text x="350" y="44" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">Approval</text>
-    <circle cx="390" cy="78" r="16" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="2"/>
-    <text x="390" y="82" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">GCS</text>
-    <circle cx="220" cy="38" r="13" fill="rgba(245,158,11,0.12)" stroke="#F9C97C" stroke-width="1.5"/>
-    <text x="220" y="42" text-anchor="middle" font-size="7" fill="#9A5000">API Monitor</text>
-    <circle cx="195" cy="55" r="9" fill="rgba(245,158,11,0.12)" stroke="#F9C97C" stroke-width="1.5"/>
-    <text x="195" y="59" text-anchor="middle" font-size="7" fill="#9A5000">Ind. Models</text>
-    <circle cx="235" cy="115" r="14" fill="rgba(245,158,11,0.12)" stroke="#F9C97C" stroke-width="1.5"/>
-    <text x="235" y="119" text-anchor="middle" font-size="7" fill="#9A5000">Multi-lang</text>
-    <circle cx="110" cy="122" r="11" fill="rgba(155,163,175,0.1)" stroke="#DDE3EE" stroke-width="1.5"/>
-    <text x="110" y="126" text-anchor="middle" font-size="7" fill="#9AABC5">Staged</text>
-    <circle cx="70" cy="208" r="7" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="1.5"/>
-    <text x="82" y="212" font-size="10" fill="#334869">MVP</text>
-    <circle cx="120" cy="208" r="7" fill="rgba(245,158,11,0.12)" stroke="#F9C97C" stroke-width="1.5"/>
-    <text x="132" y="212" font-size="10" fill="#334869">Post-MVP</text>
-    <circle cx="185" cy="208" r="7" fill="rgba(155,163,175,0.1)" stroke="#DDE3EE" stroke-width="1.5"/>
-    <text x="197" y="212" font-size="10" fill="#334869">Future</text>
-    <text x="280" y="212" font-size="10" fill="#9AABC5">Bubble size = Confidence &middot; Top-right = ship first</text>
-  </svg>
+  <div style="position:relative;height:300px">
+    <canvas id="riceBubbleChart"></canvas>
+    <svg id="riceOverlay" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible">
+      <text id="ql-tl" x="25%" y="18" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9AABC5">Low Reach · High Impact</text>
+      <text id="ql-tr" x="75%" y="18" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#1B4FCC" font-weight="700">High Reach · High Impact ← MVP zone</text>
+      <text id="ql-bl" x="25%" y="96%" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9AABC5">Low Reach · Low Impact</text>
+      <text id="ql-br" x="75%" y="96%" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9AABC5">High Reach · Low Impact</text>
+    </svg>
+  </div>
+  <div style="display:flex;align-items:center;gap:18px;margin-top:12px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:50%;background:rgba(16,185,129,0.15);border:2px solid #10B981"></div><span style="font-size:11px;color:#334869">MVP</span></div>
+    <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:50%;background:rgba(245,158,11,0.12);border:2px solid #F9C97C"></div><span style="font-size:11px;color:#334869">Post-MVP</span></div>
+    <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:50%;background:rgba(155,163,175,0.1);border:2px solid #DDE3EE"></div><span style="font-size:11px;color:#334869">Future</span></div>
+    <span style="font-size:10px;color:#9AABC5;margin-left:4px">Bubble size = Confidence · Top-right = ship first</span>
+  </div>
 </div>
   <div class="callout warn"><div class="cl-icon">&#9888;</div><div class="cl-body"><strong>What we deliberately excluded from MVP:</strong> Multi-language support, industry orchestrators, staged rollout. The MVP proves one thing: a non-technical IT Head can connect a tool safely in under 4 hours. Nothing ships until that is proven.</div></div>
   <h3 style="margin:24px 0 14px">Pricing Model</h3>
@@ -607,33 +532,10 @@ a{color:inherit;text-decoration:none}
   </table>
   
 <div style="margin:24px 0">
-  <svg viewBox="0 0 520 200" width="100%" style="display:block">
-    <defs><style>text{font-family:'DM Sans',sans-serif}</style></defs>
-    <!-- Time comparison -->
-    <text x="10" y="20" font-size="11" font-weight="700" fill="#6B7FA0" text-transform="uppercase" letter-spacing="0.5">TIME TO FIRST INTEGRATION</text>
-    <!-- Manual bar: 6 weeks = full width proxy 340px -->
-    <rect x="10" y="30" width="340" height="28" rx="5" fill="#FEF3F2"/>
-    <rect x="10" y="30" width="340" height="28" rx="5" fill="#FCA5A5" opacity="0.6"/>
-    <text x="355" y="50" font-size="13" font-weight="700" fill="#B42318">6–8 weeks</text>
-    <text x="18" y="50" font-size="12" fill="#7A2318" font-weight="600">Manual today</text>
-    <!-- AI bar: 4 hours = tiny -->
-    <rect x="10" y="70" width="8" height="28" rx="5" fill="#1B4FCC"/>
-    <text x="24" y="90" font-size="13" font-weight="700" fill="#1B4FCC">&lt; 4 hours</text>
-    <text x="130" y="90" font-size="12" fill="#6B7FA0">With AI Integration Builder</text>
-    <!-- Divider -->
-    <line x1="10" y1="116" x2="510" y2="116" stroke="#EEF1F8" stroke-width="1"/>
-    <!-- Cost comparison -->
-    <text x="10" y="136" font-size="11" font-weight="700" fill="#6B7FA0" letter-spacing="0.5">COST PER INTEGRATION</text>
-    <!-- Manual cost bar: $40K -->
-    <rect x="10" y="146" width="340" height="28" rx="5" fill="#FEF3F2"/>
-    <rect x="10" y="146" width="340" height="28" rx="5" fill="#FCA5A5" opacity="0.6"/>
-    <text x="355" y="166" font-size="13" font-weight="700" fill="#B42318">~$40,000</text>
-    <text x="18" y="166" font-size="12" fill="#7A2318" font-weight="600">Engineering cost today</text>
-    <!-- AI cost bar: $0.50 — basically invisible, that's the point -->
-    <rect x="10" y="186" width="4" height="8" rx="2" fill="#1B4FCC"/>
-    <text x="20" y="194" font-size="13" font-weight="700" fill="#1B4FCC">~$0.50</text>
-    <text x="80" y="194" font-size="12" fill="#6B7FA0">AI model cost per integration</text>
-  </svg>
+  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#6B7FA0;margin-bottom:10px">Time &amp; Cost Comparison — Manual vs AI Integration Builder</div>
+  <div style="position:relative;height:180px">
+    <canvas id="costTimeChart"></canvas>
+  </div>
 </div>
 <h3 style="margin:20px 0 12px">Unit Economics</h3>
   <table class="t">
@@ -698,34 +600,16 @@ a{color:inherit;text-decoration:none}
       <div style="border:1px solid var(--rule);border-radius:13px;padding:24px 20px;background:var(--white)">
         <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px">Time to first integration</div>
         <div style="font-size:11px;color:var(--mist);margin-bottom:20px">6&ndash;8 weeks &rarr; &lt;4 hours &nbsp;&middot;&nbsp; <strong style="color:var(--green)">84&times; faster</strong></div>
-        <svg width="100%" viewBox="0 0 280 150" xmlns="http://www.w3.org/2000/svg" style="display:block">
-          <line x1="24" y1="10" x2="24" y2="122" stroke="#E5EAF2" stroke-width="1"/>
-          <line x1="24" y1="122" x2="260" y2="122" stroke="#E5EAF2" stroke-width="1"/>
-          <rect x="44" y="12" width="80" height="110" rx="6" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1"/>
-          <rect x="156" y="118" width="80" height="4" rx="2" fill="#6EE7B7"/>
-          <text x="84" y="9" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#EF4444" font-weight="700">~7 weeks</text>
-          <text x="196" y="113" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#10B981" font-weight="700">&lt;4 hrs</text>
-          <text x="84" y="136" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#8A9AB8">Before</text>
-          <text x="196" y="136" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#8A9AB8">After</text>
-          <text x="140" y="68" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#C0C8D8">84&times; faster</text>
-          <line x1="140" y1="73" x2="140" y2="120" stroke="#E5EAF2" stroke-width="1" stroke-dasharray="3,2"/>
-        </svg>
+        <div style="position:relative;height:160px">
+          <canvas id="timeBarChart"></canvas>
+        </div>
       </div>
       <div style="border:1px solid var(--rule);border-radius:13px;padding:24px 20px;background:var(--white)">
         <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px">Cost per integration</div>
         <div style="font-size:11px;color:var(--mist);margin-bottom:20px">$40,000 &rarr; $0.50 &nbsp;&middot;&nbsp; <strong style="color:var(--green)">99.999% reduction</strong></div>
-        <svg width="100%" viewBox="0 0 280 150" xmlns="http://www.w3.org/2000/svg" style="display:block">
-          <line x1="24" y1="10" x2="24" y2="122" stroke="#E5EAF2" stroke-width="1"/>
-          <line x1="24" y1="122" x2="260" y2="122" stroke="#E5EAF2" stroke-width="1"/>
-          <rect x="44" y="12" width="80" height="110" rx="6" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1"/>
-          <rect x="156" y="118" width="80" height="4" rx="2" fill="#6EE7B7"/>
-          <text x="84" y="9" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#EF4444" font-weight="700">$40,000</text>
-          <text x="196" y="113" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="#10B981" font-weight="700">$0.50</text>
-          <text x="84" y="136" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#8A9AB8">Before</text>
-          <text x="196" y="136" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#8A9AB8">After</text>
-          <text x="140" y="68" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#C0C8D8">80,000&times; cheaper</text>
-          <line x1="140" y1="73" x2="140" y2="120" stroke="#E5EAF2" stroke-width="1" stroke-dasharray="3,2"/>
-        </svg>
+        <div style="position:relative;height:160px">
+          <canvas id="costBarChart"></canvas>
+        </div>
       </div>
     </div>
     <div style="font-size:11px;color:var(--fog);margin-top:10px;text-align:center;line-height:1.6">Bars are proportional. The &lsquo;after&rsquo; bar is not a rendering error &mdash; the reduction is genuinely that extreme.</div>
@@ -908,6 +792,462 @@ const obs=new IntersectionObserver(entries=>{
   });
 },{threshold:0.25,rootMargin:'-5% 0px -65% 0px'});
 sections.forEach(s=>{if(s.id)obs.observe(s)});
+</script>
+<script>
+(function(){
+  /* ─── Design system tokens ─── */
+  const BLUE='#1B4FCC', GREEN='#10B981', AMBER='#F59E0B', RED='#EF4444';
+  const INK='#0C111D', MIST='#6B7FA0', FOG='#9AABC5', SURFACE='#EEF1F8', RULE='#DDE3EE';
+  const FONT="'DM Sans',system-ui,sans-serif";
+
+  Chart.defaults.font.family=FONT;
+  Chart.defaults.plugins.tooltip.backgroundColor='rgba(12,17,29,0.92)';
+  Chart.defaults.plugins.tooltip.titleColor='#fff';
+  Chart.defaults.plugins.tooltip.bodyColor='rgba(255,255,255,0.75)';
+  Chart.defaults.plugins.tooltip.cornerRadius=8;
+  Chart.defaults.plugins.tooltip.padding=10;
+  Chart.defaults.plugins.tooltip.borderColor='rgba(255,255,255,0.08)';
+  Chart.defaults.plugins.tooltip.borderWidth=1;
+
+  /* ─── Utility: create gradient fill ─── */
+  function makeGradient(ctx,color,alpha0,alpha1){
+    const g=ctx.createLinearGradient(0,0,0,ctx.canvas.height);
+    g.addColorStop(0,color.replace(')',`,${alpha0})`).replace('rgb','rgba'));
+    g.addColorStop(1,color.replace(')',`,${alpha1})`).replace('rgb','rgba'));
+    return g;
+  }
+
+  /* ─── Utility: hex to rgba ─── */
+  function hexAlpha(hex,a){
+    const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+    return `rgba(${r},${g},${b},${a})`;
+  }
+
+  /* ─── IntersectionObserver for animate-on-scroll ─── */
+  const chartInits=new Map();
+  function registerChart(canvasId,initFn){
+    const el=document.getElementById(canvasId);
+    if(!el)return;
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          initFn();
+          io.disconnect();
+        }
+      });
+    },{threshold:0.15});
+    io.observe(el);
+  }
+
+  /* ════════════════════════════════════════════
+     1. DONUT CHART — Governance Gap
+  ════════════════════════════════════════════ */
+  registerChart('donutChart',function(){
+    const ctx=document.getElementById('donutChart').getContext('2d');
+    new Chart(ctx,{
+      type:'doughnut',
+      data:{
+        labels:['500 apps — Deeply governed','149,500 apps — Ungoverned'],
+        datasets:[{
+          data:[500,149500],
+          backgroundColor:[BLUE,SURFACE],
+          borderColor:[BLUE,RULE],
+          borderWidth:[2,1],
+          hoverOffset:6
+        }]
+      },
+      options:{
+        responsive:true,
+        cutout:'68%',
+        animation:{animateRotate:true,duration:900},
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            callbacks:{
+              label:function(ctx){
+                const total=150000;
+                const val=ctx.parsed;
+                const pct=((val/total)*100).toFixed(2);
+                return ` ${val.toLocaleString()} apps (${pct}%)`;
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+
+  /* ════════════════════════════════════════════
+     2. SHADOW AI LINE CHART
+  ════════════════════════════════════════════ */
+  registerChart('shadowLineChart',function(){
+    const canvas=document.getElementById('shadowLineChart');
+    const ctx=canvas.getContext('2d');
+    /* gradient fill */
+    const grad=ctx.createLinearGradient(0,0,0,180);
+    grad.addColorStop(0,hexAlpha(BLUE,0.18));
+    grad.addColorStop(1,hexAlpha(BLUE,0.0));
+
+    /* ChatGPT annotation plugin */
+    const annotationPlugin={
+      id:'chatgptAnnotation',
+      afterDraw(chart){
+        const meta=chart.getDatasetMeta(0);
+        if(!meta.data||meta.data.length<3)return;
+        const pt=meta.data[2]; // 2023 index
+        const {ctx:c,chartArea:{top}}=chart;
+        c.save();
+        c.setLineDash([3,2]);
+        c.strokeStyle=BLUE;
+        c.lineWidth=1;
+        c.beginPath();c.moveTo(pt.x,pt.y-4);c.lineTo(pt.x,top+20);c.stroke();
+        c.setLineDash([]);
+        const lw=80,lh=16,lx=pt.x-lw/2,ly=top+4;
+        c.fillStyle=hexAlpha(BLUE,0.12);
+        c.strokeStyle=hexAlpha(BLUE,0.4);
+        c.lineWidth=1;
+        c.beginPath();c.roundRect(lx,ly,lw,lh,3);c.fill();c.stroke();
+        c.fillStyle=BLUE;
+        c.font=`700 9px ${FONT}`;
+        c.textAlign='center';
+        c.fillText('ChatGPT launch',pt.x,ly+11);
+        c.restore();
+      }
+    };
+
+    new Chart(ctx,{
+      type:'line',
+      plugins:[annotationPlugin],
+      data:{
+        labels:['2021','2022','2023','2024','2025'],
+        datasets:[{
+          label:'AI tools without IT approval (per 1,000 employees)',
+          data:[3,5,12,28,42],
+          borderColor:BLUE,
+          borderWidth:2.5,
+          tension:0.4,
+          pointBackgroundColor:BLUE,
+          pointRadius:[4,4,6,4,4],
+          pointHoverRadius:7,
+          fill:true,
+          backgroundColor:grad
+        }]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        animation:{duration:900},
+        scales:{
+          x:{
+            grid:{color:SURFACE},
+            ticks:{color:FOG,font:{size:10}}
+          },
+          y:{
+            min:0,max:50,
+            grid:{color:SURFACE},
+            ticks:{color:FOG,font:{size:10},stepSize:10}
+          }
+        },
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            callbacks:{
+              label:ctx=>`${ctx.parsed.y} tools`
+            }
+          }
+        }
+      }
+    });
+  });
+
+  /* ════════════════════════════════════════════
+     3. RICE BUBBLE CHART
+  ════════════════════════════════════════════ */
+  registerChart('riceBubbleChart',function(){
+    const ctx=document.getElementById('riceBubbleChart').getContext('2d');
+
+    const mvpColor={bg:hexAlpha('#10B981',0.15),border:'#10B981'};
+    const postColor={bg:hexAlpha('#F59E0B',0.15),border:'#F9C97C'};
+    const futColor={bg:hexAlpha('#9CA3AF',0.12),border:'#DDE3EE'};
+
+    const features=[
+      {label:'Doc Ingest', x:9,   y:8.8,  r:6,  priority:'MVP',      c:mvpColor},
+      {label:'Plan View',  x:8,   y:7.9,  r:6,  priority:'MVP',      c:mvpColor},
+      {label:'Sandbox',    x:8.75,y:6.85, r:6,  priority:'MVP',      c:mvpColor},
+      {label:'Approval',   x:7.25,y:8.18, r:6,  priority:'MVP',      c:mvpColor},
+      {label:'GCS',        x:8.25,y:5.88, r:5.3,priority:'MVP',      c:mvpColor},
+      {label:'API Monitor',x:4,   y:8.3,  r:4.3,priority:'Post-MVP', c:postColor},
+      {label:'Ind. Models',x:3.375,y:7.27,r:3,  priority:'Post-MVP', c:postColor},
+      {label:'Multi-lang', x:4.375,y:3.64,r:4.7,priority:'Post-MVP', c:postColor},
+      {label:'Staged',     x:1.25,y:3.21, r:3.7,priority:'Future',   c:futColor}
+    ];
+
+    /* Group into datasets by priority */
+    const groups={MVP:[],PostMVP:[],'Future':[]};
+    features.forEach(f=>{
+      const key=f.priority.replace('-','');
+      if(!groups[key])groups[key]=[];
+      groups[key].push({x:f.x,y:f.y,r:f.r*3.5,_label:f.label,_priority:f.priority});
+    });
+
+    new Chart(ctx,{
+      type:'bubble',
+      data:{
+        datasets:[
+          {label:'MVP',     data:groups.MVP,     backgroundColor:hexAlpha('#10B981',0.15),borderColor:'#10B981',borderWidth:2,hoverBorderWidth:3},
+          {label:'Post-MVP',data:groups.PostMVP, backgroundColor:hexAlpha('#F59E0B',0.15),borderColor:'#F9C97C',borderWidth:2,hoverBorderWidth:3},
+          {label:'Future',  data:groups.Future,  backgroundColor:hexAlpha('#9CA3AF',0.12),borderColor:'#DDE3EE',borderWidth:2,hoverBorderWidth:3}
+        ]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        animation:{duration:900},
+        scales:{
+          x:{
+            min:0,max:10,
+            title:{display:true,text:'REACH',color:FOG,font:{size:10,weight:'700'}},
+            grid:{color:SURFACE},
+            ticks:{color:FOG,font:{size:9}}
+          },
+          y:{
+            min:0,max:10,
+            title:{display:true,text:'IMPACT',color:FOG,font:{size:10,weight:'700'}},
+            grid:{color:SURFACE},
+            ticks:{color:FOG,font:{size:9}}
+          }
+        },
+        plugins:{
+          legend:{
+            position:'bottom',
+            labels:{color:INK,font:{size:11},boxWidth:10,padding:16,
+              usePointStyle:true,pointStyle:'circle'}
+          },
+          tooltip:{
+            callbacks:{
+              label:function(ctx){
+                const d=ctx.raw;
+                return [
+                  ` ${d._label}`,
+                  ` Priority: ${d._priority}`,
+                  ` Reach: ${d.x} · Impact: ${d.y}`
+                ];
+              }
+            }
+          }
+        }
+      },
+      plugins:[{
+        id:'quadrantLines',
+        afterDraw(chart){
+          const{ctx:c,scales:{x,y},chartArea}=chart;
+          const mx=x.getPixelForValue(5);
+          const my=y.getPixelForValue(5);
+          c.save();
+          c.setLineDash([4,3]);
+          c.strokeStyle=RULE;
+          c.lineWidth=1;
+          c.beginPath();c.moveTo(mx,chartArea.top);c.lineTo(mx,chartArea.bottom);c.stroke();
+          c.beginPath();c.moveTo(chartArea.left,my);c.lineTo(chartArea.right,my);c.stroke();
+          c.restore();
+        }
+      },{
+        id:'bubbleLabels',
+        afterDatasetsDraw(chart){
+          const{ctx:c}=chart;
+          chart.data.datasets.forEach((ds,di)=>{
+            const meta=chart.getDatasetMeta(di);
+            ds.data.forEach((d,i)=>{
+              const el=meta.data[i];
+              if(!el)return;
+              c.save();
+              c.font=`700 8px ${FONT}`;
+              c.fillStyle='#1A2640';
+              c.textAlign='center';
+              c.textBaseline='middle';
+              c.fillText(d._label,el.x,el.y);
+              c.restore();
+            });
+          });
+        }
+      }]
+    });
+  });
+
+  /* ════════════════════════════════════════════
+     4. COST/TIME HORIZONTAL BAR CHART
+  ════════════════════════════════════════════ */
+  registerChart('costTimeChart',function(){
+    const ctx=document.getElementById('costTimeChart').getContext('2d');
+    new Chart(ctx,{
+      type:'bar',
+      data:{
+        labels:['Time to Integration (hours)','Cost per Integration ($)'],
+        datasets:[
+          {
+            label:'Manual / Today',
+            data:[336,40000],  /* 6 weeks = 336 hours; $40,000 */
+            backgroundColor:hexAlpha(RED,0.25),
+            borderColor:RED,
+            borderWidth:2,
+            borderRadius:5
+          },
+          {
+            label:'AI Integration Builder',
+            data:[4,0.50],
+            backgroundColor:hexAlpha(BLUE,0.25),
+            borderColor:BLUE,
+            borderWidth:2,
+            borderRadius:5
+          }
+        ]
+      },
+      options:{
+        indexAxis:'y',
+        responsive:true,
+        maintainAspectRatio:false,
+        animation:{duration:900},
+        scales:{
+          x:{
+            type:'logarithmic',
+            min:0.1,
+            grid:{color:SURFACE},
+            ticks:{
+              color:FOG,font:{size:10},
+              callback:function(val){
+                if([0.5,4,336,40000].includes(val)){
+                  if(val===336)return '6–8 wks';
+                  if(val===4)return '<4 hrs';
+                  if(val===40000)return '$40K';
+                  if(val===0.5)return '$0.50';
+                }
+                return '';
+              }
+            }
+          },
+          y:{
+            grid:{display:false},
+            ticks:{color:MIST,font:{size:11,weight:'600'}}
+          }
+        },
+        plugins:{
+          legend:{position:'bottom',labels:{color:INK,font:{size:11},boxWidth:12,padding:14}},
+          tooltip:{
+            callbacks:{
+              label:function(ctx){
+                const label=ctx.dataset.label;
+                const idx=ctx.dataIndex;
+                const vals=[['6–8 weeks','< 4 hours'],['~$40,000','~$0.50']];
+                return ` ${label}: ${vals[idx][ctx.datasetIndex]}`;
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+
+  /* ════════════════════════════════════════════
+     5a. TIME BAR CHART (Section 13)
+  ════════════════════════════════════════════ */
+  registerChart('timeBarChart',function(){
+    const ctx=document.getElementById('timeBarChart').getContext('2d');
+    new Chart(ctx,{
+      type:'bar',
+      data:{
+        labels:['Before','After'],
+        datasets:[{
+          label:'Hours',
+          data:[336,4],
+          backgroundColor:[hexAlpha(RED,0.25),hexAlpha(GREEN,0.25)],
+          borderColor:[RED,GREEN],
+          borderWidth:2,
+          borderRadius:6
+        }]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        animation:{duration:900},
+        scales:{
+          x:{grid:{display:false},ticks:{color:MIST,font:{size:10}}},
+          y:{
+            type:'logarithmic',
+            min:1,
+            grid:{color:SURFACE},
+            ticks:{
+              color:FOG,font:{size:9},
+              callback:v=>{
+                if(v===336)return '~7 weeks';
+                if(v===4)return '<4 hrs';
+                return '';
+              }
+            }
+          }
+        },
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            callbacks:{
+              label:ctx=>ctx.dataIndex===0?' ~7 weeks (336 hrs)':' < 4 hours'
+            }
+          }
+        }
+      }
+    });
+  });
+
+  /* ════════════════════════════════════════════
+     5b. COST BAR CHART (Section 13)
+  ════════════════════════════════════════════ */
+  registerChart('costBarChart',function(){
+    const ctx=document.getElementById('costBarChart').getContext('2d');
+    new Chart(ctx,{
+      type:'bar',
+      data:{
+        labels:['Before','After'],
+        datasets:[{
+          label:'Cost ($)',
+          data:[40000,0.50],
+          backgroundColor:[hexAlpha(RED,0.25),hexAlpha(GREEN,0.25)],
+          borderColor:[RED,GREEN],
+          borderWidth:2,
+          borderRadius:6
+        }]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        animation:{duration:900},
+        scales:{
+          x:{grid:{display:false},ticks:{color:MIST,font:{size:10}}},
+          y:{
+            type:'logarithmic',
+            min:0.1,
+            grid:{color:SURFACE},
+            ticks:{
+              color:FOG,font:{size:9},
+              callback:v=>{
+                if(v===40000)return '$40,000';
+                if(v===0.5)return '$0.50';
+                return '';
+              }
+            }
+          }
+        },
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            callbacks:{
+              label:ctx=>ctx.dataIndex===0?' ~$40,000':' ~$0.50'
+            }
+          }
+        }
+      }
+    });
+  });
+
+})();
 </script>
 </body>
 </html>
