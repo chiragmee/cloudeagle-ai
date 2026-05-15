@@ -106,6 +106,18 @@ a{text-decoration:none;color:inherit}
 .vcard h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
 .vcard p{font-size:12px;color:var(--mist);line-height:1.6}
 
+/* ── AI MODELS ── */
+.model-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.model-card{border:1.5px solid var(--rule);border-radius:12px;padding:20px 18px;display:flex;flex-direction:column;gap:8px}
+.model-step{font-family:var(--mono);font-size:9px;color:var(--fog);font-weight:500}
+.model-role{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mist)}
+.model-name{font-size:15px;font-weight:700;color:var(--ink);line-height:1.2}
+.model-tag{display:inline-flex;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;width:fit-content}
+.model-why{font-size:12px;color:var(--mist);line-height:1.65;border-top:1px solid var(--rule);padding-top:10px;margin-top:2px}
+.model-why strong{color:var(--ink)}
+.model-does{display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--rule);padding-top:10px}
+.model-does-item{font-size:11px;color:var(--slate);line-height:1.45}
+
 /* ── SAFEGUARDS ── */
 .sgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 .scard{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:18px 16px}
@@ -159,7 +171,7 @@ a{text-decoration:none;color:inherit}
 
     <!-- LEFT SIDEBAR — deliverable cards -->
     <div class="sidebar">
-      <div class="sidebar-label">Explore the Submission</div>
+      <div class="sidebar-label" style="font-size:11px;font-weight:700;color:var(--ink);text-transform:none;letter-spacing:0;margin-bottom:14px">Assignment Deliverables</div>
       <div class="del-stack">
         <a href="/full" class="del-card featured">
           <div class="del-num">D0</div>
@@ -167,13 +179,13 @@ a{text-decoration:none;color:inherit}
           <p>All sections — problem, personas, architecture, metrics, and risks.</p>
           <div class="del-link">Read full brief →</div>
         </a>
-        <a href="/ux" class="del-card">
+        <a href="https://cloudeagle-ai.vercel.app/ux" class="del-card">
           <div class="del-num">D1</div>
           <h3>UX Design</h3>
           <p>Screen-by-screen Validator Interface — URL to production.</p>
           <div class="del-link">View UX →</div>
         </a>
-        <a href="/prototype" class="del-card">
+        <a href="https://cloudeagle-ai.vercel.app/prototype" class="del-card">
           <div class="del-num">D3</div>
           <h3>Live Prototype</h3>
           <p>Working AI demo — paste an API doc URL and watch it generate.</p>
@@ -335,6 +347,57 @@ a{text-decoration:none;color:inherit}
             <h4>Complete Signed Trail</h4>
             <p>Every action — generation, review, approval, deployment — is logged with timestamp and actor. No-training clause enforced via enterprise API agreements with all LLM providers.</p>
           </div>
+        </div>
+      </div>
+
+      <!-- AI MODEL -->
+      <div class="content-section">
+        <div class="sec-label">AI Model Strategy</div>
+        <h2>Three models. Each chosen for a specific job.</h2>
+        <p class="sub">A single model can't do all of this well. The architecture separates reading, writing, and auditing — and assigns the best model to each role.</p>
+        <div class="model-grid">
+          <div class="model-card">
+            <div class="model-step">Step 1–2</div>
+            <div class="model-role">Architect</div>
+            <div class="model-name">Claude Sonnet 4</div>
+            <div class="model-tag" style="background:var(--bluefg);color:var(--blue);border:1px solid var(--blueborder)">Doc Reading &amp; Planning</div>
+            <p class="model-why"><strong>Why:</strong> Best-in-class 200K token context window — essential for reading multi-page API documentation in full. Reliable instruction-following and structured JSON output. Does not hallucinate endpoints because it reasons from what it actually reads.</p>
+            <div class="model-does">
+              <div class="model-does-item">→ Reads and parses API documentation URL</div>
+              <div class="model-does-item">→ Extracts auth flows, endpoints, schemas</div>
+              <div class="model-does-item">→ Outputs structured integration plan in plain English</div>
+              <div class="model-does-item">→ Human reviews plan before any code is written</div>
+            </div>
+          </div>
+          <div class="model-card">
+            <div class="model-step">Step 3–4</div>
+            <div class="model-role">Developer</div>
+            <div class="model-name">GPT-4o</div>
+            <div class="model-tag" style="background:#F5F3FF;color:#7C3AED;border:1px solid #DDD6FE">Code Generation</div>
+            <p class="model-why"><strong>Why:</strong> Market-leading for idiomatic, production-grade code. Familiar with existing API client patterns across languages. Generates complete auth flows, pagination handlers, exponential backoff, and error handling — not skeleton code.</p>
+            <div class="model-does">
+              <div class="model-does-item">→ Generates API client from approved plan</div>
+              <div class="model-does-item">→ Writes auth setup, pagination, error handling</div>
+              <div class="model-does-item">→ Adds logging and rate-limit resilience</div>
+              <div class="model-does-item">→ Hands off to Code Llama for security audit</div>
+            </div>
+          </div>
+          <div class="model-card">
+            <div class="model-step">Step 5</div>
+            <div class="model-role">Auditor</div>
+            <div class="model-name">Code Llama (fine-tuned)</div>
+            <div class="model-tag" style="background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)">Security Validation</div>
+            <p class="model-why"><strong>Why:</strong> Specialised for code analysis — not general reasoning. Detects anti-patterns, over-permissioned OAuth scopes, hardcoded secrets, and missing retry logic. Runs on cheaper compute than GPT-4o, fine-tuned to CloudEagle's internal security standards.</p>
+            <div class="model-does">
+              <div class="model-does-item">→ Scans every generated file before sandbox</div>
+              <div class="model-does-item">→ Flags over-permissioned scopes</div>
+              <div class="model-does-item">→ Rejects code with hardcoded credentials</div>
+              <div class="model-does-item">→ Passes clean code to sandbox environment</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:16px 20px;margin-top:16px;font-size:13px;color:var(--mist);line-height:1.7">
+          <strong style="color:var(--ink)">Why not one model for everything?</strong> Separation of concerns. An architect who also writes and audits their own code misses their own mistakes. Three specialised models with human checkpoints between each stage is more reliable, more auditable, and cheaper to run than one general model doing it all.
         </div>
       </div>
 
