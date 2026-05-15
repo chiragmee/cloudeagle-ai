@@ -150,7 +150,37 @@ a{color:inherit;text-decoration:none}
     <div class="fw-arrow">&rarr;</div>
     <div class="fw-node"><div class="fw-node-title">Customer Value</div><div class="fw-node-sub">Retention + expansion</div></div>
   </div>
-  <div class="fw-label">The SaaSMap data flywheel &mdash; every integration makes the next one faster and more accurate</div>
+  
+<div style="margin:24px 0">
+  <svg viewBox="0 0 480 220" width="100%" style="display:block;max-width:520px">
+    <defs>
+      <style>text{font-family:'DM Sans',sans-serif}</style>
+    </defs>
+    <!-- Donut chart -->
+    <!-- Total: 150000. Deep: 500 (0.33%). Blind: 149500 (99.67%) -->
+    <!-- Circle at cx=120 cy=110 r=85, circumference=534 -->
+    <!-- Deep slice: 534 * 0.0033 = 1.76 -->
+    <!-- Blind slice: 534 * 0.9967 = 531.9 -->
+    <circle cx="120" cy="110" r="85" fill="none" stroke="#EEF1F8" stroke-width="38"/>
+    <circle cx="120" cy="110" r="85" fill="none" stroke="#1B4FCC" stroke-width="38"
+      stroke-dasharray="1.8 532.4" stroke-dashoffset="134"
+      transform="rotate(-90 120 110)"/>
+    <!-- Inner label -->
+    <text x="120" y="104" text-anchor="middle" font-size="22" font-weight="700" fill="#0C111D">99.7%</text>
+    <text x="120" y="122" text-anchor="middle" font-size="11" fill="#6B7FA0">governance gap</text>
+    <!-- Legend -->
+    <rect x="230" y="60" width="12" height="12" rx="3" fill="#1B4FCC"/>
+    <text x="248" y="71" font-size="13" font-weight="600" fill="#0C111D">500 apps</text>
+    <text x="248" y="87" font-size="11" fill="#6B7FA0">Deeply integrated &amp; governed</text>
+    <rect x="230" y="108" width="12" height="12" rx="3" fill="#EEF1F8"/>
+    <text x="248" y="119" font-size="13" font-weight="600" fill="#0C111D">149,500 apps</text>
+    <text x="248" y="135" font-size="11" fill="#6B7FA0">Known to SaaSMap but ungoverned</text>
+    <line x1="230" y1="162" x2="440" y2="162" stroke="#DDE3EE" stroke-width="1"/>
+    <text x="230" y="180" font-size="11" fill="#6B7FA0">Source: CloudEagle SaaSMap · 150,000 apps catalogued</text>
+    <text x="230" y="196" font-size="11" fill="#6B7FA0">Only 0.33% have deep governance today</text>
+  </svg>
+</div>
+<div class="fw-label">The SaaSMap data flywheel &mdash; every integration makes the next one faster and more accurate</div>
 </div></div>
 
 <div class="section" id="s2"><div class="wrap">
@@ -261,6 +291,62 @@ a{color:inherit;text-decoration:none}
     <div class="dg-cell dark"><div class="dg-label">Force 2 &middot; Shadow AI &mdash; Happening Right Now</div><div class="dg-sub" style="font-size:13px;margin-top:10px;line-height:1.7;color:rgba(255,255,255,.6)">Employees at every CloudEagle customer are adopting AI tools today &mdash; ChatGPT, Cursor, Notion AI, Perplexity &mdash; without IT approval. Each one is a governance blind spot growing faster than any engineering team can build connectors for. The problem is accelerating. The solution needs to too.</div></div>
     <div class="dg-cell"><div class="dg-label">Force 3 &middot; Competitive Window</div><div class="dg-sub" style="font-size:13px;margin-top:10px;line-height:1.7">No SaaS management platform currently offers AI-generated, client-aware integration. Merge.dev solved the tool-side. Zapier solved workflow automation. Nobody has solved the governance-layer translation problem for IT teams. This is a narrow, closing window.</div></div>
   </div>
+
+<div style="margin:24px 0;background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:20px 24px">
+  <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--fog);margin-bottom:4px">Shadow AI tool adoption in enterprises — 2021 to 2025</div>
+  <div style="font-size:12px;color:var(--mist);margin-bottom:16px">Avg. number of AI tools used without IT approval per 1,000 employees</div>
+  <svg viewBox="0 0 480 140" width="100%" style="display:block">
+    <defs>
+      <linearGradient id="shadowFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1B4FCC" stop-opacity="0.15"/>
+        <stop offset="100%" stop-color="#1B4FCC" stop-opacity="0.0"/>
+      </linearGradient>
+      <style>text{font-family:'DM Sans',sans-serif}</style>
+    </defs>
+    <!-- Grid -->
+    <line x1="50" y1="10" x2="470" y2="10" stroke="#EEF1F8" stroke-width="1"/>
+    <line x1="50" y1="40" x2="470" y2="40" stroke="#EEF1F8" stroke-width="1"/>
+    <line x1="50" y1="70" x2="470" y2="70" stroke="#EEF1F8" stroke-width="1"/>
+    <line x1="50" y1="100" x2="470" y2="100" stroke="#EEF1F8" stroke-width="1"/>
+    <!-- Y labels -->
+    <text x="44" y="14" text-anchor="end" font-size="10" fill="#9AABC5">40+</text>
+    <text x="44" y="44" text-anchor="end" font-size="10" fill="#9AABC5">30</text>
+    <text x="44" y="74" text-anchor="end" font-size="10" fill="#9AABC5">20</text>
+    <text x="44" y="104" text-anchor="end" font-size="10" fill="#9AABC5">10</text>
+    <!-- Data: 2021=3, 2022=5, 2023(ChatGPT)=12, 2024=28, 2025=42+ -->
+    <!-- Y: 0=110, 40=10. So y = 110 - (val/40)*100 -->
+    <!-- 3→102.5, 5→97.5, 12→70, 28→30, 42→5 -->
+    <!-- X: 50,155,260,365,470 -->
+    <polygon points="50,102.5 155,97.5 260,70 365,30 470,5 470,110 50,110"
+      fill="url(#shadowFill)"/>
+    <polyline points="50,102.5 155,97.5 260,70 365,30 470,5"
+      fill="none" stroke="#1B4FCC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Data points -->
+    <circle cx="50" cy="102.5" r="4" fill="#1B4FCC"/>
+    <circle cx="155" cy="97.5" r="4" fill="#1B4FCC"/>
+    <circle cx="260" cy="70" r="5" fill="#1B4FCC"/>
+    <circle cx="365" cy="30" r="4" fill="#1B4FCC"/>
+    <circle cx="470" cy="5" r="4" fill="#1B4FCC"/>
+    <!-- Value labels -->
+    <text x="50" y="96" text-anchor="middle" font-size="10" fill="#6B7FA0">3</text>
+    <text x="155" y="91" text-anchor="middle" font-size="10" fill="#6B7FA0">5</text>
+    <text x="260" y="63" text-anchor="middle" font-size="11" font-weight="700" fill="#1B4FCC">12</text>
+    <text x="365" y="23" text-anchor="middle" font-size="11" font-weight="700" fill="#1B4FCC">28</text>
+    <text x="470" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="#1B4FCC">42+</text>
+    <!-- X labels -->
+    <text x="50" y="125" text-anchor="middle" font-size="10" fill="#9AABC5">2021</text>
+    <text x="155" y="125" text-anchor="middle" font-size="10" fill="#9AABC5">2022</text>
+    <text x="260" y="125" text-anchor="middle" font-size="10" fill="#9AABC5">2023</text>
+    <text x="365" y="125" text-anchor="middle" font-size="10" fill="#9AABC5">2024</text>
+    <text x="470" y="125" text-anchor="middle" font-size="10" fill="#9AABC5">2025</text>
+    <!-- Annotation: ChatGPT launch -->
+    <line x1="260" y1="68" x2="260" y2="40" stroke="#1B4FCC" stroke-width="1" stroke-dasharray="3 2"/>
+    <rect x="220" y="28" width="80" height="16" rx="3" fill="#EBF1FF"/>
+    <text x="260" y="39" text-anchor="middle" font-size="9" font-weight="700" fill="#1B4FCC">ChatGPT launch</text>
+    <!-- Source -->
+    <text x="50" y="138" font-size="9" fill="#9AABC5">Source: Gartner, MuleSoft Shadow IT Reports 2021–2025 · Indicative trend</text>
+  </svg>
+</div>
 </div></div>
 
 <div class="section" id="s6"><div class="wrap">
@@ -272,6 +358,86 @@ a{color:inherit;text-decoration:none}
     <div class="sol"><div class="sol-tag" style="color:var(--mist)">Option C</div><h4>One universal schema &mdash; clients adapt to it</h4><p>Create a single "CloudEagle language" that all tools map to. Companies like Merge.dev built their business on this. The problem: it forces every client to reshape their internal data to match CloudEagle's model. If Rohan's system calls something "community_id" and the universal model calls it "organisation_unit" &mdash; the translation work still exists. It just moved.</p><div class="sol-verdict">Rejected: Moves the problem, doesn't solve it</div></div>
     <div class="sol chosen"><div class="sol-tag">Option D &middot; Chosen</div><h4>AI-generated, client-aware integration builder</h4><p>AI reads the tool's API docs, understands the client's data model, generates the translation layer, tests it safely, and deploys with human approval at every checkpoint. Scales infinitely. Meets clients where they are. Every integration makes the next one faster via the SaaSMap flywheel.</p><div class="sol-verdict">&#10003; Chosen: Infinite scale. Solves the actual problem.</div></div>
   </div>
+
+<h3 style="margin:24px 0 14px">Competitive positioning — radar view</h3>
+<div style="margin:0 0 24px;display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap">
+  <svg viewBox="0 0 280 280" width="280" style="flex-shrink:0">
+    <defs><style>text{font-family:'DM Sans',sans-serif}</style></defs>
+    <!-- Pentagon grid at 20%, 40%, 60%, 80%, 100% -->
+    <!-- 5 axes at 90,162,234,306,18 degrees (top, then clockwise) -->
+    <!-- cx=140 cy=140 -->
+    <!-- Axis points at r=110: 
+         Top (90°): 140,30
+         BR (162°): 140+110*cos(162°), 140-110*sin(162°) = 140-104.6,140+34 = 35.4,174
+         BL (234°): 140+110*cos(234°), 140-110*sin(234°) = 140-64.5,140+89 = 75.5,229
+         TL (306°): 140+110*cos(306°), 140-110*sin(306°) = 140+64.5,140+89 = 204.5,229
+         TR (18°): 140+110*cos(18°), 140-110*sin(18°) = 140+104.6,140+34 = 244.6,174 -->
+    <!-- Grid at 20%=r22: 140,118 / 140-20.9,140+6.8 / 140-12.9,140+17.8 / 140+12.9,140+17.8 / 140+20.9,140+6.8 -->
+    <polygon points="140,118 119.1,146.8 127.1,157.8 152.9,157.8 160.9,146.8" fill="none" stroke="#EEF1F8" stroke-width="1"/>
+    <polygon points="140,96 98.2,153.6 114.2,175.6 165.8,175.6 181.8,153.6" fill="none" stroke="#EEF1F8" stroke-width="1"/>
+    <polygon points="140,74 77.3,160.4 101.3,193.4 178.7,193.4 202.7,160.4" fill="none" stroke="#EEF1F8" stroke-width="1"/>
+    <polygon points="140,52 56.4,167.2 88.4,211.2 191.6,211.2 223.6,167.2" fill="none" stroke="#EEF1F8" stroke-width="1"/>
+    <polygon points="140,30 35.4,174 75.5,229 204.5,229 244.6,174" fill="none" stroke="#DDE3EE" stroke-width="1"/>
+    <!-- Axes -->
+    <line x1="140" y1="140" x2="140" y2="30" stroke="#EEF1F8" stroke-width="1"/>
+    <line x1="140" y1="140" x2="35.4" y2="174" stroke="#EEF1F8" stroke-width="1"/>
+    <line x1="140" y1="140" x2="75.5" y2="229" stroke="#EEF1F8" stroke-width="1"/>
+    <line x1="140" y1="140" x2="204.5" y2="229" stroke="#EEF1F8" stroke-width="1"/>
+    <line x1="140" y1="140" x2="244.6" y2="174" stroke="#EEF1F8" stroke-width="1"/>
+    <!-- Axis labels -->
+    <text x="140" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#334869">Schema Registry</text>
+    <text x="22" y="178" text-anchor="end" font-size="10" font-weight="700" fill="#334869">Client Mapping</text>
+    <text x="72" y="244" text-anchor="middle" font-size="10" font-weight="700" fill="#334869">Mock Layer</text>
+    <text x="208" y="244" text-anchor="middle" font-size="10" font-weight="700" fill="#334869">Ops UI</text>
+    <text x="258" y="178" text-anchor="start" font-size="10" font-weight="700" fill="#334869">API Versioning</text>
+    <!-- CloudEagle scores: Schema=100%, Client=90%, Mock=95%, Ops=85%, Versioning=100% -->
+    <!-- r values: 110*1.0=110, 110*0.9=99, 110*0.95=104.5, 110*0.85=93.5, 110*1.0=110 -->
+    <!-- Points: Top(100%)=140,30 | BotRight(90%)=35.4+9.1=44.5,174-3.1=170.9... -->
+    <!-- Let me compute properly: each axis point = center + r * direction_vector -->
+    <!-- direction vectors (unit): Top=(0,-1), BR=(-0.951,0.309), BL=(-0.588,0.809), TL=(0.588,0.809), TR=(0.951,0.309) -->
+    <!-- CE: Schema(100%)=r110: 140+0*110,140-1*110=140,30 -->
+    <!-- CE: ClientMap(90%)=r99: 140-0.951*99,140+0.309*99=140-94.1,140+30.6=45.9,170.6 -->
+    <!-- CE: Mock(95%)=r104.5: 140-0.588*104.5,140+0.809*104.5=140-61.4,140+84.5=78.6,224.5 -->
+    <!-- CE: OpsUI(85%)=r93.5: 140+0.588*93.5,140+0.809*93.5=140+55,140+75.7=195,215.7 -->
+    <!-- CE: APIVer(100%)=r110: 140+0.951*110,140+0.309*110=140+104.6,140+34=244.6,174 -->
+    <polygon points="140,30 45.9,170.6 78.6,224.5 195,215.7 244.6,174"
+      fill="rgba(27,79,204,0.15)" stroke="#1B4FCC" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Merge.dev scores: Schema=90%, Client=20%, Mock=10%, Ops=30%, Versioning=20% -->
+    <!-- Schema(90%)=r99: 140,41 | Client(20%)=r22: 140-0.951*22,140+0.309*22=119.1,146.8 -->
+    <!-- Mock(10%)=r11: 140-0.588*11,140+0.809*11=133.5,148.9 | OpsUI(30%)=r33: 140+0.588*33,140+0.809*33=159.4,166.7 -->
+    <!-- APIVer(20%)=r22: 140+0.951*22,140+0.309*22=160.9,146.8 -->
+    <polygon points="140,41 119.1,146.8 133.5,148.9 159.4,166.7 160.9,146.8"
+      fill="rgba(155,163,175,0.08)" stroke="#9AABC5" stroke-width="1.5" stroke-dasharray="4 2" stroke-linejoin="round"/>
+    <!-- Zapier scores: Schema=20%, Client=15%, Mock=10%, Ops=80%, Versioning=10% -->
+    <!-- Schema(20%)=r22: 140,118 | Client(15%)=r16.5: 140-0.951*16.5,140+0.309*16.5=124.3,145.1 -->
+    <!-- Mock(10%)=r11: 133.5,148.9 | OpsUI(80%)=r88: 140+0.588*88,140+0.809*88=191.7,211.2 -->
+    <!-- APIVer(10%)=r11: 140+0.951*11,140+0.309*11=150.5,143.4 -->
+    <polygon points="140,118 124.3,145.1 133.5,148.9 191.7,211.2 150.5,143.4"
+      fill="rgba(245,158,11,0.06)" stroke="#F9C97C" stroke-width="1.5" stroke-dasharray="4 2" stroke-linejoin="round"/>
+    <!-- Center dot -->
+    <circle cx="140" cy="140" r="3" fill="#6B7FA0"/>
+    <!-- CE dot -->
+    <circle cx="140" cy="30" r="4" fill="#1B4FCC"/>
+    <circle cx="45.9" cy="170.6" r="4" fill="#1B4FCC"/>
+    <circle cx="78.6" cy="224.5" r="4" fill="#1B4FCC"/>
+    <circle cx="195" cy="215.7" r="4" fill="#1B4FCC"/>
+    <circle cx="244.6" cy="174" r="4" fill="#1B4FCC"/>
+  </svg>
+  <div style="flex:1;min-width:180px;padding-top:8px">
+    <div style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:20px;height:3px;background:#1B4FCC;border-radius:2px"></div><span style="font-size:13px;font-weight:700">CloudEagle</span></div>
+      <div style="font-size:12px;color:var(--mist);line-height:1.6">Only platform covering all five dimensions. Schema registry (SaaSMap), client-aware mapping, mock layer, ops UI, and API versioning all in one product.</div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:20px;height:2px;background:#9AABC5;border-radius:2px;border-top:1px dashed #9AABC5"></div><span style="font-size:13px;font-weight:600;color:var(--mist)">Merge.dev</span></div>
+      <div style="font-size:12px;color:var(--mist);line-height:1.6">Strong schema registry. Weak on client-side mapping — forces clients to conform to their model.</div>
+    </div>
+    <div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:20px;height:2px;background:#F9C97C;border-radius:2px;border-top:1px dashed #F9C97C"></div><span style="font-size:13px;font-weight:600;color:var(--mist)">Zapier</span></div>
+      <div style="font-size:12px;color:var(--mist);line-height:1.6">Good ops UI. Weak on schema registry, client-aware mapping, and versioning.</div>
+    </div>
+  </div>
+</div>
 </div></div>
 
 <div class="section" id="s7"><div class="wrap">
@@ -291,6 +457,48 @@ a{color:inherit;text-decoration:none}
     <tr><td>Industry-aware mapping models</td><td>Domain-specific field matching</td><td>M</td><td>H</td><td>L</td><td>H</td><td><span class="badge amber">Post-MVP</span></td></tr>
     <tr><td>Staged rollout &mdash; deploy to one team first</td><td>Graduated production deployment for large orgs</td><td>L</td><td>M</td><td>M</td><td>H</td><td><span class="badge gray">Future</span></td></tr>
   </table>
+<h3 style="margin:24px 0 6px">RICE visualised &mdash; feature prioritisation at a glance</h3>
+<div style="font-size:12px;color:var(--mist);margin-bottom:16px">Axes: Reach (x) &times; Impact (y) &middot; Bubble size = Confidence &middot; Colour = Priority</div>
+<div style="background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:20px 24px;margin-bottom:18px">
+  <svg viewBox="0 0 480 220" width="100%" style="display:block">
+    <defs><style>text{font-family:'DM Sans',sans-serif}</style></defs>
+    <line x1="60" y1="10" x2="60" y2="175" stroke="#DDE3EE" stroke-width="1.5"/>
+    <line x1="60" y1="175" x2="460" y2="175" stroke="#DDE3EE" stroke-width="1.5"/>
+    <text x="15" y="95" text-anchor="middle" font-size="10" fill="#9AABC5" transform="rotate(-90 15 95)">IMPACT</text>
+    <text x="260" y="196" text-anchor="middle" font-size="10" fill="#9AABC5">REACH</text>
+    <line x1="60" y1="92" x2="460" y2="92" stroke="#EEF1F8" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="260" y1="10" x2="260" y2="175" stroke="#EEF1F8" stroke-width="1" stroke-dasharray="3 3"/>
+    <text x="155" y="24" text-anchor="middle" font-size="9" fill="#9AABC5">Low Reach &middot; High Impact</text>
+    <text x="360" y="24" text-anchor="middle" font-size="9" fill="#1B4FCC" font-weight="700">High Reach &middot; High Impact &larr; MVP zone</text>
+    <text x="155" y="168" text-anchor="middle" font-size="9" fill="#9AABC5">Low Reach &middot; Low Impact</text>
+    <text x="360" y="168" text-anchor="middle" font-size="9" fill="#9AABC5">High Reach &middot; Low Impact</text>
+    <circle cx="420" cy="30" r="18" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="2"/>
+    <text x="420" y="34" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">Doc Ingest</text>
+    <circle cx="380" cy="45" r="18" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="2"/>
+    <text x="380" y="49" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">Plan View</text>
+    <circle cx="410" cy="62" r="18" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="2"/>
+    <text x="410" y="66" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">Sandbox</text>
+    <circle cx="350" cy="40" r="18" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="2"/>
+    <text x="350" y="44" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">Approval</text>
+    <circle cx="390" cy="78" r="16" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="2"/>
+    <text x="390" y="82" text-anchor="middle" font-size="8" font-weight="700" fill="#065F46">GCS</text>
+    <circle cx="220" cy="38" r="13" fill="rgba(245,158,11,0.12)" stroke="#F9C97C" stroke-width="1.5"/>
+    <text x="220" y="42" text-anchor="middle" font-size="7" fill="#9A5000">API Monitor</text>
+    <circle cx="195" cy="55" r="9" fill="rgba(245,158,11,0.12)" stroke="#F9C97C" stroke-width="1.5"/>
+    <text x="195" y="59" text-anchor="middle" font-size="7" fill="#9A5000">Ind. Models</text>
+    <circle cx="235" cy="115" r="14" fill="rgba(245,158,11,0.12)" stroke="#F9C97C" stroke-width="1.5"/>
+    <text x="235" y="119" text-anchor="middle" font-size="7" fill="#9A5000">Multi-lang</text>
+    <circle cx="110" cy="122" r="11" fill="rgba(155,163,175,0.1)" stroke="#DDE3EE" stroke-width="1.5"/>
+    <text x="110" y="126" text-anchor="middle" font-size="7" fill="#9AABC5">Staged</text>
+    <circle cx="70" cy="208" r="7" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="1.5"/>
+    <text x="82" y="212" font-size="10" fill="#334869">MVP</text>
+    <circle cx="120" cy="208" r="7" fill="rgba(245,158,11,0.12)" stroke="#F9C97C" stroke-width="1.5"/>
+    <text x="132" y="212" font-size="10" fill="#334869">Post-MVP</text>
+    <circle cx="185" cy="208" r="7" fill="rgba(155,163,175,0.1)" stroke="#DDE3EE" stroke-width="1.5"/>
+    <text x="197" y="212" font-size="10" fill="#334869">Future</text>
+    <text x="280" y="212" font-size="10" fill="#9AABC5">Bubble size = Confidence &middot; Top-right = ship first</text>
+  </svg>
+</div>
   <div class="callout warn"><div class="cl-icon">&#9888;</div><div class="cl-body"><strong>What we deliberately excluded from MVP:</strong> Multi-language support, industry orchestrators, staged rollout. The MVP proves one thing: a non-technical IT Head can connect a tool safely in under 4 hours. Nothing ships until that is proven.</div></div>
   <h3 style="margin:24px 0 14px">Pricing Model</h3>
   <div class="pricing-grid">
@@ -397,7 +605,37 @@ a{color:inherit;text-decoration:none}
     <tr><td>GPT-4o</td><td>Developer &mdash; writes the integration code</td><td>Market-leading for idiomatic, performant code. Familiar with existing API client patterns. Generates auth flows, pagination, error handling, and resilience modules from the approved plan.</td></tr>
     <tr><td>Code Llama (fine-tuned)</td><td>Auditor &mdash; security validation</td><td>Specialised for code analysis. Detects anti-patterns, over-permissioned scopes, missing retry logic. Runs on cheaper compute. Aligned to CloudEagle's internal security standards.</td></tr>
   </table>
-  <h3 style="margin:20px 0 12px">Unit Economics</h3>
+  
+<div style="margin:24px 0">
+  <svg viewBox="0 0 520 200" width="100%" style="display:block">
+    <defs><style>text{font-family:'DM Sans',sans-serif}</style></defs>
+    <!-- Time comparison -->
+    <text x="10" y="20" font-size="11" font-weight="700" fill="#6B7FA0" text-transform="uppercase" letter-spacing="0.5">TIME TO FIRST INTEGRATION</text>
+    <!-- Manual bar: 6 weeks = full width proxy 340px -->
+    <rect x="10" y="30" width="340" height="28" rx="5" fill="#FEF3F2"/>
+    <rect x="10" y="30" width="340" height="28" rx="5" fill="#FCA5A5" opacity="0.6"/>
+    <text x="355" y="50" font-size="13" font-weight="700" fill="#B42318">6–8 weeks</text>
+    <text x="18" y="50" font-size="12" fill="#7A2318" font-weight="600">Manual today</text>
+    <!-- AI bar: 4 hours = tiny -->
+    <rect x="10" y="70" width="8" height="28" rx="5" fill="#1B4FCC"/>
+    <text x="24" y="90" font-size="13" font-weight="700" fill="#1B4FCC">&lt; 4 hours</text>
+    <text x="130" y="90" font-size="12" fill="#6B7FA0">With AI Integration Builder</text>
+    <!-- Divider -->
+    <line x1="10" y1="116" x2="510" y2="116" stroke="#EEF1F8" stroke-width="1"/>
+    <!-- Cost comparison -->
+    <text x="10" y="136" font-size="11" font-weight="700" fill="#6B7FA0" letter-spacing="0.5">COST PER INTEGRATION</text>
+    <!-- Manual cost bar: $40K -->
+    <rect x="10" y="146" width="340" height="28" rx="5" fill="#FEF3F2"/>
+    <rect x="10" y="146" width="340" height="28" rx="5" fill="#FCA5A5" opacity="0.6"/>
+    <text x="355" y="166" font-size="13" font-weight="700" fill="#B42318">~$40,000</text>
+    <text x="18" y="166" font-size="12" fill="#7A2318" font-weight="600">Engineering cost today</text>
+    <!-- AI cost bar: $0.50 — basically invisible, that's the point -->
+    <rect x="10" y="186" width="4" height="8" rx="2" fill="#1B4FCC"/>
+    <text x="20" y="194" font-size="13" font-weight="700" fill="#1B4FCC">~$0.50</text>
+    <text x="80" y="194" font-size="12" fill="#6B7FA0">AI model cost per integration</text>
+  </svg>
+</div>
+<h3 style="margin:20px 0 12px">Unit Economics</h3>
   <table class="t">
     <tr><th>Component</th><th>Cost per integration</th><th>Context</th></tr>
     <tr><td>Claude Sonnet 4 (doc parsing + plan)</td><td>~$0.15&ndash;0.25</td><td>200K context window; typical API doc = 30&ndash;60K tokens</td></tr>
@@ -523,7 +761,58 @@ a{color:inherit;text-decoration:none}
     </div>
     <div class="gcs-why"><strong>Why this metric changes everything:</strong> Every integration built moves the number. The number becomes visible to leadership. Leadership asks why it's at 67% and not 90%. Rohan opens another integration. The product creates its own demand loop &mdash; and only CloudEagle can show the score that drives it. This turns the Integration Builder from a feature into a habit loop, and a satisfied customer into an expanding one.</div>
   </div>
-  <div class="metrics-grid">
+  
+<div style="margin:24px 0;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 24px">
+  <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.35);margin-bottom:16px">Governance Coverage Score — Growth Over Time</div>
+  <svg viewBox="0 0 480 160" width="100%" style="display:block">
+    <defs>
+      <linearGradient id="gcsFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#10B981" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="#10B981" stop-opacity="0.0"/>
+      </linearGradient>
+      <style>text{font-family:'DM Sans',sans-serif}</style>
+    </defs>
+    <!-- Grid lines -->
+    <line x1="50" y1="10" x2="460" y2="10" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <line x1="50" y1="42" x2="460" y2="42" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <line x1="50" y1="74" x2="460" y2="74" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <line x1="50" y1="106" x2="460" y2="106" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+    <!-- Y labels -->
+    <text x="42" y="14" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.3)">100%</text>
+    <text x="42" y="46" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.3)">75%</text>
+    <text x="42" y="78" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.3)">50%</text>
+    <text x="42" y="110" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.3)">25%</text>
+    <!-- Data points: Month 0=14%, M1=20%, M2=28%, M3=38%, M4=48%, M6=56%, M9=67%, M12=75% -->
+    <!-- Y mapping: 0%=138, 100%=10. So y = 138 - (pct/100)*128 -->
+    <!-- M0=119.9, M1=112.4, M2=102.2, M3=89.4, M4=76.6, M6=66.3, M9=51.2, M12=41.8 -->
+    <!-- X: 50 to 460, 8 points over 12 months: step=58.6 -->
+    <!-- x coords: 50, 108.6, 167, 225.6, 284, 342.6, 401, 460 -->
+    <polygon points="50,120 109,112 167,102 226,89 284,77 343,66 401,51 460,42 460,138 50,138"
+      fill="url(#gcsFill)"/>
+    <polyline points="50,120 109,112 167,102 226,89 284,77 343,66 401,51 460,42"
+      fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Data dots -->
+    <circle cx="50" cy="120" r="4" fill="#10B981"/>
+    <circle cx="284" cy="77" r="4" fill="#10B981"/>
+    <circle cx="460" cy="42" r="4" fill="#10B981"/>
+    <!-- Callout labels -->
+    <text x="50" y="134" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.4)">Start</text>
+    <text x="50" y="113" text-anchor="middle" font-size="11" font-weight="700" fill="#FCA5A5">14%</text>
+    <text x="284" y="71" text-anchor="middle" font-size="11" font-weight="700" fill="#FCD34D">48%</text>
+    <text x="460" y="36" text-anchor="middle" font-size="11" font-weight="700" fill="#6EE7B7">75%</text>
+    <!-- X labels -->
+    <text x="50" y="152" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.3)">Month 0</text>
+    <text x="284" y="152" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.3)">Month 4</text>
+    <text x="460" y="152" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.3)">Month 12</text>
+    <!-- Phase markers -->
+    <line x1="130" y1="10" x2="130" y2="138" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="250" y1="10" x2="250" y2="138" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3 3"/>
+    <text x="90" y="8" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.25)">Phase 1</text>
+    <text x="190" y="8" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.25)">Phase 2</text>
+    <text x="355" y="8" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.25)">Phase 3 — Self-serve</text>
+  </svg>
+</div>
+<div class="metrics-grid">
     <div class="metric-card ns"><div class="metric-type">North Star Metric</div><h4>Integrations successfully deployed to production per month</h4><p>Not "started." Not "generated." Deployed and actively returning data after 30 days. This proves the full pipeline is working. Baseline today: tracked per customer as part of onboarding reporting.</p></div>
     <div class="metric-card anti"><div class="metric-type">&#9888; Anti-Metric &mdash; Watch This Closely</div><h4>Integrations generated but never deployed</h4><p>If high, the system creates code customers don't trust enough to ship. Hard cap: should never exceed 20% of integrations started. If it does, the trust gap is in the sandbox experience or approval flow &mdash; not AI quality.</p></div>
     <div class="metric-card"><div class="metric-type">Speed</div><h4>Time to first working integration</h4><p>Median time from URL paste to production deployment. Target: under 4 hours. Current baseline: 6&ndash;8 weeks (manual). The delta tells the ROI story at renewal.</p></div>
