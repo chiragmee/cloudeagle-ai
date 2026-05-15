@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Integration Builder · CloudEagle · Chirag Mewara</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--ink:#0C111D;--paper:#FAFBFD;--white:#FFFFFF;--surface:#F2F5FA;--slate:#1A2640;--steel:#334869;--mist:#6B7FA0;--fog:#9AABC5;--rule:#DDE3EE;--ruleli:#EEF1F8;--blue:#1B4FCC;--bluefg:#EBF1FF;--blueborder:#B8CBFF;--teal:#0A7369;--tealfg:#E4F5F3;--tealbd:#86CFCA;--amber:#9A5000;--amberfg:#FEF3E2;--amberbd:#F9C97C;--red:#B42318;--redfg:#FEF3F2;--redbd:#FCA5A5;--green:#065F46;--greenfg:#ECFDF5;--greenbd:#A7F3D0;--purple:#4A1D96;--purpfg:#F5F3FF;--purpbd:#C4B5FD;--serif:'Lora',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace;--sw:256px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;font-size:15px}body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;display:flex}
+.sidebar{width:var(--sw);flex-shrink:0;background:var(--white);border-right:1px solid var(--rule);height:100vh;position:sticky;top:0;overflow-y:auto;display:flex;flex-direction:column}
+.sb-brand{padding:18px 18px 14px;border-bottom:1px solid var(--rule)}.sb-logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px}.sb-mark{width:27px;height:27px;background:var(--ink);border-radius:6px;color:var(--white);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}.sb-sub{font-size:11px;color:var(--mist);margin-top:3px}
+.sb-nav{padding:10px 0;flex:1}.sb-group{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--fog);padding:10px 18px 5px}
+.sb-link{display:flex;align-items:flex-start;gap:9px;padding:6px 18px;cursor:pointer;text-decoration:none;border:none;background:none;width:100%;text-align:left;border-right:2px solid transparent}.sb-link:hover{background:var(--surface)}.sb-link.active{background:var(--bluefg);border-right-color:var(--blue)}
+.sb-num{font-size:9px;font-family:var(--mono);color:var(--fog);flex-shrink:0;margin-top:2px;min-width:18px}.sb-link.active .sb-num{color:var(--blue)}.sb-txt{font-size:12px;color:var(--mist);font-weight:500;line-height:1.35}.sb-link.active .sb-txt{color:var(--blue);font-weight:700}
+.sb-deliverables{margin:0 10px 14px;background:var(--ink);border-radius:10px;padding:12px 14px}.sb-d-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.35);margin-bottom:9px}.sb-d-item{display:flex;align-items:center;gap:8px;padding:5px 0;text-decoration:none}.sb-d-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}.sb-d-txt{font-size:11px;color:rgba(255,255,255,.65);font-weight:500}
+.main{flex:1;min-width:0}
+.profile{background:var(--ink);padding:36px 56px;border-bottom:1px solid rgba(255,255,255,.08)}.profile-inner{max-width:1040px;margin:0 auto}.profile-top{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:20px}.profile-left{display:flex;align-items:center;gap:20px}.avatar{width:88px;height:88px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,0.15);flex-shrink:0}.avatar img{width:100%;height:100%;object-fit:cover;object-position:center 55%;transform:scale(2.2);transform-origin:center 55%;display:block}.profile-name{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--white);margin-bottom:3px}.profile-role{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:9px}.profile-tags{display:flex;gap:7px;flex-wrap:wrap}.p-tag{padding:3px 11px;border-radius:100px;font-size:10px;font-weight:700}.p-tag.gray{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7)}.p-tag.blue{background:rgba(27,79,204,.3);border:1px solid rgba(27,79,204,.5);color:#93C5FD}.p-tag.teal{background:rgba(10,115,105,.3);border:1px solid rgba(10,115,105,.5);color:#86CFCA}.p-tag.green{background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);color:#6EE7B7}
+.profile-contacts{display:flex;flex-direction:column;gap:8px}.p-contact{display:flex;align-items:center;gap:9px;color:rgba(255,255,255,.5);font-size:12px;text-decoration:none}.p-contact-icon{width:26px;height:26px;background:rgba(255,255,255,.07);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.profile-bio{padding-top:18px;border-top:1px solid rgba(255,255,255,.08)}.profile-bio-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,255,255,.3);margin-bottom:8px}.profile-bio p{font-size:13px;color:rgba(255,255,255,.58);line-height:1.75;max-width:820px}
+.hero{padding:56px 56px 48px;border-bottom:1px solid var(--rule);background:var(--white)}.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--bluefg);border:1px solid var(--blueborder);color:var(--blue);padding:4px 13px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-bottom:24px}.pulse{width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pulse 1.8s ease infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}.hero h1{font-family:var(--serif);font-size:clamp(32px,4vw,52px);line-height:1.08;letter-spacing:-.5px;margin-bottom:18px;max-width:760px}.hero h1 em{font-style:italic;color:var(--steel)}#hero-h1::after{content:'|';color:var(--blue);opacity:1;animation:blink .6s step-end infinite}#hero-h1.done::after{display:none}@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}.hero-sub{font-size:16px;color:var(--mist);max-width:580px;line-height:1.75;margin-bottom:32px}.hero-meta{display:flex;gap:28px;font-size:12px;color:var(--fog);flex-wrap:wrap}.hero-meta strong{color:var(--ink)}
+.section{padding:56px 56px 48px;border-bottom:1px solid var(--rule)}.wrap{max-width:1040px;margin:0 auto}.sec-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--fog);margin-bottom:12px;display:flex;align-items:center;gap:8px}.sec-num{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:2px 7px;font-family:var(--mono)}h2{font-family:var(--serif);font-size:clamp(24px,3vw,36px);line-height:1.12;font-weight:600;margin-bottom:14px;max-width:660px}h2 em{font-style:italic;color:var(--steel)}h3{font-family:var(--serif);font-size:19px;font-weight:600;margin-bottom:8px;line-height:1.3}.lead{font-size:15px;color:var(--mist);max-width:600px;line-height:1.75;margin-bottom:28px}p{color:var(--steel);line-height:1.75;margin-bottom:12px;font-size:14px}p:last-child{margin-bottom:0}
+.d-flag{background:var(--ink);border-radius:12px;padding:16px 20px;margin:24px 0;display:flex;align-items:flex-start;gap:14px}.d-flag-icon{font-size:18px;flex-shrink:0}.d-flag-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.35);margin-bottom:3px}.d-flag-title{font-size:13px;font-weight:700;color:var(--white);margin-bottom:3px}.d-flag-sub{font-size:12px;color:rgba(255,255,255,.5);line-height:1.55}.d-flag-link{display:inline-flex;align-items:center;gap:6px;margin-top:9px;font-size:11px;font-weight:700;color:rgba(255,255,255,.75);text-decoration:none;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:4px 12px;border-radius:100px}
+.callout{border-radius:10px;padding:14px 18px;margin:18px 0;display:flex;gap:11px;align-items:flex-start}.callout.insight{background:var(--bluefg);border:1px solid var(--blueborder)}.callout.warn{background:var(--amberfg);border:1px solid var(--amberbd)}.callout.quote{background:var(--surface);border-left:3px solid var(--ink);border-radius:0 10px 10px 0}.callout.key{background:var(--greenfg);border:1px solid var(--greenbd)}.callout.star{background:var(--ink);border-radius:12px}.cl-icon{font-size:15px;flex-shrink:0;margin-top:1px}.cl-body{font-size:13px;line-height:1.65}.callout.insight .cl-body{color:#1B3A8A}.callout.warn .cl-body{color:#7A3A00}.callout.key .cl-body{color:var(--green)}.callout.star .cl-body{color:rgba(255,255,255,.75)}.callout.star .cl-body strong{color:var(--white)}.callout.quote .cl-body{font-style:italic;color:var(--slate)}.cl-attr{font-size:11px;color:var(--mist);margin-top:6px;font-style:normal;font-weight:600}
+.dg{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:13px;overflow:hidden;margin:20px 0}.dg.c2{grid-template-columns:1fr 1fr}.dg.c3{grid-template-columns:1fr 1fr 1fr}.dg.c4{grid-template-columns:1fr 1fr 1fr 1fr}.dg-cell{background:var(--white);padding:20px 18px}.dg-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--fog);margin-bottom:7px}.dg-val{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--ink);line-height:1}.dg-val.lg{font-size:32px}.dg-sub{font-size:12px;color:var(--mist);margin-top:6px;line-height:1.5}.dg-cell.dark{background:var(--ink)}.dg-cell.dark .dg-label{color:rgba(255,255,255,.35)}.dg-cell.dark .dg-val{color:var(--white)}.dg-cell.dark .dg-sub{color:rgba(255,255,255,.45)}
+.t{width:100%;border-collapse:collapse;border:1px solid var(--rule);border-radius:12px;overflow:hidden;font-size:13px;margin:18px 0}.t th{background:var(--surface);padding:11px 15px;text-align:left;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--mist);border-bottom:1px solid var(--rule)}.t td{padding:12px 15px;border-bottom:1px solid var(--ruleli);color:var(--steel);line-height:1.55;vertical-align:top}.t tr:last-child td{border-bottom:none}.t tr:nth-child(even) td{background:rgba(242,245,250,.5)}.t td:first-child{font-weight:600;color:var(--ink)}
+.personas{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:20px 0}.persona{background:var(--white);border:1px solid var(--rule);border-radius:14px;padding:22px 20px}.p-avatar{width:44px;height:44px;border-radius:50%;background:var(--surface);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}.p-name{font-size:15px;font-weight:700;margin-bottom:2px}.p-role{font-size:11px;color:var(--mist);margin-bottom:12px;line-height:1.4}.jtbd{background:var(--bluefg);border:1px solid var(--blueborder);border-radius:8px;padding:10px 13px;font-size:12px;color:#1B3A8A;line-height:1.6;margin:10px 0;font-style:italic}.p-divider{height:1px;background:var(--ruleli);margin:12px 0}.p-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--fog);margin-bottom:7px}.p-items{list-style:none;display:flex;flex-direction:column;gap:5px}.p-items li{font-size:12px;color:var(--steel);display:flex;gap:7px;line-height:1.45}.p-items li::before{content:'·';color:var(--fog);flex-shrink:0}
+.emap{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:13px;overflow:hidden;margin:20px 0}.em-q{background:var(--white);padding:20px 18px}.em-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--fog);margin-bottom:10px;display:flex;align-items:center;gap:7px}.em-items{list-style:none;display:flex;flex-direction:column;gap:6px}.em-items li{font-size:12px;color:var(--steel);display:flex;gap:7px;line-height:1.45}.em-items li::before{content:'·';color:var(--fog);flex-shrink:0}
+.matrix-wrap{margin:20px 0}.matrix-outer{display:flex;gap:0}.matrix-y{display:flex;flex-direction:column;justify-content:space-between;font-size:10px;color:var(--fog);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-right:10px;text-align:right;padding:8px 0;width:50px}.matrix{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;flex:1}.mx-q{border:1px solid var(--rule);border-radius:11px;padding:18px}.mx-q-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}.mx-q h4{font-size:13px;font-weight:700;margin-bottom:5px;line-height:1.3}.mx-q p{font-size:12px;color:var(--mist);line-height:1.55;margin:0}.matrix-x{display:flex;justify-content:space-between;font-size:10px;color:var(--fog);font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-top:8px;padding:0 8px}
+.journey{margin:24px 0}.j-header{display:grid;grid-template-columns:40px 1fr 1fr;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--rule)}.j-hcol{padding:0 16px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}.j-hcol.user{color:var(--blue)}.j-hcol.sys{color:var(--teal)}.jstep{display:grid;grid-template-columns:40px 1fr 1fr;border-bottom:1px solid var(--ruleli)}.jstep:last-child{border-bottom:none}.jstep-num{padding:20px 0;display:flex;flex-direction:column;align-items:center}.j-circle{width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:500}.j-line{width:1px;flex:1;background:var(--ruleli);margin-top:6px;min-height:12px}.jstep-user{padding:20px 16px;border-left:1px solid var(--ruleli);border-right:1px solid var(--ruleli)}.jstep-sys{padding:20px 16px;background:rgba(242,245,250,.35)}.jstep h4{font-size:13px;font-weight:700;margin-bottom:5px;color:var(--ink)}.jstep p{font-size:12px;color:var(--mist);line-height:1.65;margin:0}.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}.chip{font-size:10px;padding:2px 9px;border-radius:100px;font-weight:600}.chip.ai{background:var(--bluefg);color:var(--blue);border:1px solid var(--blueborder)}.chip.det{background:var(--surface);color:var(--slate);border:1px solid var(--rule)}.chip.gate{background:var(--amberfg);color:var(--amber);border:1px solid var(--amberbd)}
+.badge{display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700}.badge.green{background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)}.badge.blue{background:var(--bluefg);color:var(--blue);border:1px solid var(--blueborder)}.badge.amber{background:var(--amberfg);color:var(--amber);border:1px solid var(--amberbd)}.badge.red{background:var(--redfg);color:var(--red);border:1px solid var(--redbd)}.badge.gray{background:var(--surface);color:var(--mist);border:1px solid var(--rule)}.badge.purple{background:var(--purpfg);color:var(--purple);border:1px solid var(--purpbd)}
+.vsm{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:20px 0}.vsm-card{border:1px solid var(--rule);border-radius:11px;padding:18px;position:relative;overflow:hidden}.vsm-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}.vsm-card.ok::before{background:var(--green)}.vsm-card.warn::before{background:var(--amber)}.vsm-card.brk::before{background:var(--red)}.vsm-sc{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--fog);margin-bottom:10px}.vsm-card h4{font-size:13px;font-weight:700;margin-bottom:7px;line-height:1.3}.vsm-card p{font-size:12px;color:var(--mist);line-height:1.6;margin-bottom:9px}.vsm-steps{list-style:none;display:flex;flex-direction:column;gap:4px}.vsm-steps li{font-size:11px;color:var(--steel);display:flex;gap:6px;line-height:1.4}.vsm-steps li::before{content:'→';color:var(--fog);flex-shrink:0}
+.gcs-hero{background:var(--ink);border-radius:16px;padding:36px;margin:24px 0;position:relative;overflow:hidden}.gcs-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;background:radial-gradient(circle,rgba(27,79,204,.25) 0%,transparent 70%);pointer-events:none}.gcs-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:rgba(255,255,255,.35);margin-bottom:14px}.gcs-title{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--white);margin-bottom:8px}.gcs-sub{font-size:13px;color:rgba(255,255,255,.5);max-width:520px;line-height:1.7;margin-bottom:28px}.gcs-score-row{display:flex;align-items:center;gap:32px;margin-bottom:28px;flex-wrap:wrap}.gcs-score-card{text-align:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:20px 28px}.gcs-score-num{font-family:var(--serif);font-size:52px;font-weight:700;line-height:1}.gcs-score-num.bad{color:#FCA5A5}.gcs-score-num.mid{color:#FCD34D}.gcs-score-num.good{color:#6EE7B7}.gcs-score-label{font-size:11px;color:rgba(255,255,255,.4);margin-top:5px}.gcs-arrow{font-size:22px;color:rgba(255,255,255,.2)}.gcs-bar-section{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px 20px;margin-bottom:20px}.gcs-bar-label{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:10px}.gcs-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}.gcs-bar-row:last-child{margin-bottom:0}.gcs-bar-name{font-size:11px;color:rgba(255,255,255,.55);width:140px;flex-shrink:0}.gcs-bar-track{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}.gcs-bar-fill{height:100%;border-radius:3px}.gcs-bar-pct{font-size:11px;color:rgba(255,255,255,.5);font-family:var(--mono);width:32px;text-align:right;flex-shrink:0}.gcs-why{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;max-width:680px}.gcs-why strong{color:rgba(255,255,255,.8)}
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin:20px 0}.metric-card{background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:18px}.metric-type{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--fog);margin-bottom:5px}.metric-card h4{font-size:13px;font-weight:700;margin-bottom:7px;color:var(--ink)}.metric-card p{font-size:12px;color:var(--mist);line-height:1.6;margin:0}.metric-card.ns{background:var(--ink);grid-column:1/-1}.metric-card.ns .metric-type{color:rgba(255,255,255,.35)}.metric-card.ns h4{color:var(--white)}.metric-card.ns p{color:rgba(255,255,255,.5)}.metric-card.anti{border-color:var(--redbd);background:var(--redfg);grid-column:1/-1}.metric-card.anti .metric-type{color:var(--red)}.metric-card.anti h4{color:var(--red)}.metric-card.anti p{color:#7A2318}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:13px;overflow:hidden;margin:20px 0}.ba-col{background:var(--white);padding:24px 20px}.ba-col.before{background:var(--redfg)}.ba-col.after{background:var(--greenfg)}.ba-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}.ba-col.before .ba-label{color:var(--red)}.ba-col.after .ba-label{color:var(--green)}.ba-story{font-size:13px;line-height:1.75;color:var(--slate);margin-bottom:14px;font-style:italic}.ba-stats{display:flex;flex-direction:column;gap:0}.ba-stat{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.05)}.ba-stat:last-child{border-bottom:none}.ba-stat-label{color:var(--mist)}.ba-stat-val{font-weight:700;color:var(--ink);font-family:var(--mono);font-size:12px}
+.risk-list{display:flex;flex-direction:column;gap:12px;margin:20px 0}.risk{background:var(--white);border:1px solid var(--rule);border-radius:12px;overflow:hidden}.risk-hd{display:grid;grid-template-columns:2fr 2fr 80px;border-bottom:1px solid var(--ruleli)}.risk-hd-cell{padding:11px 15px;font-size:12px}.risk-hd-cell:not(:last-child){border-right:1px solid var(--ruleli)}.risk-hd-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--fog);margin-bottom:3px}.risk-hd-val{font-size:12px;font-weight:700;color:var(--ink);line-height:1.35}.sev{display:flex;gap:3px;margin-top:4px}.sev-dot{width:7px;height:7px;border-radius:50%}.risk-body{display:grid;grid-template-columns:1fr 1fr}.risk-body-cell{padding:12px 15px;font-size:12px;color:var(--mist);line-height:1.6}.risk-body-cell:first-child{border-right:1px solid var(--ruleli)}.risk-body-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--fog);margin-bottom:5px}
+.phases{display:flex;flex-direction:column;gap:0;margin:20px 0}.phase{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--ruleli)}.phase:last-child{border-bottom:none}.phase-left{width:110px;flex-shrink:0}.phase-badge{font-size:10px;font-weight:700;padding:3px 11px;border-radius:100px;display:inline-block}.phase-dur{font-size:10px;color:var(--mist);margin-top:5px}.phase-right h4{font-size:14px;font-weight:700;margin-bottom:5px}.phase-right p{font-size:12px;color:var(--mist);line-height:1.65;margin-bottom:7px}.phase-grad{font-size:11px;color:var(--teal);font-weight:600;background:var(--tealfg);border:1px solid var(--tealbd);border-radius:6px;padding:4px 10px;display:inline-block}
+.gtm-phases{display:flex;flex-direction:column;gap:12px;margin:20px 0}.gtm-phase{border:1px solid var(--rule);border-radius:12px;padding:18px 20px}.gtm-hd{display:flex;align-items:center;gap:12px;margin-bottom:10px}.gtm-num{width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}.gtm-title{font-size:14px;font-weight:700}.gtm-time{font-size:11px;color:var(--mist);margin-left:auto}.gtm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.gtm-cell{background:var(--surface);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--slate);line-height:1.5}.gtm-cell strong{display:block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--mist);margin-bottom:3px}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:20px 0}.price-card{border:1px solid var(--rule);border-radius:12px;padding:20px;background:var(--white)}.price-card.featured{border-color:var(--blue);background:var(--bluefg)}.price-tier{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mist);margin-bottom:8px}.price-card.featured .price-tier{color:var(--blue)}.price-card h4{font-size:15px;font-weight:700;margin-bottom:4px}.price-val{font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:4px}.price-note{font-size:11px;color:var(--mist);margin-bottom:14px;line-height:1.5}.price-list{list-style:none;display:flex;flex-direction:column;gap:5px}.price-list li{font-size:12px;color:var(--steel);display:flex;gap:7px;line-height:1.4}.price-list li::before{content:'✓';color:var(--green);flex-shrink:0;font-weight:700}
+.evo{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:20px 0}.evo-card{border:1px solid var(--rule);border-radius:12px;padding:18px;background:var(--white)}.evo-period{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mist);margin-bottom:10px}.evo-card h4{font-size:14px;font-weight:700;margin-bottom:9px}.evo-list{list-style:none;display:flex;flex-direction:column;gap:5px}.evo-list li{font-size:12px;color:var(--mist);display:flex;gap:7px;line-height:1.45}.evo-list li::before{content:'→';color:var(--fog);flex-shrink:0}
+.sols{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:20px 0}.sol{border:1px solid var(--rule);border-radius:11px;padding:18px}.sol.chosen{border-color:var(--blue);background:var(--bluefg)}.sol-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}.sol.chosen .sol-tag{color:var(--blue)}.sol h4{font-size:13px;font-weight:700;margin-bottom:7px;line-height:1.3}.sol p{font-size:12px;color:var(--mist);line-height:1.6;margin:0}.sol-verdict{margin-top:11px;font-size:11px;font-weight:600;padding:4px 11px;border-radius:6px;display:inline-block}.sol .sol-verdict{background:var(--redfg);color:var(--red)}.sol.chosen .sol-verdict{background:var(--greenfg);color:var(--green)}
+.assumption-list{display:flex;flex-direction:column;gap:9px;margin:18px 0}.assumption{background:var(--surface);border-radius:9px;padding:12px 16px;display:flex;gap:11px;align-items:flex-start}.a-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--mist);flex-shrink:0;background:var(--rule);border-radius:4px;padding:1px 7px;margin-top:1px}.a-body{font-size:12px;color:var(--slate);line-height:1.6}.a-body strong{color:var(--ink)}
+.oq-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.oq{background:var(--white);border:1px solid var(--rule);border-radius:9px;padding:14px 16px}.oq-q{font-size:16px;color:var(--mist);float:left;margin-right:7px;line-height:1}.oq p{font-size:12px;color:var(--slate);line-height:1.6;margin:0}
+.arch-wrap{border:1px solid var(--rule);border-radius:12px;overflow:hidden;background:var(--white);margin:20px 0}
+.flywheel{display:flex;align-items:center;background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:20px;margin:20px 0;overflow-x:auto}.fw-node{background:var(--white);border:1px solid var(--rule);border-radius:10px;padding:12px 16px;flex-shrink:0;text-align:center}.fw-node-title{font-size:12px;font-weight:700;margin-bottom:3px;color:var(--ink)}.fw-node-sub{font-size:10px;color:var(--mist)}.fw-arrow{font-size:18px;color:var(--blue);padding:0 10px;flex-shrink:0}.fw-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--mist);text-align:center;margin-top:8px}
+.voices{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:20px 0}.voice-card{background:var(--white);border:1px solid var(--rule);border-radius:11px;padding:16px 18px}.voice-text{font-size:13px;color:var(--slate);line-height:1.7;font-style:italic;margin-bottom:10px}.voice-attr{font-size:11px;color:var(--mist);font-weight:600;display:flex;align-items:center;gap:8px}.voice-src{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:1px 7px;font-size:9px;font-weight:700;color:var(--mist);letter-spacing:.4px}
+a{color:inherit;text-decoration:none}
+</style>
+</head>
+<body>
+<nav class="sidebar">
+  <div class="sb-brand"><div class="sb-logo"><div class="sb-mark">CE</div>CloudEagle</div><div class="sb-sub">AI Integration Builder · PM Brief</div></div>
+  <div class="sb-nav">
+    <div class="sb-group">Context</div>
+    <a class="sb-link active" href="#s0"><span class="sb-num">00</span><span class="sb-txt">The Contradiction</span></a>
+    <a class="sb-link" href="#s1"><span class="sb-num">01</span><span class="sb-txt">Company Alignment</span></a>
+    <div class="sb-group">Discovery</div>
+    <a class="sb-link" href="#s2"><span class="sb-num">02</span><span class="sb-txt">Research & Validation</span></a>
+    <a class="sb-link" href="#s3"><span class="sb-num">03</span><span class="sb-txt">Personas & Empathy</span></a>
+    <a class="sb-link" href="#s4"><span class="sb-num">04</span><span class="sb-txt">Pain Point Analysis</span></a>
+    <div class="sb-group">Definition</div>
+    <a class="sb-link" href="#s5"><span class="sb-num">05</span><span class="sb-txt">Why This, Why Now</span></a>
+    <a class="sb-link" href="#s6"><span class="sb-num">06</span><span class="sb-txt">Solutions Explored</span></a>
+    <a class="sb-link" href="#s7"><span class="sb-num">07</span><span class="sb-txt">Prioritisation & Pricing</span></a>
+    <div class="sb-group">Delivery</div>
+    <a class="sb-link" href="#s8"><span class="sb-num">08</span><span class="sb-txt">User Journey</span></a>
+    <a class="sb-link" href="#s9"><span class="sb-num">09</span><span class="sb-txt">Safeguards</span></a>
+    <a class="sb-link" href="#s10"><span class="sb-num">10</span><span class="sb-txt">API Versioning Problem</span></a>
+    <a class="sb-link" href="#s11"><span class="sb-num">11</span><span class="sb-txt">Architecture & Cost</span></a>
+    <a class="sb-link" href="#s12"><span class="sb-num">12</span><span class="sb-txt">Edge Cases</span></a>
+    <div class="sb-group">Impact</div>
+    <a class="sb-link" href="#s13"><span class="sb-num">13</span><span class="sb-txt">Before & After</span></a>
+    <a class="sb-link" href="#s14"><span class="sb-num">14</span><span class="sb-txt">Governance Coverage Score</span></a>
+    <a class="sb-link" href="#s15"><span class="sb-num">15</span><span class="sb-txt">Risks & Mitigations</span></a>
+    <div class="sb-group">Launch</div>
+    <a class="sb-link" href="#s16"><span class="sb-num">16</span><span class="sb-txt">Phased Rollout</span></a>
+    <a class="sb-link" href="#s17"><span class="sb-num">17</span><span class="sb-txt">Go-to-Market</span></a>
+    <a class="sb-link" href="#s18"><span class="sb-num">18</span><span class="sb-txt">Product Evolution</span></a>
+    <a class="sb-link" href="#s19"><span class="sb-num">19</span><span class="sb-txt">Assumptions & Open Questions</span></a>
+  </div>
+  <div class="sb-deliverables">
+    <div class="sb-d-label">Assignment Deliverables</div>
+    <a class="sb-d-item" href="/ux"><div class="sb-d-dot" style="background:#60A5FA"></div><span class="sb-d-txt">D1 · UX Design</span></a>
+    <a class="sb-d-item" href="#s9"><div class="sb-d-dot" style="background:#34D399"></div><span class="sb-d-txt">D2 · Safeguards</span></a>
+    <a class="sb-d-item" href="/prototype"><div class="sb-d-dot" style="background:#F472B6"></div><span class="sb-d-txt">D3 · Prototype</span></a>
+  </div>
+</nav>
+<div class="main">
+<div class="profile">
+  <div class="profile-inner">
+    <div class="profile-top">
+      <div class="profile-left">
+        <div class="avatar"><img src="/chirag.jpeg" alt="Chirag Mewara"/></div>
+        <div>
+          <div class="profile-name">Chirag Mewara</div>
+          <div class="profile-role">Product Manager · ANAROCK · Bengaluru, India</div>
+          <div class="profile-tags">
+            <span class="p-tag gray">~5 Years of Product Building Experience</span>
+            <span class="p-tag blue">0&#8594;1 B2B Enterprise SaaS</span>
+            <span class="p-tag teal">Best Performer FY 24&#8211;25</span>
+            <span class="p-tag green">Immediate Joiner</span>
+          </div>
+        </div>
+      </div>
+      <div class="profile-contacts">
+        <a href="mailto:chirag.mewara.18@gmail.com" class="p-contact"><span class="p-contact-icon">&#9993;</span>chirag.mewara.18@gmail.com</a>
+        <a href="tel:+919079981978" class="p-contact"><span class="p-contact-icon">&#128241;</span>+91 90799 81978</a>
+        <a href="https://linkedin.com/in/chiragmewara" target="_blank" class="p-contact"><span class="p-contact-icon" style="font-weight:800;font-size:12px">in</span>linkedin.com/in/chiragmewara</a>
+        <a href="https://github.com/chiragmee" target="_blank" class="p-contact"><span class="p-contact-icon" style="font-size:12px">&#9711;</span>github.com/chiragmee</a>
+      </div>
+    </div>
+    <div class="profile-bio">
+      <div class="profile-bio-label">About</div>
+      <p>AI-enabled Product Manager driving 0&rarr;1 enterprise SaaS products at scale. Built and scaled ANAROCK&rsquo;s Commercial Platform to 100K+ users across 100M+ sq. ft. of commercial real estate, combining product strategy, data, and AI-powered execution to deliver high-impact business outcomes.</p>
+    </div>
+  </div>
+</div>
+
+<div class="hero" id="s0">
+  <div class="wrap">
+    <div class="hero-tag"><div class="pulse"></div>Senior PM Assignment &middot; CloudEagle &middot; AI Integration Builder</div>
+    <h1 id="hero-h1" data-plain="CloudEagle manages $20B in SaaS spend. But adding a new integration" data-em="still takes weeks."></h1>
+    <p class="hero-sub">This is the contradiction at the heart of CloudEagle's next growth phase. The platform that promises to eliminate SaaS chaos hasn't yet eliminated the operational chaos in its own integration delivery. This brief is about closing that gap &mdash; and why it is the highest-leverage move available right now.</p>
+    <div class="hero-meta">
+      <div><strong>Primary User</strong> &middot; IT Head (non-technical)</div>
+      <div><strong>Secondary Users</strong> &middot; Security Lead &middot; Solutions Engineer</div>
+      <div><strong>Stage</strong> &middot; New feature within existing platform</div>
+      <div><strong>Scope</strong> &middot; MVP + Roadmap</div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="s1"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">01</span>Company Alignment</div>
+  <h2>Integrations are not a feature. <em>They're the foundation.</em></h2>
+  <p class="lead">CloudEagle's mission: help IT, security, and procurement teams manage, govern, and renew SaaS from one platform. Every word of that mission requires a working integration. Governance without integration is discovery &mdash; valuable, but incomplete.</p>
+  <div class="dg c3">
+    <div class="dg-cell"><div class="dg-label">SaaSMap coverage</div><div class="dg-val lg">150K</div><div class="dg-sub">Apps known to SaaSMap</div></div>
+    <div class="dg-cell"><div class="dg-label">Deep integrations today</div><div class="dg-val lg">500</div><div class="dg-sub">Tools with full governance</div></div>
+    <div class="dg-cell dark"><div class="dg-label">Governance blind spot</div><div class="dg-val lg" style="color:#FCA5A5">99.7%</div><div class="dg-sub">Of known apps with no deep integration</div></div>
+  </div>
+  <p>EagleEye &mdash; CloudEagle's AI agent &mdash; can auto-deprovision access, detect security anomalies, and harvest unused licences. But EagleEye is only as intelligent as the integrations beneath it. The Integration Builder is the infrastructure that powers EagleEye at scale. More integrations &rarr; richer data &rarr; smarter EagleEye &rarr; more governance value per customer.</p>
+  <div class="flywheel">
+    <div class="fw-node"><div class="fw-node-title">Integration Builder</div><div class="fw-node-sub">Any tool connected</div></div>
+    <div class="fw-arrow">&rarr;</div>
+    <div class="fw-node"><div class="fw-node-title">Richer SaaSMap</div><div class="fw-node-sub">Schema registry grows</div></div>
+    <div class="fw-arrow">&rarr;</div>
+    <div class="fw-node"><div class="fw-node-title">Smarter AI Mappings</div><div class="fw-node-sub">Accuracy improves</div></div>
+    <div class="fw-arrow">&rarr;</div>
+    <div class="fw-node"><div class="fw-node-title">EagleEye Depth</div><div class="fw-node-sub">Governance coverage &uarr;</div></div>
+    <div class="fw-arrow">&rarr;</div>
+    <div class="fw-node"><div class="fw-node-title">Customer Value</div><div class="fw-node-sub">Retention + expansion</div></div>
+  </div>
+  
+<div style="margin:24px 0;display:flex;align-items:center;gap:32px;flex-wrap:wrap">
+  <div style="position:relative;width:220px;height:220px;flex-shrink:0">
+    <canvas id="donutChart" width="220" height="220"></canvas>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none">
+      <div style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;color:#0C111D;line-height:1">99.7%</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#6B7FA0;margin-top:3px">governance gap</div>
+    </div>
+  </div>
+  <div style="flex:1;min-width:200px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <div style="width:12px;height:12px;border-radius:3px;background:#1B4FCC;flex-shrink:0"></div>
+      <div><div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#0C111D">500 apps</div><div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#6B7FA0">Deeply integrated &amp; governed</div></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+      <div style="width:12px;height:12px;border-radius:3px;background:#EEF1F8;border:1px solid #DDE3EE;flex-shrink:0"></div>
+      <div><div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:#0C111D">149,500 apps</div><div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#6B7FA0">Known to SaaSMap but ungoverned</div></div>
+    </div>
+    <div style="border-top:1px solid #DDE3EE;padding-top:14px">
+      <div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#6B7FA0">Source: CloudEagle SaaSMap · 150,000 apps catalogued</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:11px;color:#6B7FA0">Only 0.33% have deep governance today</div>
+    </div>
+  </div>
+</div>
+<div class="fw-label">The SaaSMap data flywheel &mdash; every integration makes the next one faster and more accurate</div>
+</div></div>
+
+<div class="section" id="s2"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">02</span>Research &amp; Validation</div>
+  <h2>The data is clear. <em>The customer voice confirms it.</em></h2>
+  <p class="lead">Three research layers build the case &mdash; market data establishes the scale, customer signals ground it in reality, and platform analytics make it irrefutable.</p>
+  <div class="dg c4">
+    <div class="dg-cell"><div class="dg-label">Avg apps per enterprise</div><div class="dg-val">900<span style="font-size:16px">+</span></div><div class="dg-sub">MuleSoft Connectivity Benchmark 2023</div></div>
+    <div class="dg-cell"><div class="dg-label">IT time on integration</div><div class="dg-val">30<span style="font-size:16px">%</span></div><div class="dg-sub">Of IT bandwidth &mdash; not governance work</div></div>
+    <div class="dg-cell"><div class="dg-label">Cost per custom integration</div><div class="dg-val">$40<span style="font-size:16px">K</span></div><div class="dg-sub">Engineering + QA + maintenance</div></div>
+    <div class="dg-cell dark"><div class="dg-label">Current time to integrate</div><div class="dg-val">6&ndash;8<span style="font-size:16px">wk</span></div><div class="dg-sub">Industry average we're solving against</div></div>
+  </div>
+  <h3 style="margin-bottom:14px">What IT Heads actually say</h3>
+  <div class="voices">
+    <div class="voice-card"><div class="voice-text">"We bought a SaaS management platform but half our tools still aren't connected. The ROI I promised my CFO is sitting behind an engineering backlog."</div><div class="voice-attr"><span class="voice-src">G2 Review</span>IT Head &middot; 800-person SaaS company</div></div>
+    <div class="voice-card"><div class="voice-text">"Every time a new tool gets approved, I file a ticket. By the time it's integrated, the team has been using it unmonitored for two months."</div><div class="voice-attr"><span class="voice-src">Gartner Peer Insights</span>IT Director &middot; Financial Services</div></div>
+    <div class="voice-card"><div class="voice-text">"Our Slack integration broke silently when Slack updated their API. We found out when the data stopped flowing. Nobody flagged it."</div><div class="voice-attr"><span class="voice-src">User Interview Synthesis</span>IT Manager &middot; 1,200-person enterprise</div></div>
+  </div>
+  <div class="callout warn"><div class="cl-icon">&#9888;</div><div class="cl-body"><strong>What research revealed against the initial hypothesis:</strong> The first assumption was that customers struggle because API documentation is hard to read. The deeper truth: reading docs is not the problem. Mapping the client's data model to what the tool expects is where friction lives. Stripe has the world's best API &mdash; and every company integrating Stripe still writes custom mapping code. The API is easy. The translation layer is hard. The solution was redesigned around this insight.</div></div>
+  <table class="t">
+    <tr><th>Signal</th><th>What it tells us</th></tr>
+    <tr><td>150,000 apps in SaaSMap, 500 with deep integrations</td><td>149,500 tools with a governance gap. Each one is a churn risk and a security blind spot.</td></tr>
+    <tr><td>Integration is the #1 deal objection in enterprise sales</td><td>"Do you support X?" is the question SEs dread. This feature turns that objection into a live demo.</td></tr>
+    <tr><td>Each integration currently requires an engineering sprint</td><td>The bottleneck is not capability &mdash; it's bandwidth. Engineering is spending 30% of its time on plumbing instead of product.</td></tr>
+    <tr><td>Salesforce AppExchange: 3,000+ connectors, 68% of enterprise customers still build custom integrations (MuleSoft 2023)</td><td>Even a marketplace of connectors doesn't solve the client-side data model translation problem. Pre-built connectors are a ceiling, not a solution.</td></tr>
+  </table>
+</div></div>
+
+<div class="section" id="s3"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">03</span>Personas &amp; Empathy</div>
+  <h2>Three people. <em>One product must serve them all.</em></h2>
+  <p class="lead">CloudEagle's own positioning names "IT, security, and procurement teams" as their customers. All three appear in the integration workflow &mdash; and the product fails if it serves one while frustrating the others.</p>
+  <div class="personas">
+    <div class="persona">
+      <div class="p-avatar">&#128187;</div>
+      <div class="p-name">Rohan Mehta</div>
+      <div class="p-role">IT Head &middot; 500-person Fintech &middot; Bengaluru<br/>Non-technical, MBA, manages a team of 3</div>
+      <div class="jtbd">"When a new SaaS tool gets approved, I want to connect it to CloudEagle in hours &mdash; without filing an engineering ticket &mdash; so I can show governance value before my CFO asks why we're paying for the platform."</div>
+      <div class="p-divider"></div>
+      <div class="p-label">What keeps him up at night</div>
+      <ul class="p-items"><li>Justifying the CloudEagle subscription at renewal time</li><li>Tools being used unmonitored while integrations sit in backlog</li><li>Feeling powerless because he can't self-serve something that sounds simple</li></ul>
+    </div>
+    <div class="persona">
+      <div class="p-avatar">&#128274;</div>
+      <div class="p-name">Arjun Kapoor</div>
+      <div class="p-role">Security Lead &middot; Same org as Rohan<br/>Technical, owns access governance and compliance</div>
+      <div class="jtbd">"When Rohan wants to connect a new tool, I need to see exactly what data it accesses, what permissions it requests, and who approved it &mdash; before it touches production."</div>
+      <div class="p-divider"></div>
+      <div class="p-label">What keeps him up at night</div>
+      <ul class="p-items"><li>An integration silently accessing more data than it should</li><li>No audit trail if a security incident traces back to an integration</li><li>AI-generated code going to production without a human security review</li></ul>
+      <div class="p-divider"></div>
+      <div class="p-label" style="color:var(--red)">His role in the product</div>
+      <ul class="p-items"><li>Owns the Approval Gate &mdash; the final checkpoint before deployment</li><li>His sign-off is the enterprise trust anchor. Without it, nothing deploys.</li></ul>
+    </div>
+    <div class="persona">
+      <div class="p-avatar">&#9881;</div>
+      <div class="p-name">Priya Shankar</div>
+      <div class="p-role">Solutions Engineer &middot; CloudEagle<br/>Technical, runs demos, owns deal closure</div>
+      <div class="jtbd">"When a prospect asks 'do you support X?' during a demo, I want to show a live integration generating in real time &mdash; not say it's on the roadmap."</div>
+      <div class="p-divider"></div>
+      <div class="p-label">What changes for her</div>
+      <ul class="p-items"><li>Integration coverage gaps become a differentiator, not a deal blocker</li><li>Phase 1 internal user &mdash; her feedback shapes the MVP</li><li>Every successful live demo is a direct deal signal</li></ul>
+    </div>
+  </div>
+  <h3 style="margin:24px 0 14px">Empathy Map &middot; Rohan (Primary User)</h3>
+  <div class="emap">
+    <div class="em-q"><div class="em-label"><span>&#128080;</span>Hears</div><ul class="em-items"><li>Engineering: "We'll pick this up next sprint"</li><li>CFO: "What's the ROI on this platform investment?"</li><li>Vendor: "Our CloudEagle integration is coming soon"</li><li>Team: "I'm still tracking this tool in a spreadsheet"</li></ul></div>
+    <div class="em-q"><div class="em-label"><span>&#128064;</span>Sees</div><ul class="em-items"><li>A CloudEagle dashboard showing partial governance</li><li>New AI tools adopted without IT visibility daily</li><li>Engineering backlog growing faster than integrations ship</li><li>Competitors claiming "unlimited integrations" in decks</li></ul></div>
+    <div class="em-q"><div class="em-label"><span>&#129300;</span>Thinks &amp; Feels</div><ul class="em-items"><li>Anxious &mdash; renewal conversation with CFO is approaching</li><li>Frustrated &mdash; something that sounds simple takes weeks</li><li>Hopeful when promised "AI will make this easy"</li><li>Worried &mdash; avoids showing leadership the incomplete dashboard</li></ul></div>
+    <div class="em-q"><div class="em-label"><span>&#128172;</span>Says &amp; Does</div><ul class="em-items"><li>"Can we connect this without involving engineering?"</li><li>Files tickets that sit in the backlog for weeks</li><li>Tracks unconnected tools manually in spreadsheets</li><li>Delays showing leadership the governance dashboard</li></ul></div>
+  </div>
+</div></div>
+
+<div class="section" id="s4"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">04</span>Pain Point Analysis</div>
+  <h2>Not all pains are equal. <em>This is how they rank.</em></h2>
+  <p class="lead">Plotting severity against frequency reveals which pain to solve first. The 5 Whys drill reveals the root cause beneath it.</p>
+  <div class="matrix-wrap">
+    <div class="matrix-outer">
+      <div class="matrix-y"><span>High Severity</span><span>Low Severity</span></div>
+      <div style="flex:1">
+        <div class="matrix">
+          <div class="mx-q" style="background:var(--redfg);border-color:var(--redbd)"><div class="mx-q-tag" style="color:var(--red)">&#9889; Act Now</div><h4>Integration backlog blocks governance</h4><p>Every unconnected tool is an unmonitored tool. High frequency, highest damage. This is the focus.</p></div>
+          <div class="mx-q" style="background:var(--amberfg);border-color:var(--amberbd)"><div class="mx-q-tag" style="color:var(--amber)">&#128269; Monitor</div><h4>Security breach from unmonitored tool</h4><p>No integration = no access visibility = a breach CloudEagle cannot detect. Rare but catastrophic.</p></div>
+          <div class="mx-q" style="background:var(--greenfg);border-color:var(--greenbd)"><div class="mx-q-tag" style="color:var(--green)">&#128203; Automate</div><h4>Manual tracking in spreadsheets</h4><p>IT Heads track unconnected tools themselves while waiting for engineering. Frequent but recoverable.</p></div>
+          <div class="mx-q"><div class="mx-q-tag" style="color:var(--mist)">&#128302; Later</div><h4>Duplicate tools slip procurement review</h4><p>Without integration data, duplicate subscriptions go undetected. Occasional and recoverable.</p></div>
+        </div>
+        <div class="matrix-x"><span>High Frequency</span><span>Low Frequency</span></div>
+      </div>
+    </div>
+  </div>
+  <h3 style="margin:24px 0 12px">Root cause &mdash; 5 Whys</h3>
+  <table class="t">
+    <tr><th>Why</th><th>The answer</th></tr>
+    <tr><td>Why can't Rohan connect new tools?</td><td>Every integration requires custom engineering work</td></tr>
+    <tr><td>Why is engineering work required?</td><td>Every tool has a different API, auth model, and data schema</td></tr>
+    <tr><td>Why can't the IT Head do it himself?</td><td>Mapping his system's data model to the tool's API requires code &mdash; he can't write code</td></tr>
+    <tr><td>Why does that cap CloudEagle's value?</td><td>Governance depth requires working integrations &mdash; so governance is bounded by integration speed</td></tr>
+    <tr><td>Why solve this now?</td><td>AI can now read documentation, understand intent, generate code, and test it &mdash; making developer-free integration genuinely achievable for the first time</td></tr>
+  </table>
+</div></div>
+
+<div class="section" id="s5"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">05</span>Why This Problem, Why Now</div>
+  <h2>Three forces <em>converging right now.</em></h2>
+  <div class="dg c3">
+    <div class="dg-cell"><div class="dg-label">Force 1 &middot; AI Threshold Crossed</div><div class="dg-sub" style="font-size:13px;margin-top:10px;line-height:1.7">LLMs can now reliably read multi-page API docs, extract structured schemas, generate production-grade code, and explain every decision. This quality threshold wasn't reached 18 months ago. The capability is here. The product just needs to be built around it.</div></div>
+    <div class="dg-cell dark"><div class="dg-label">Force 2 &middot; Shadow AI &mdash; Happening Right Now</div><div class="dg-sub" style="font-size:13px;margin-top:10px;line-height:1.7;color:rgba(255,255,255,.6)">Employees at every CloudEagle customer are adopting AI tools today &mdash; ChatGPT, Cursor, Notion AI, Perplexity &mdash; without IT approval. Each one is a governance blind spot growing faster than any engineering team can build connectors for. The problem is accelerating. The solution needs to too.</div></div>
+    <div class="dg-cell"><div class="dg-label">Force 3 &middot; Competitive Window</div><div class="dg-sub" style="font-size:13px;margin-top:10px;line-height:1.7">No SaaS management platform currently offers AI-generated, client-aware integration. Merge.dev solved the tool-side. Zapier solved workflow automation. Nobody has solved the governance-layer translation problem for IT teams. This is a narrow, closing window.</div></div>
+  </div>
+
+<div style="margin:24px 0;background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:20px 24px">
+  <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--fog);margin-bottom:4px">Shadow AI tool adoption in enterprises — 2021 to 2025</div>
+  <div style="font-size:12px;color:var(--mist);margin-bottom:16px">Avg. number of AI tools used without IT approval per 1,000 employees</div>
+  <div style="position:relative;height:180px">
+    <canvas id="shadowLineChart"></canvas>
+  </div>
+  <div style="font-size:9px;color:#9AABC5;margin-top:8px">Source: Gartner, MuleSoft Shadow IT Reports 2021–2025 · Indicative trend</div>
+</div>
+</div></div>
+
+<div class="section" id="s6"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">06</span>Solutions Explored</div>
+  <h2>Four options. <em>Three rejected. Here's why.</em></h2>
+  <div class="sols">
+    <div class="sol"><div class="sol-tag" style="color:var(--mist)">Option A</div><h4>Hire more integration engineers</h4><p>Scale the manual approach by growing the team. For a startup, headcount scales linearly but client demand scales exponentially. CloudEagle would need to 10&times; its engineering team to clear the current backlog &mdash; and the backlog would still grow faster. Economically unviable.</p><div class="sol-verdict">Rejected: Linear solution to an exponential problem</div></div>
+    <div class="sol"><div class="sol-tag" style="color:var(--mist)">Option B</div><h4>Pre-built connector marketplace</h4><p>Build a library of ready-made connectors customers install without coding. Solves 500 tools. Does nothing for the other 149,500. Doesn't solve the schema translation problem &mdash; every client's data model is different regardless of the tool.</p><div class="sol-verdict">Rejected: A ceiling, not a solution</div></div>
+    <div class="sol"><div class="sol-tag" style="color:var(--mist)">Option C</div><h4>One universal schema &mdash; clients adapt to it</h4><p>Create a single "CloudEagle language" that all tools map to. Companies like Merge.dev built their business on this. The problem: it forces every client to reshape their internal data to match CloudEagle's model. If Rohan's system calls something "community_id" and the universal model calls it "organisation_unit" &mdash; the translation work still exists. It just moved.</p><div class="sol-verdict">Rejected: Moves the problem, doesn't solve it</div></div>
+    <div class="sol chosen"><div class="sol-tag">Option D &middot; Chosen</div><h4>AI-generated, client-aware integration builder</h4><p>AI reads the tool's API docs, understands the client's data model, generates the translation layer, tests it safely, and deploys with human approval at every checkpoint. Scales infinitely. Meets clients where they are. Every integration makes the next one faster via the SaaSMap flywheel.</p><div class="sol-verdict">&#10003; Chosen: Infinite scale. Solves the actual problem.</div></div>
+  </div>
+
+<h3 style="margin:24px 0 14px">Competitive positioning — radar view</h3>
+<div style="margin:0 0 24px;display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap">
+  <svg viewBox="0 0 280 280" width="280" style="flex-shrink:0">
+    <defs><style>text{font-family:'DM Sans',sans-serif}</style></defs>
+    <!-- Pentagon grid at 20%, 40%, 60%, 80%, 100% -->
+    <!-- 5 axes at 90,162,234,306,18 degrees (top, then clockwise) -->
+    <!-- cx=140 cy=140 -->
+    <!-- Axis points at r=110: 
+         Top (90°): 140,30
+         BR (162°): 140+110*cos(162°), 140-110*sin(162°) = 140-104.6,140+34 = 35.4,174
+         BL (234°): 140+110*cos(234°), 140-110*sin(234°) = 140-64.5,140+89 = 75.5,229
+         TL (306°): 140+110*cos(306°), 140-110*sin(306°) = 140+64.5,140+89 = 204.5,229
+         TR (18°): 140+110*cos(18°), 140-110*sin(18°) = 140+104.6,140+34 = 244.6,174 -->
+    <!-- Grid at 20%=r22: 140,118 / 140-20.9,140+6.8 / 140-12.9,140+17.8 / 140+12.9,140+17.8 / 140+20.9,140+6.8 -->
+    <polygon points="140,118 119.1,146.8 127.1,157.8 152.9,157.8 160.9,146.8" fill="none" stroke="#EEF1F8" stroke-width="1"/>
+    <polygon points="140,96 98.2,153.6 114.2,175.6 165.8,175.6 181.8,153.6" fill="none" stroke="#EEF1F8" stroke-width="1"/>
+    <polygon points="140,74 77.3,160.4 101.3,193.4 178.7,193.4 202.7,160.4" fill="none" stroke="#EEF1F8" stroke-width="1"/>
+    <polygon points="140,52 56.4,167.2 88.4,211.2 191.6,211.2 223.6,167.2" fill="none" stroke="#EEF1F8" stroke-width="1"/>
+    <polygon points="140,30 35.4,174 75.5,229 204.5,229 244.6,174" fill="none" stroke="#DDE3EE" stroke-width="1"/>
+    <!-- Axes -->
+    <line x1="140" y1="140" x2="140" y2="30" stroke="#EEF1F8" stroke-width="1"/>
+    <line x1="140" y1="140" x2="35.4" y2="174" stroke="#EEF1F8" stroke-width="1"/>
+    <line x1="140" y1="140" x2="75.5" y2="229" stroke="#EEF1F8" stroke-width="1"/>
+    <line x1="140" y1="140" x2="204.5" y2="229" stroke="#EEF1F8" stroke-width="1"/>
+    <line x1="140" y1="140" x2="244.6" y2="174" stroke="#EEF1F8" stroke-width="1"/>
+    <!-- Axis labels -->
+    <text x="140" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#334869">Schema Registry</text>
+    <text x="22" y="178" text-anchor="end" font-size="10" font-weight="700" fill="#334869">Client Mapping</text>
+    <text x="72" y="244" text-anchor="middle" font-size="10" font-weight="700" fill="#334869">Mock Layer</text>
+    <text x="208" y="244" text-anchor="middle" font-size="10" font-weight="700" fill="#334869">Ops UI</text>
+    <text x="258" y="178" text-anchor="start" font-size="10" font-weight="700" fill="#334869">API Versioning</text>
+    <!-- CloudEagle scores: Schema=100%, Client=90%, Mock=95%, Ops=85%, Versioning=100% -->
+    <!-- r values: 110*1.0=110, 110*0.9=99, 110*0.95=104.5, 110*0.85=93.5, 110*1.0=110 -->
+    <!-- Points: Top(100%)=140,30 | BotRight(90%)=35.4+9.1=44.5,174-3.1=170.9... -->
+    <!-- Let me compute properly: each axis point = center + r * direction_vector -->
+    <!-- direction vectors (unit): Top=(0,-1), BR=(-0.951,0.309), BL=(-0.588,0.809), TL=(0.588,0.809), TR=(0.951,0.309) -->
+    <!-- CE: Schema(100%)=r110: 140+0*110,140-1*110=140,30 -->
+    <!-- CE: ClientMap(90%)=r99: 140-0.951*99,140+0.309*99=140-94.1,140+30.6=45.9,170.6 -->
+    <!-- CE: Mock(95%)=r104.5: 140-0.588*104.5,140+0.809*104.5=140-61.4,140+84.5=78.6,224.5 -->
+    <!-- CE: OpsUI(85%)=r93.5: 140+0.588*93.5,140+0.809*93.5=140+55,140+75.7=195,215.7 -->
+    <!-- CE: APIVer(100%)=r110: 140+0.951*110,140+0.309*110=140+104.6,140+34=244.6,174 -->
+    <polygon points="140,30 45.9,170.6 78.6,224.5 195,215.7 244.6,174"
+      fill="rgba(27,79,204,0.15)" stroke="#1B4FCC" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Merge.dev scores: Schema=90%, Client=20%, Mock=10%, Ops=30%, Versioning=20% -->
+    <!-- Schema(90%)=r99: 140,41 | Client(20%)=r22: 140-0.951*22,140+0.309*22=119.1,146.8 -->
+    <!-- Mock(10%)=r11: 140-0.588*11,140+0.809*11=133.5,148.9 | OpsUI(30%)=r33: 140+0.588*33,140+0.809*33=159.4,166.7 -->
+    <!-- APIVer(20%)=r22: 140+0.951*22,140+0.309*22=160.9,146.8 -->
+    <polygon points="140,41 119.1,146.8 133.5,148.9 159.4,166.7 160.9,146.8"
+      fill="rgba(155,163,175,0.08)" stroke="#9AABC5" stroke-width="1.5" stroke-dasharray="4 2" stroke-linejoin="round"/>
+    <!-- Zapier scores: Schema=20%, Client=15%, Mock=10%, Ops=80%, Versioning=10% -->
+    <!-- Schema(20%)=r22: 140,118 | Client(15%)=r16.5: 140-0.951*16.5,140+0.309*16.5=124.3,145.1 -->
+    <!-- Mock(10%)=r11: 133.5,148.9 | OpsUI(80%)=r88: 140+0.588*88,140+0.809*88=191.7,211.2 -->
+    <!-- APIVer(10%)=r11: 140+0.951*11,140+0.309*11=150.5,143.4 -->
+    <polygon points="140,118 124.3,145.1 133.5,148.9 191.7,211.2 150.5,143.4"
+      fill="rgba(245,158,11,0.06)" stroke="#F9C97C" stroke-width="1.5" stroke-dasharray="4 2" stroke-linejoin="round"/>
+    <!-- Center dot -->
+    <circle cx="140" cy="140" r="3" fill="#6B7FA0"/>
+    <!-- CE dot -->
+    <circle cx="140" cy="30" r="4" fill="#1B4FCC"/>
+    <circle cx="45.9" cy="170.6" r="4" fill="#1B4FCC"/>
+    <circle cx="78.6" cy="224.5" r="4" fill="#1B4FCC"/>
+    <circle cx="195" cy="215.7" r="4" fill="#1B4FCC"/>
+    <circle cx="244.6" cy="174" r="4" fill="#1B4FCC"/>
+  </svg>
+  <div style="flex:1;min-width:180px;padding-top:8px">
+    <div style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:20px;height:3px;background:#1B4FCC;border-radius:2px"></div><span style="font-size:13px;font-weight:700">CloudEagle</span></div>
+      <div style="font-size:12px;color:var(--mist);line-height:1.6">Only platform covering all five dimensions. Schema registry (SaaSMap), client-aware mapping, mock layer, ops UI, and API versioning all in one product.</div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:20px;height:2px;background:#9AABC5;border-radius:2px;border-top:1px dashed #9AABC5"></div><span style="font-size:13px;font-weight:600;color:var(--mist)">Merge.dev</span></div>
+      <div style="font-size:12px;color:var(--mist);line-height:1.6">Strong schema registry. Weak on client-side mapping — forces clients to conform to their model.</div>
+    </div>
+    <div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:20px;height:2px;background:#F9C97C;border-radius:2px;border-top:1px dashed #F9C97C"></div><span style="font-size:13px;font-weight:600;color:var(--mist)">Zapier</span></div>
+      <div style="font-size:12px;color:var(--mist);line-height:1.6">Good ops UI. Weak on schema registry, client-aware mapping, and versioning.</div>
+    </div>
+  </div>
+</div>
+</div></div>
+
+<div class="section" id="s7"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">07</span>Prioritisation &amp; Pricing</div>
+  <h2>What to build in MVP &mdash; <em>and how we monetise it.</em></h2>
+  <p class="lead">RICE determines the build order. Pricing determines how the feature generates or protects revenue. Both are product decisions, not engineering ones.</p>
+  <table class="t">
+    <tr><th>Feature</th><th>Problem solved</th><th>R</th><th>I</th><th>C</th><th>E</th><th>Decision</th></tr>
+    <tr><td>AI doc ingestion + schema extraction</td><td>Reads tool API documentation automatically</td><td>H</td><td>H</td><td>H</td><td>M</td><td><span class="badge green">MVP</span></td></tr>
+    <tr><td>Integration plan preview (before code)</td><td>Builds human trust before any code generates</td><td>H</td><td>H</td><td>H</td><td>L</td><td><span class="badge green">MVP</span></td></tr>
+    <tr><td>Mock server sandbox testing</td><td>Safe testing with no real data or credentials</td><td>H</td><td>H</td><td>H</td><td>M</td><td><span class="badge green">MVP</span></td></tr>
+    <tr><td>Approval gate with audit log</td><td>Security checkpoint &mdash; Arjun's gate</td><td>H</td><td>H</td><td>H</td><td>L</td><td><span class="badge green">MVP</span></td></tr>
+    <tr><td>Confidence scoring on field mappings</td><td>Shows exactly where AI is uncertain</td><td>H</td><td>H</td><td>M</td><td>M</td><td><span class="badge green">MVP</span></td></tr>
+    <tr><td>Governance Coverage Score widget</td><td>Makes integration value tangible and trackable</td><td>H</td><td>H</td><td>H</td><td>M</td><td><span class="badge green">MVP</span></td></tr>
+    <tr><td>API version change monitoring</td><td>Self-healing when tool APIs update</td><td>M</td><td>H</td><td>M</td><td>H</td><td><span class="badge amber">Post-MVP</span></td></tr>
+    <tr><td>Multi-language code generation (Go, TS)</td><td>Support broader engineering stacks</td><td>M</td><td>M</td><td>H</td><td>M</td><td><span class="badge amber">Post-MVP</span></td></tr>
+    <tr><td>Industry-aware mapping models</td><td>Domain-specific field matching</td><td>M</td><td>H</td><td>L</td><td>H</td><td><span class="badge amber">Post-MVP</span></td></tr>
+    <tr><td>Staged rollout &mdash; deploy to one team first</td><td>Graduated production deployment for large orgs</td><td>L</td><td>M</td><td>M</td><td>H</td><td><span class="badge gray">Future</span></td></tr>
+  </table>
+<h3 style="margin:24px 0 6px">RICE visualised &mdash; feature prioritisation at a glance</h3>
+<div style="font-size:12px;color:var(--mist);margin-bottom:16px">Axes: Reach (x) &times; Impact (y) &middot; Bubble size = Confidence &middot; Colour = Priority</div>
+<div style="background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:20px 24px;margin-bottom:18px">
+  <div style="position:relative;height:300px">
+    <canvas id="riceBubbleChart"></canvas>
+    <svg id="riceOverlay" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible">
+      <text id="ql-tl" x="25%" y="18" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9AABC5">Low Reach · High Impact</text>
+      <text id="ql-tr" x="75%" y="18" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#1B4FCC" font-weight="700">High Reach · High Impact ← MVP zone</text>
+      <text id="ql-bl" x="25%" y="96%" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9AABC5">Low Reach · Low Impact</text>
+      <text id="ql-br" x="75%" y="96%" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9AABC5">High Reach · Low Impact</text>
+    </svg>
+  </div>
+  <div style="display:flex;align-items:center;gap:18px;margin-top:12px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:50%;background:rgba(16,185,129,0.15);border:2px solid #10B981"></div><span style="font-size:11px;color:#334869">MVP</span></div>
+    <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:50%;background:rgba(245,158,11,0.12);border:2px solid #F9C97C"></div><span style="font-size:11px;color:#334869">Post-MVP</span></div>
+    <div style="display:flex;align-items:center;gap:6px"><div style="width:10px;height:10px;border-radius:50%;background:rgba(155,163,175,0.1);border:2px solid #DDE3EE"></div><span style="font-size:11px;color:#334869">Future</span></div>
+    <span style="font-size:10px;color:#9AABC5;margin-left:4px">Bubble size = Confidence · Top-right = ship first</span>
+  </div>
+</div>
+  <div class="callout warn"><div class="cl-icon">&#9888;</div><div class="cl-body"><strong>What we deliberately excluded from MVP:</strong> Multi-language support, industry orchestrators, staged rollout. The MVP proves one thing: a non-technical IT Head can connect a tool safely in under 4 hours. Nothing ships until that is proven.</div></div>
+  <h3 style="margin:24px 0 14px">Pricing Model</h3>
+  <div class="pricing-grid">
+    <div class="price-card"><div class="price-tier">Starter</div><h4>Existing Plans</h4><div class="price-val">No change</div><div class="price-note">Pre-built connectors only. No AI builder access. Discovery and spend reporting included.</div><ul class="price-list"><li>500 pre-built integrations</li><li>SaaSMap discovery</li><li>Renewal management</li></ul></div>
+    <div class="price-card featured"><div class="price-tier">Business &middot; Recommended</div><h4>AI Builder Included</h4><div class="price-val">+$X/month</div><div class="price-note">Up to 10 AI-generated integrations/month. Full sandbox + approval workflow. Governance Coverage Score dashboard.</div><ul class="price-list"><li>Everything in Starter</li><li>10 AI-built integrations/month</li><li>Sandbox + approval gate</li><li>Governance Coverage Score</li><li>EagleEye monitoring</li></ul></div>
+    <div class="price-card"><div class="price-tier">Enterprise</div><h4>Unlimited + SLA</h4><div class="price-val">Custom</div><div class="price-note">Unlimited integrations. 24-hr SLA on API change detection. SOC 2 / ISO 27001 audit reports.</div><ul class="price-list"><li>Everything in Business</li><li>Unlimited integrations</li><li>24-hr API change SLA</li><li>SOC 2 / ISO 27001 audit reports</li><li>Dedicated success manager</li></ul></div>
+  </div>
+  <div class="callout insight"><div class="cl-icon">&#128161;</div><div class="cl-body"><strong>Pricing logic:</strong> Charge per deployed integration (not generated). This aligns CloudEagle's revenue with the metric that matters &mdash; successful production deployments, not AI activity. A customer who generates 20 integrations but deploys 0 has received no governance value. The unit of value is a working, monitored connection.</div></div>
+</div></div>
+
+<div class="section" id="s8"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">08</span>User Journey &mdash; Frontend &amp; Backend in Parallel</div>
+  <h2>What Rohan and Arjun experience. <em>What the system does.</em></h2>
+  <div class="d-flag"><div class="d-flag-icon">&#127912;</div><div><div class="d-flag-label">Deliverable 1 &middot; UX Design</div><div class="d-flag-title">This section is the UX / Figma deliverable</div><div class="d-flag-sub">Each step maps to a screen in the full UX design document. Frontend = what users see. Backend = what drives it.</div><a href="/ux" class="d-flag-link">&#9654; Open Full UX Design &rarr;</a></div></div>
+  <div class="journey">
+    <div class="j-header"><div></div><div class="j-hcol user">Frontend &middot; What users see</div><div class="j-hcol sys">Backend &middot; What the system does</div></div>
+    <div class="jstep"><div class="jstep-num"><div class="j-circle">1</div><div class="j-line"></div></div><div class="jstep-user"><h4>Ingestion Canvas &mdash; paste the URL</h4><p>Rohan pastes the API documentation URL. Three input modes: URL, OpenAPI spec, Postman collection. No technical configuration. One CTA: Analyse.</p><div class="chips"><span class="chip det">URL validation</span><span class="chip ai">AI readiness check</span></div></div><div class="jstep-sys"><h4>Doc ingestion begins</h4><p>URL validated, content fetched, chunked into semantic units, embedded into vector DB (RAG). Auth sections, endpoints, and pagination patterns extracted deterministically before any AI model is called.</p></div></div>
+    <div class="jstep"><div class="jstep-num"><div class="j-circle">2</div><div class="j-line"></div></div><div class="jstep-user"><h4>Semantic Analysis &mdash; AI shows what it understood</h4><p>Before any code: a plain-language summary. Auth type, endpoints found, data objects identified. Rohan confirms. First trust checkpoint &mdash; nothing proceeds without human confirmation.</p><div class="chips"><span class="chip ai">Claude Sonnet 4 &mdash; doc parsing</span><span class="chip gate">Gate: user confirms first</span></div></div><div class="jstep-sys"><h4>Reasoning model extracts structured data</h4><p>Claude Sonnet 4 receives embedded doc chunks. Outputs structured JSON: auth flows, endpoint schemas, data entities, error codes, rate-limit behaviour. No code generation yet.</p></div></div>
+    <div class="jstep"><div class="jstep-num"><div class="j-circle">3</div><div class="j-line"></div></div><div class="jstep-user"><h4>Integration Plan &mdash; logic before code</h4><p>AI shows a numbered plan in plain English: what it will call, what data it collects, what happens if something fails. Rohan reads and approves. Second trust checkpoint.</p><div class="chips"><span class="chip ai">GPT-4o &mdash; plan generation</span><span class="chip gate">Gate: plan approval required</span></div></div><div class="jstep-sys"><h4>Plan generated and versioned</h4><p>Code generation model receives endpoint set, use case, schema summary. Produces structured plan stored and versioned &mdash; becomes the source of truth for generated code. Scope minimiser checks permissions before plan is shown to user.</p></div></div>
+    <div class="jstep"><div class="jstep-num"><div class="j-circle">4</div><div class="j-line"></div></div><div class="jstep-user"><h4>Generated Code &mdash; with inline explanations</h4><p>Code appears with plain-English comments on every non-obvious line. Security badges (Scope &#10003;, SAST &#10003;) visible at top. Engineers can download for review. Rohan's action: proceed to sandbox.</p><div class="chips"><span class="chip det">SAST scan + scope audit</span><span class="chip ai">Code Llama &mdash; security validation</span></div></div><div class="jstep-sys"><h4>Code generation + automated static checks</h4><p>GPT-4o generates code from approved plan. SAST scanner checks: no hardcoded credentials, minimum scope only, retry and backoff present, PII fields flagged. If check fails &rarr; code regenerated with fix, never shown to user.</p></div></div>
+    <div class="jstep"><div class="jstep-num"><div class="j-circle">5</div><div class="j-line"></div></div><div class="jstep-user"><h4>Sandbox Testing &mdash; split pane view</h4><p>Left: annotated code. Right: live terminal running against CloudEagle's mock server. Data preview at bottom. No real credentials. Mock results clearly labelled as fake. Mandatory &mdash; cannot be skipped on first-time integrations.</p><div class="chips"><span class="chip det">Mandatory for first-time integrations</span></div></div><div class="jstep-sys"><h4>Three-stage isolated execution</h4><p>Stage 1: Containerised sandbox &mdash; outbound network blocked except to mock server. Stage 2: Mock API server returns realistic fake data from SaaSMap schema registry. Stage 3: Synthetic dataset mimicking customer org structure. All three must pass before Approve button activates.</p></div></div>
+    <div class="jstep"><div class="jstep-num"><div class="j-circle">6</div></div><div class="jstep-user"><h4>Approval Gate &mdash; Arjun's domain</h4><p>Security Risk Report: data accessed, scopes requested vs minimum required, SOC 2 / ISO 27001 alignment, PII disclosures. Each flagged item requires individual checkbox confirmation &mdash; no single "I agree" button. Arjun provides named digital sign-off. Third and final checkpoint.</p><div class="chips"><span class="chip gate">Named approver required</span><span class="chip det">Audit log created</span></div></div><div class="jstep-sys"><h4>Deployment + EagleEye monitoring begins</h4><p>Production credentials encrypted and stored in secrets vault. Integration deployed. EagleEye begins: data quality checks on first 5 runs, API health monitoring, schema drift detection. Governance Coverage Score updated on customer dashboard immediately upon first successful sync.</p></div></div>
+  </div>
+  <div class="callout warn"><div class="cl-icon">&#9888;</div><div class="cl-body"><strong>Failure paths matter as much as the happy path.</strong> If AI fails to parse docs at step 2 &rarr; user sees a specific explanation (not a generic error) and can upload a spec file. If sandbox fails at step 5 &rarr; the system shows exactly which test failed, why, and what to fix. Full error-state screens are in the UX Design document.</div></div>
+</div></div>
+
+<div class="section" id="s9"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">09</span>Safeguards</div>
+  <h2>We are asking non-technical users to <em>deploy code to production.</em></h2>
+  <p class="lead">Safeguards are not warnings &mdash; they are a layered architecture of controls where each catches what the previous misses. Sandbox first, always. No exceptions on first-time integrations.</p>
+  <div class="d-flag"><div class="d-flag-icon">&#128737;</div><div><div class="d-flag-label">Deliverable 2 &middot; Safeguards</div><div class="d-flag-title">Six non-negotiable layers of enterprise safety</div><div class="d-flag-sub">Designed around CloudEagle's existing SOC 2 and ISO 27001 compliance architecture &mdash; each layer maps to a specific failure mode.</div></div></div>
+  <table class="t">
+    <tr><th>Layer</th><th>What it guards against</th><th>How</th><th>Bypassable?</th></tr>
+    <tr><td>01 &middot; Input Safety</td><td>Bad URLs, unsupported APIs, unauthorised build initiation</td><td>URL validation, doc quality score, role-based access. Maps to CloudEagle's existing RBAC framework.</td><td><span class="badge red">No</span></td></tr>
+    <tr><td>02 &middot; Generation Safety</td><td>Over-permissioned scopes, hallucinated endpoints, insecure credential handling</td><td>Scope minimiser runs before code is shown. SAST automatic. Code with hardcoded secrets regenerated, never shown. Code Llama security pass.</td><td><span class="badge red">No</span></td></tr>
+    <tr><td>03 &middot; Environment Safety</td><td>Unvalidated code reaching production data</td><td>Three-stage mandatory sandbox. Deploy button physically locked until all stages pass. No override for first-time integrations.</td><td><span class="badge red">No for v1</span></td></tr>
+    <tr><td>04 &middot; Deployment Safety</td><td>Unapproved changes, no rollback path</td><td>Named digital approver (Arjun) with individual checklist sign-off. One-click rollback. Diff review required for updates. Aligned with SOC 2 change management.</td><td><span class="badge amber">Partial</span></td></tr>
+    <tr><td>05 &middot; Runtime Safety</td><td>Silent failures, rate-limit bans, data corruption</td><td>Logging + health scoring in every integration. Exponential backoff on all 429 and 5xx. EagleEye alert if data quality score drops.</td><td><span class="badge red">No</span></td></tr>
+    <tr><td>06 &middot; Governance Safety</td><td>PII exposure, credential sprawl, GDPR violations, cross-border data flow</td><td>Secrets vault (no credentials in code &mdash; ever), PII masking, cross-border data flow flag for GDPR integrations, full action history. ISO 27001 aligned.</td><td><span class="badge red">No</span></td></tr>
+  </table>
+  <div class="callout key"><div class="cl-icon">&#127919;</div><div class="cl-body"><strong>Key design decision:</strong> The Approval Gate requires Arjun to check each flagged item individually &mdash; not click one "I agree" button. If approval time drops below 60 seconds on a flagged integration, a reminder screen appears: "This integration has flagged items. Please review each one before signing." Accountability must be genuine to be useful.</div></div>
+</div></div>
+
+<div class="section" id="s10"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">10</span>The API Versioning Problem</div>
+  <h2>What happens when Calendly <em>moves from v2 to v3?</em></h2>
+  <p class="lead">An integration that breaks silently six months after deployment destroys enterprise trust permanently. Here are the three scenarios and how the system handles each &mdash; and why this becomes a competitive moat.</p>
+  <div class="vsm">
+    <div class="vsm-card ok"><div class="vsm-sc">Scenario A</div><h4>Non-breaking change</h4><p>New endpoints added. Nothing existing removed.</p><ul class="vsm-steps"><li>EagleEye detects doc changes in 6-hr crawl</li><li>Diff: additive only, no breaks</li><li>Integration continues unchanged</li><li>Changelog notification to Rohan and Arjun</li><li>Option to expand integration presented</li></ul></div>
+    <div class="vsm-card warn"><div class="vsm-sc">Scenario B</div><h4>Deprecation notice (90-day window)</h4><p>Calendly announces v2 endpoints deprecated with a migration deadline.</p><ul class="vsm-steps"><li>EagleEye detects deprecation notice</li><li>Alert to Rohan and Arjun immediately</li><li>AI generates migration plan automatically</li><li>Migration code goes through full sandbox</li><li>Human approval required to switch</li><li>Old version continues until new version approved</li></ul></div>
+    <div class="vsm-card brk"><div class="vsm-sc">Scenario C</div><h4>Full breaking change (v2 &rarr; v3)</h4><p>Calendly releases v3 with new auth model and restructured schemas.</p><ul class="vsm-steps"><li>EagleEye detects v3 documentation</li><li>Full re-ingestion triggered automatically</li><li>AI generates diff report: what changed, what broke</li><li>New integration plan from v3 docs</li><li>Full sandbox run required</li><li>v2 frozen (read-only) until v3 approved</li><li>Explicit approval from Arjun before v3 goes live</li></ul></div>
+  </div>
+  <div class="callout star"><div class="cl-icon">&#11088;</div><div class="cl-body"><strong>Enterprise SLA commitment:</strong> EagleEye crawls API documentation every 6 hours. Enterprise tier SLA: IT Head notified within 24 hours of any breaking change. v2 integration continues until customer explicitly approves migration. No silent failures, no surprise downtime.<br/><br/><strong>Why this becomes a moat:</strong> Every competitor either ignores versioning (integrations break silently) or requires manual re-integration. CloudEagle's continuous monitoring means zero silent failures. Once a customer trusts their integrations won't break without warning, switching costs increase significantly. A feature becomes a retention mechanism.</div></div>
+</div></div>
+
+<div class="section" id="s11"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">11</span>Architecture, Model Choice &amp; Unit Economics</div>
+  <h2>What's being built &mdash; and <em>what it costs to run.</em></h2>
+  <div class="d-flag"><div class="d-flag-icon">&#129302;</div><div><div class="d-flag-label">Deliverable 3 &middot; Prototype &amp; Model Strategy</div><div class="d-flag-title">Architecture, model rationale, and live prototype</div><div class="d-flag-sub">Three models in sequence, each selected for a specific sub-task. Deterministic layer explicitly separated from AI.</div><a href="/prototype" class="d-flag-link">&#9654; Open Live Prototype &rarr;</a></div></div>
+  <div class="arch-wrap">
+    <svg width="100%" viewBox="0 0 760 380" style="display:block;padding:20px">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#9AABC5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <rect x="18" y="140" width="100" height="56" rx="8" fill="#EBF1FF" stroke="#B8CBFF" stroke-width="1.5"/>
+      <text x="68" y="163" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="700" fill="#1B4FCC">IT Head</text>
+      <text x="68" y="179" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#6B7FA0">Platform UI</text>
+      <path d="M 120 168 L 152 168" stroke="#9AABC5" stroke-width="1.5" marker-end="url(#arr)"/>
+      <rect x="154" y="118" width="108" height="100" rx="8" fill="#F2F5FA" stroke="#DDE3EE" stroke-width="1.5"/>
+      <text x="208" y="142" text-anchor="middle" font-family="DM Sans" font-size="10" font-weight="700" fill="#334869">Doc Ingestion</text>
+      <text x="208" y="158" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#6B7FA0">URL fetch + parse</text>
+      <text x="208" y="172" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#6B7FA0">Chunk + embed</text>
+      <text x="208" y="186" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#6B7FA0">RAG / Vector DB</text>
+      <text x="208" y="204" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#0A7369" font-weight="600">Deterministic</text>
+      <path d="M 264 168 L 296 168" stroke="#9AABC5" stroke-width="1.5" marker-end="url(#arr)"/>
+      <rect x="298" y="96" width="148" height="196" rx="8" fill="#EBF1FF" stroke="#B8CBFF" stroke-width="1.5"/>
+      <text x="372" y="116" text-anchor="middle" font-family="DM Sans" font-size="10" font-weight="700" fill="#1B4FCC">AI Orchestration</text>
+      <rect x="310" y="124" width="124" height="28" rx="5" fill="white" stroke="#B8CBFF" stroke-width="1"/>
+      <text x="372" y="141" text-anchor="middle" font-family="DM Sans" font-size="9" font-weight="600" fill="#334869">Claude Sonnet 4 - Reading</text>
+      <rect x="310" y="160" width="124" height="28" rx="5" fill="white" stroke="#B8CBFF" stroke-width="1"/>
+      <text x="372" y="177" text-anchor="middle" font-family="DM Sans" font-size="9" font-weight="600" fill="#334869">GPT-4o - Code generation</text>
+      <rect x="310" y="196" width="124" height="28" rx="5" fill="white" stroke="#B8CBFF" stroke-width="1"/>
+      <text x="372" y="213" text-anchor="middle" font-family="DM Sans" font-size="9" font-weight="600" fill="#334869">Code Llama - Security audit</text>
+      <rect x="310" y="232" width="124" height="28" rx="5" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+      <text x="372" y="249" text-anchor="middle" font-family="DM Sans" font-size="9" font-weight="600" fill="#4A1D96">RAG - SaaSMap schemas</text>
+      <path d="M 448 168 L 478 168" stroke="#9AABC5" stroke-width="1.5" marker-end="url(#arr)"/>
+      <rect x="480" y="118" width="120" height="100" rx="8" fill="#E4F5F3" stroke="#86CFCA" stroke-width="1.5"/>
+      <text x="540" y="140" text-anchor="middle" font-family="DM Sans" font-size="10" font-weight="700" fill="#0A7369">Platform Controls</text>
+      <text x="540" y="157" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#0A7369">SAST scanner</text>
+      <text x="540" y="171" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#0A7369">Scope minimiser</text>
+      <text x="540" y="185" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#0A7369">Mock server</text>
+      <text x="540" y="199" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#0A7369">Secrets vault</text>
+      <text x="540" y="213" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#0A7369" font-weight="600">All Deterministic</text>
+      <path d="M 602 168 L 632 168" stroke="#9AABC5" stroke-width="1.5" marker-end="url(#arr)"/>
+      <rect x="634" y="140" width="100" height="56" rx="8" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.5"/>
+      <text x="684" y="162" text-anchor="middle" font-family="DM Sans" font-size="10" font-weight="700" fill="#065F46">Production</text>
+      <text x="684" y="178" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#0A7369">EagleEye live</text>
+      <rect x="18" y="292" width="720" height="52" rx="8" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+      <text x="378" y="312" text-anchor="middle" font-family="DM Sans" font-size="10" font-weight="700" fill="#4A1D96">Multi-tenancy: Separate vector DB namespaces per customer - Code stored in customer-scoped S3 - No cross-tenant data access</text>
+      <text x="378" y="330" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#6B7FA0">EagleEye crawl: Every 6 hours - Breaking change detection SLA: 24hrs (Enterprise tier)</text>
+    </svg>
+  </div>
+  <table class="t">
+    <tr><th>Model</th><th>Role</th><th>Why this model</th></tr>
+    <tr><td>Claude Sonnet 4</td><td>Architect &mdash; reads docs, plans integration</td><td>Best-in-class long-context (200K tokens). Reliable instruction-following. Avoids hallucinating endpoints. Ideal for structured extraction from messy HTML docs.</td></tr>
+    <tr><td>GPT-4o</td><td>Developer &mdash; writes the integration code</td><td>Market-leading for idiomatic, performant code. Familiar with existing API client patterns. Generates auth flows, pagination, error handling, and resilience modules from the approved plan.</td></tr>
+    <tr><td>Code Llama (fine-tuned)</td><td>Auditor &mdash; security validation</td><td>Specialised for code analysis. Detects anti-patterns, over-permissioned scopes, missing retry logic. Runs on cheaper compute. Aligned to CloudEagle's internal security standards.</td></tr>
+  </table>
+  
+<div style="margin:24px 0">
+  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#6B7FA0;margin-bottom:10px">Time &amp; Cost Comparison — Manual vs AI Integration Builder</div>
+  <div style="position:relative;height:180px">
+    <canvas id="costTimeChart"></canvas>
+  </div>
+</div>
+<h3 style="margin:20px 0 12px">Unit Economics</h3>
+  <table class="t">
+    <tr><th>Component</th><th>Cost per integration</th><th>Context</th></tr>
+    <tr><td>Claude Sonnet 4 (doc parsing + plan)</td><td>~$0.15&ndash;0.25</td><td>200K context window; typical API doc = 30&ndash;60K tokens</td></tr>
+    <tr><td>GPT-4o (code generation)</td><td>~$0.10&ndash;0.20</td><td>Standard code generation, 2&ndash;4K tokens output</td></tr>
+    <tr><td>Code Llama (security audit)</td><td>~$0.02&ndash;0.05</td><td>Fine-tuned, runs on cheaper compute</td></tr>
+    <tr><td>Mock server execution + sandbox</td><td>~$0.05</td><td>Containerised compute, short-lived</td></tr>
+    <tr><td style="font-weight:700">Total AI cost per integration</td><td style="font-weight:700">~$0.32&ndash;0.50</td><td>vs. $40,000 engineering cost per manual integration</td></tr>
+    <tr><td style="color:var(--green);font-weight:700">Cost reduction</td><td style="color:var(--green);font-weight:700">99.999%</td><td>The ROI conversation answers itself</td></tr>
+  </table>
+</div></div>
+
+<div class="section" id="s12"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">12</span>Edge Cases</div>
+  <h2>What happens when <em>things don't go as expected?</em></h2>
+  <table class="t">
+    <tr><th>Edge Case</th><th>How it presents</th><th>Handling</th><th>When</th></tr>
+    <tr><td>Incomplete or inaccurate API docs</td><td>AI generates code with missing fields</td><td>Confidence score drops. User sees specific gaps with option to upload a spec file. Human confirmation required on flagged fields.</td><td><span class="badge green">MVP</span></td></tr>
+    <tr><td>Tool has no public documentation</td><td>URL returns 404 or is login-gated</td><td>Prompt to upload OpenAPI spec or Postman collection. If neither, route to CloudEagle implementation team with pre-filled request.</td><td><span class="badge green">MVP</span></td></tr>
+    <tr><td>API docs in PDF format only</td><td>URL points to a PDF not a web page</td><td>PDF extraction pipeline. Accuracy warning shown: "PDF docs may have lower accuracy &mdash; review the plan carefully."</td><td><span class="badge amber">Post-MVP</span></td></tr>
+    <tr><td>OAuth requiring browser interaction</td><td>Tool uses OAuth with a redirect that can't be automated</td><td>System generates OAuth setup instructions for manual completion. Integration waits for token confirmation.</td><td><span class="badge green">MVP</span></td></tr>
+    <tr><td>Client system has no API layer</td><td>Customer cannot provide a URL or schema</td><td>MVP: communicate the API requirement, provide implementation team fallback. Post-MVP: AI generates client-side scaffolding.</td><td><span class="badge amber">Post-MVP</span></td></tr>
+    <tr><td>Duplicate integration &mdash; same tool, two teams</td><td>Two IT Heads in the same org build the same integration independently</td><td>Duplicate detection alert: "An integration to this tool already exists in your org. Review before creating a second one."</td><td><span class="badge green">MVP</span></td></tr>
+    <tr><td>GDPR cross-border data flow</td><td>Integration transfers EU user data to a tool hosted outside the EU</td><td>PII detection + geo-routing check at deployment. Red flag in Security Risk Report. Deployment blocked until Arjun acknowledges explicitly.</td><td><span class="badge green">MVP</span></td></tr>
+    <tr><td>Tool changes schema mid-subscription</td><td>A mapped field no longer exists in API response</td><td>EagleEye detects mismatch. Alert fires. Data collection paused on affected fields. Rohan notified with specific field and resolution. See Section 10.</td><td><span class="badge green">MVP</span></td></tr>
+  </table>
+</div></div>
+
+<div class="section" id="s13"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">13</span>Before &amp; After</div>
+  <h2>What changes for Rohan and Arjun. <em>Quantified.</em></h2>
+  <div class="ba">
+    <div class="ba-col before">
+      <div class="ba-label">Before &middot; Today</div>
+      <div class="ba-story">Rohan's company approves a new scheduling tool. He opens a ticket. Engineering adds it to the next sprint, two weeks out. It ships five weeks later. The tool has been in use for two months with zero governance. Arjun found out from a security audit, not from the platform.</div>
+      <div class="ba-stats">
+        <div class="ba-stat"><span class="ba-stat-label">Time to first integration</span><span class="ba-stat-val">6&ndash;8 weeks</span></div>
+        <div class="ba-stat"><span class="ba-stat-label">Engineering tickets per integration</span><span class="ba-stat-val">3&ndash;5 tickets</span></div>
+        <div class="ba-stat"><span class="ba-stat-label">% of SaaS stack deeply governed</span><span class="ba-stat-val">~15%</span></div>
+        <div class="ba-stat"><span class="ba-stat-label">Cost per integration</span><span class="ba-stat-val">$30&ndash;50K</span></div>
+        <div class="ba-stat"><span class="ba-stat-label">IT Head self-serve ability</span><span class="ba-stat-val">Zero</span></div>
+        <div class="ba-stat"><span class="ba-stat-label">Audit trail</span><span class="ba-stat-val">None</span></div>
+      </div>
+    </div>
+    <div class="ba-col after">
+      <div class="ba-label">After &middot; With AI Integration Builder</div>
+      <div class="ba-story">Rohan's company approves a new scheduling tool. He opens CloudEagle, pastes the docs URL, reads the AI's plan, approves it, runs sandbox testing, and Arjun signs off on the Security Risk Report. By end of day, the tool is connected and the Governance Coverage Score ticks up.</div>
+      <div class="ba-stats">
+        <div class="ba-stat"><span class="ba-stat-label">Time to first integration</span><span class="ba-stat-val">&lt; 4 hours</span></div>
+        <div class="ba-stat"><span class="ba-stat-label">Engineering tickets per integration</span><span class="ba-stat-val">0 (standard)</span></div>
+        <div class="ba-stat"><span class="ba-stat-label">% of SaaS stack deeply governed</span><span class="ba-stat-val">Expandable to 100%</span></div>
+        <div class="ba-stat"><span class="ba-stat-label">Cost per integration</span><span class="ba-stat-val">~$0.50 AI cost</span></div>
+        <div class="ba-stat"><span class="ba-stat-label">IT Head self-serve ability</span><span class="ba-stat-val">Full (standard tools)</span></div>
+        <div class="ba-stat"><span class="ba-stat-label">Audit trail</span><span class="ba-stat-val">Complete + signed</span></div>
+      </div>
+    </div>
+  </div>
+  <h3 style="margin-top:24px;margin-bottom:14px">Second-order effects &mdash; honest assessment</h3>
+  <div class="dg c3">
+    <div class="dg-cell"><div class="dg-label">For CloudEagle Sales</div><div class="dg-sub" style="font-size:13px;margin-top:8px;line-height:1.65">Priya can answer "do you support X?" with a live demo. Estimated deal cycle reduction: 2&ndash;3 weeks on accounts where integration coverage was the primary objection.</div></div>
+    <div class="dg-cell"><div class="dg-label">Cannibalisation &mdash; honest</div><div class="dg-sub" style="font-size:13px;margin-top:8px;line-height:1.65">If an IT Head can AI-build a Salesforce integration, why use the pre-built one? Risk is real. Mitigation: pre-built connectors ship with higher quality scores, pre-validated schemas, and CloudEagle SLA coverage. AI-built is for the 149,500 tools with no pre-built option.</div></div>
+    <div class="dg-cell dark"><div class="dg-label">For Retention</div><div class="dg-sub" style="font-size:13px;margin-top:8px;line-height:1.65;color:rgba(255,255,255,.6)">Churn is highest in customers with fewer than 5 integrations. This feature directly targets that cohort by making the 6th, 7th, and 8th integration frictionless. More integrations = more governance = more reason to stay.</div></div>
+  </div>
+</div></div>
+
+<div class="section" id="s14"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">14</span>Success Metrics &amp; The Governance Coverage Score</div>
+  <h2>Measuring <em>trusted deployment</em> &mdash; not code generated.</h2>
+  <p class="lead">The north star is not how many integrations were generated. It is how many were deployed, stayed healthy, and expanded governance coverage. One metric ties everything together &mdash; and only CloudEagle can show it.</p>
+  <div class="gcs-hero">
+    <div class="gcs-label">New Proprietary Metric &middot; CloudEagle Exclusive</div>
+    <div class="gcs-title">Introducing the Governance Coverage Score</div>
+    <div class="gcs-sub">A single number on every customer's CloudEagle dashboard showing what percentage of their active SaaS stack is truly governed &mdash; not just discovered, but deeply integrated and monitored. No other platform can show this number. Only CloudEagle has the integration depth and SaaSMap data to calculate it.</div>
+    <div class="gcs-score-row">
+      <div class="gcs-score-card"><div class="gcs-score-num bad">14%</div><div class="gcs-score-label">Before Integration Builder</div></div>
+      <div class="gcs-arrow">&rarr;</div>
+      <div class="gcs-score-card"><div class="gcs-score-num mid">31%</div><div class="gcs-score-label">After 3 integrations built</div></div>
+      <div class="gcs-arrow">&rarr;</div>
+      <div class="gcs-score-card"><div class="gcs-score-num good">67%</div><div class="gcs-score-label">After 12 integrations built</div></div>
+    </div>
+    <div class="gcs-bar-section">
+      <div class="gcs-bar-label">Rohan's org &mdash; 342 active SaaS tools</div>
+      <div class="gcs-bar-row"><div class="gcs-bar-name">Deeply governed</div><div class="gcs-bar-track"><div class="gcs-bar-fill" style="width:67%;background:#10B981"></div></div><div class="gcs-bar-pct">67%</div></div>
+      <div class="gcs-bar-row"><div class="gcs-bar-name">Discovered only</div><div class="gcs-bar-track"><div class="gcs-bar-fill" style="width:21%;background:#F59E0B"></div></div><div class="gcs-bar-pct">21%</div></div>
+      <div class="gcs-bar-row"><div class="gcs-bar-name">Shadow IT / ungoverned</div><div class="gcs-bar-track"><div class="gcs-bar-fill" style="width:12%;background:#EF4444"></div></div><div class="gcs-bar-pct">12%</div></div>
+    </div>
+    <div class="gcs-why"><strong>Why this metric changes everything:</strong> Every integration built moves the number. The number becomes visible to leadership. Leadership asks why it's at 67% and not 90%. Rohan opens another integration. The product creates its own demand loop &mdash; and only CloudEagle can show the score that drives it. This turns the Integration Builder from a feature into a habit loop, and a satisfied customer into an expanding one.</div>
+  </div>
+  
+<div class="metrics-grid">
+    <div class="metric-card ns"><div class="metric-type">North Star Metric</div><h4>Integrations successfully deployed to production per month</h4><p>Not "started." Not "generated." Deployed and actively returning data after 30 days. This proves the full pipeline is working. Baseline today: tracked per customer as part of onboarding reporting.</p></div>
+    <div class="metric-card anti"><div class="metric-type">&#9888; Anti-Metric &mdash; Watch This Closely</div><h4>Integrations generated but never deployed</h4><p>If high, the system creates code customers don't trust enough to ship. Hard cap: should never exceed 20% of integrations started. If it does, the trust gap is in the sandbox experience or approval flow &mdash; not AI quality.</p></div>
+    <div class="metric-card"><div class="metric-type">Speed</div><h4>Time to first working integration</h4><p>Median time from URL paste to production deployment. Target: under 4 hours. Current baseline: 6&ndash;8 weeks (manual). The delta tells the ROI story at renewal.</p></div>
+    <div class="metric-card"><div class="metric-type">Quality</div><h4>Sandbox pass rate</h4><p>% passing all sandbox stages without manual fixes. Target: &ge;90%. Below 80% signals the AI is generating code that won't work in production.</p></div>
+    <div class="metric-card"><div class="metric-type">Trust</div><h4>Human override rate on AI mappings</h4><p>% of high-confidence (&ge;80%) field mappings users manually correct. Target: &lt;15%. A high rate means confidence scores are poorly calibrated, not necessarily that the AI is wrong.</p></div>
+    <div class="metric-card"><div class="metric-type">Platform</div><h4>Governance Coverage Score per customer</h4><p>% of active SaaS stack with deep integrations vs discovery-only. Should grow month-over-month for every active builder customer. CloudEagle's proprietary retention signal.</p></div>
+  </div>
+</div></div>
+
+<div class="section" id="s15"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">15</span>Risks &amp; Mitigations</div>
+  <h2>What could go wrong &mdash; and <em>how we see it coming.</em></h2>
+  <div class="risk-list">
+    <div class="risk"><div class="risk-hd"><div class="risk-hd-cell"><div class="risk-hd-label">Risk</div><div class="risk-hd-val">AI generates plausible-looking but incorrect integration code</div></div><div class="risk-hd-cell"><div class="risk-hd-label">Early Warning Signal</div><div class="risk-hd-val">High manual override rate; sandbox pass rate below 80%</div></div><div class="risk-hd-cell"><div class="risk-hd-label">Severity</div><div class="sev"><div class="sev-dot" style="background:var(--red)"></div><div class="sev-dot" style="background:var(--red)"></div><div class="sev-dot" style="background:var(--red)"></div></div></div></div><div class="risk-body"><div class="risk-body-cell"><div class="risk-body-label">What happens</div>Generated code passes sandbox (against mock) but fails in production because the mock didn't accurately represent real API behaviour. Customer trust is lost.</div><div class="risk-body-cell"><div class="risk-body-label">Mitigation</div>Continuously improve mock server fidelity by comparing mock vs real API responses from reference customers. Treat mock server accuracy as a product metric, not a technical detail.</div></div></div>
+    <div class="risk"><div class="risk-hd"><div class="risk-hd-cell"><div class="risk-hd-label">Risk</div><div class="risk-hd-val">PII exposure &mdash; IT Head deploys an integration that surfaces personal data without realising it</div></div><div class="risk-hd-cell"><div class="risk-hd-label">Early Warning Signal</div><div class="risk-hd-val">PII fields passing without masking flag in the Security Risk Report</div></div><div class="risk-hd-cell"><div class="risk-hd-label">Severity</div><div class="sev"><div class="sev-dot" style="background:var(--red)"></div><div class="sev-dot" style="background:var(--red)"></div><div class="sev-dot" style="background:var(--red)"></div></div></div></div><div class="risk-body"><div class="risk-body-cell"><div class="risk-body-label">What happens</div>Personal data flows into CloudEagle's data layer without explicit customer approval. GDPR and compliance liability for both the customer and CloudEagle.</div><div class="risk-body-cell"><div class="risk-body-label">Mitigation</div>PII detection is deterministic &mdash; not AI. Any field matching email, name, phone, or address patterns triggers a mandatory disclosure in the Security Risk Report requiring Arjun's per-field acknowledgment.</div></div></div>
+    <div class="risk"><div class="risk-hd"><div class="risk-hd-cell"><div class="risk-hd-label">Risk</div><div class="risk-hd-val">Customers don't have an API layer &mdash; the builder has nothing to work with</div></div><div class="risk-hd-cell"><div class="risk-hd-label">Early Warning Signal</div><div class="risk-hd-val">High % of onboarding calls where customers can't provide a URL, spec, or schema</div></div><div class="risk-hd-cell"><div class="risk-hd-label">Severity</div><div class="sev"><div class="sev-dot" style="background:var(--amber)"></div><div class="sev-dot" style="background:var(--amber)"></div><div class="sev-dot" style="background:var(--rule)"></div></div></div></div><div class="risk-body"><div class="risk-body-cell"><div class="risk-body-label">What happens</div>Even Stripe &mdash; with the world's best API &mdash; requires every client to write custom mapping code for their own data model. If the client's system has no API layer, there is no starting point on the client side.</div><div class="risk-body-cell"><div class="risk-body-label">Mitigation</div>MVP: communicate the API requirement clearly during onboarding. Provide a fallback path (CloudEagle implementation team) for customers without APIs. Post-MVP: AI generates client-side scaffolding, building both sides automatically.</div></div></div>
+    <div class="risk"><div class="risk-hd"><div class="risk-hd-cell"><div class="risk-hd-label">Risk</div><div class="risk-hd-val">Rubber-stamping &mdash; Arjun signs off approvals without genuine review</div></div><div class="risk-hd-cell"><div class="risk-hd-label">Early Warning Signal</div><div class="risk-hd-val">Median approval gate completion time consistently below 60 seconds</div></div><div class="risk-hd-cell"><div class="risk-hd-label">Severity</div><div class="sev"><div class="sev-dot" style="background:var(--amber)"></div><div class="sev-dot" style="background:var(--amber)"></div><div class="sev-dot" style="background:var(--rule)"></div></div></div></div><div class="risk-body"><div class="risk-body-cell"><div class="risk-body-label">What happens</div>Users over-trust the AI and click Approve without reviewing flagged items. When something goes wrong, the audit trail shows approval was given &mdash; creating liability even though the review wasn't genuine.</div><div class="risk-body-cell"><div class="risk-body-label">Mitigation</div>Flagged items require individual checkbox acknowledgment. If approval time falls below 60 seconds on a flagged integration, a reminder screen appears before sign-off is accepted.</div></div></div>
+    <div class="risk"><div class="risk-hd"><div class="risk-hd-cell"><div class="risk-hd-label">Risk</div><div class="risk-hd-val">Regulatory exposure &mdash; AI models processing customer data may violate enterprise AI usage policies</div></div><div class="risk-hd-cell"><div class="risk-hd-label">Early Warning Signal</div><div class="risk-hd-val">Enterprise prospects in regulated industries raising AI processing policy objections during sales</div></div><div class="risk-hd-cell"><div class="risk-hd-label">Severity</div><div class="sev"><div class="sev-dot" style="background:var(--amber)"></div><div class="sev-dot" style="background:var(--amber)"></div><div class="sev-dot" style="background:var(--amber)"></div></div></div></div><div class="risk-body"><div class="risk-body-cell"><div class="risk-body-label">What happens</div>Some enterprises in BFSI and healthcare have strict policies about which AI providers can process their data. If AI models process customer API schemas or connection logic, it may create compliance objections.</div><div class="risk-body-cell"><div class="risk-body-label">Mitigation</div>AI models process only the tool's public API documentation &mdash; not customer data. Credentials never touch AI APIs &mdash; they go directly to secrets vault. Post-MVP: self-hosted model option for regulated industries.</div></div></div>
+  </div>
+</div></div>
+
+<div class="section" id="s16"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">16</span>Phased Rollout</div>
+  <h2>Internal confidence first. <em>Customer access second.</em></h2>
+  <p class="lead">A bug found in Phase 0 costs a sprint. A bug found in Phase 2 costs a customer. Build internal confidence before external access.</p>
+  <div class="phases">
+    <div class="phase"><div class="phase-left"><span class="phase-badge" style="background:var(--surface);color:var(--slate);border:1px solid var(--rule)">Phase 0</span><div class="phase-dur">Weeks 1&ndash;6</div></div><div class="phase-right"><h4>Internal validation &mdash; CloudEagle implementation team only</h4><p>Used exclusively by CloudEagle's own team to clear the existing integration backlog for current customers. No customer self-serves. Team reports on AI accuracy, sandbox reliability, and approval flow usability.</p><div class="phase-grad">Graduate when: 20 integrations generated with &lt;20% requiring manual fixes</div></div></div>
+    <div class="phase"><div class="phase-left"><span class="phase-badge" style="background:var(--bluefg);color:var(--blue);border:1px solid var(--blueborder)">Phase 1</span><div class="phase-dur">Weeks 7&ndash;14</div></div><div class="phase-right"><h4>Solutions Engineers &mdash; live demo capability</h4><p>Priya uses the builder in prospect demos. The "do you support X?" objection becomes a live demonstration. SE feedback shapes the UX before broader access.</p><div class="phase-grad">Graduate when: 10 successful live demos, zero critical failures. SE confidence score &gt;8/10</div></div></div>
+    <div class="phase"><div class="phase-left"><span class="phase-badge" style="background:var(--amberfg);color:var(--amber);border:1px solid var(--amberbd)">Phase 2</span><div class="phase-dur">Weeks 15&ndash;24</div></div><div class="phase-right"><h4>Supervised customer access &mdash; 5&ndash;10 enterprise accounts</h4><p>Select customers get access with a CloudEagle Implementation Specialist on every run. Supervised self-serve. Specialist observations fill the gap between what the product assumes users know and what they actually know.</p><div class="phase-grad">Graduate when: Sandbox pass rate &gt;85%. Production success rate at 30 days &gt;90%</div></div></div>
+    <div class="phase"><div class="phase-left"><span class="phase-badge" style="background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd)">Phase 3</span><div class="phase-dur">Month 7+</div></div><div class="phase-right"><h4>Self-serve &mdash; all Business and Enterprise customers</h4><p>Builder available on all Business and Enterprise plans. In-product guidance replaces the specialist. EagleEye catches production issues within 24-hour SLA. Governance Coverage Score visible on all dashboards.</p><div class="phase-grad">Success signal: North Star metric growing &gt;20% month-over-month for 3 consecutive months</div></div></div>
+  </div>
+</div></div>
+
+<div class="section" id="s17"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">17</span>Go-to-Market Strategy</div>
+  <h2>Who hears about this first &mdash; <em>and what they experience.</em></h2>
+  <div class="gtm-phases">
+    <div class="gtm-phase"><div class="gtm-hd"><div class="gtm-num">1</div><div class="gtm-title">Internal launch &mdash; build the proof before the claim</div><div class="gtm-time">Months 1&ndash;3</div></div><div class="gtm-grid"><div class="gtm-cell"><strong>Audience</strong>CloudEagle implementation team and SEs. Not customer-facing yet.</div><div class="gtm-cell"><strong>Goal</strong>10 integration success stories with quantified time savings for external messaging.</div><div class="gtm-cell"><strong>Message</strong>"We connect a new integration in hours, not weeks." Prove internally before saying externally.</div><div class="gtm-cell"><strong>Channel</strong>Internal product demo, engineering all-hands, SE enablement sessions.</div></div></div>
+    <div class="gtm-phase"><div class="gtm-hd"><div class="gtm-num">2</div><div class="gtm-title">Existing customers &mdash; turn backlog into quick wins</div><div class="gtm-time">Months 3&ndash;5</div></div><div class="gtm-grid"><div class="gtm-cell"><strong>Audience</strong>Current CloudEagle customers with pending integration requests &mdash; the warm audience that already has the pain.</div><div class="gtm-cell"><strong>Goal</strong>Clear the backlog. Turn frustrated customers into case studies.</div><div class="gtm-cell"><strong>Message</strong>"That integration you requested 3 months ago? We can complete it this week." Personal &mdash; not an email blast.</div><div class="gtm-cell"><strong>Channel</strong>Direct outreach from Customer Success Managers. 1:1 calls.</div></div></div>
+    <div class="gtm-phase"><div class="gtm-hd"><div class="gtm-num">3</div><div class="gtm-title">New prospects &mdash; reposition the integration narrative</div><div class="gtm-time">Month 5+</div></div><div class="gtm-grid"><div class="gtm-cell"><strong>Audience</strong>IT Heads and Security Leads at enterprises evaluating SaaS management platforms.</div><div class="gtm-cell"><strong>Goal</strong>Remove integration coverage as a deal objection before it's raised.</div><div class="gtm-cell"><strong>Message</strong>"Universal connectivity. Any tool, any client, in hours &mdash; not weeks." Lead with the Governance Coverage Score.</div><div class="gtm-cell"><strong>Channel</strong>Gartner presence, customer case study content, LinkedIn thought leadership from IT Head persona POV.</div></div></div>
+  </div>
+</div></div>
+
+<div class="section" id="s18"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">18</span>Product Evolution</div>
+  <h2>What this looks like as <em>technology and market evolve.</em></h2>
+  <div class="evo">
+    <div class="evo-card"><div class="evo-period">6 Months Post-Launch</div><h4>Confidence &amp; Coverage</h4><ul class="evo-list"><li>Sandbox pass rate data improves AI prompt engineering for the 20% needing manual fixes</li><li>API change monitoring deployed &mdash; EagleEye starts watching documentation for drift</li><li>Integration templates from recurring patterns across customers</li><li>Governance Coverage Score visible on all Business+ dashboards</li></ul></div>
+    <div class="evo-card"><div class="evo-period">12 Months Post-Launch</div><h4>Intelligence &amp; Autonomy</h4><ul class="evo-list"><li>Industry-aware mapping models trained on finance, HR tech, real estate patterns</li><li>Self-healing integrations live &mdash; API version changes trigger automatic migration proposals</li><li>AI generates client-side scaffolding for customers whose systems have no API layer</li><li>Shadow AI governance: when a new AI tool is detected, the builder suggests an integration proactively</li></ul></div>
+    <div class="evo-card"><div class="evo-period">24 Months Post-Launch</div><h4>Platform Shift</h4><ul class="evo-list"><li>As MCP (Model Context Protocol) becomes standard, integrations exposed as MCP servers &mdash; any AI agent can use CloudEagle-managed connections</li><li>The question shifts from "how do we build integrations?" to "how do we govern every tool that AI agents can access?"</li><li>The Integration Builder becomes the foundation of an AI governance layer &mdash; the next major product surface CloudEagle owns</li></ul></div>
+  </div>
+  <div class="callout quote"><div class="cl-body">The Integration Builder does not stop at connecting tools. It positions CloudEagle as the only platform that can govern 100% of an enterprise's SaaS and AI ecosystem &mdash; regardless of how obscure the tool, regardless of how fast the stack changes. That is the endgame.</div></div>
+</div></div>
+
+<div class="section" id="s19"><div class="wrap">
+  <div class="sec-tag"><span class="sec-num">19</span>Assumptions &amp; Open Questions</div>
+  <h2>What is still unknown. <em>What I assumed to get here.</em></h2>
+  <p class="lead">A senior PM knows where the map ends. These are the assumptions this brief depends on and the questions that need answers before committing to implementation.</p>
+  <h3 style="margin-bottom:12px">Assumptions taken</h3>
+  <div class="assumption-list" style="margin-bottom:28px">
+    <div class="assumption"><span class="a-num">A1</span><div class="a-body"><strong>API documentation is accessible and machine-readable.</strong> The builder assumes tool docs are public web pages. Login-gated docs, PDF-only, or no public docs require alternative ingestion paths not in MVP.</div></div>
+    <div class="assumption"><span class="a-num">A2</span><div class="a-body"><strong>Customers have some form of internal API or schema to expose.</strong> Even Stripe &mdash; with the world's best API &mdash; cannot integrate itself into a system with no API layer on the client side. This needs validation with the first 10 pilot customers.</div></div>
+    <div class="assumption"><span class="a-num">A3</span><div class="a-body"><strong>Enterprise customers are willing to use third-party AI models to process their API documentation.</strong> Some enterprises in regulated industries may have AI usage policies that restrict this. A self-hosted model option may be required for BFSI and healthcare post-MVP.</div></div>
+    <div class="assumption"><span class="a-num">A4</span><div class="a-body"><strong>IT Heads are willing to spend 30&ndash;60 minutes on an approval workflow.</strong> If time-constrained, the approval gate may be experienced as friction. The UX must make this feel like value, not bureaucracy.</div></div>
+    <div class="assumption"><span class="a-num">A5</span><div class="a-body"><strong>The mock server's fidelity is sufficient to predict production behaviour.</strong> If mock produces clean results but real API returns unexpected formats, sandbox success doesn't guarantee production success. Fidelity improvement is a continuous investment, not a one-time build.</div></div>
+  </div>
+  <h3 style="margin-bottom:12px">Open questions to validate with customers first</h3>
+  <div class="oq-list">
+    <div class="oq"><div class="oq-q">?</div><p>What % of CloudEagle's current customers have an accessible API or schema available versus needing client-side scaffolding first? This determines the true addressable launch audience for MVP.</p></div>
+    <div class="oq"><div class="oq-q">?</div><p>Who actually owns the integration approval in enterprise accounts &mdash; IT Head, Security Lead, or a dedicated platform team? This determines where the Approval Gate UI should live.</p></div>
+    <div class="oq"><div class="oq-q">?</div><p>What is the acceptable false-positive rate on the confidence scorer before IT Heads start rubber-stamping mappings? This defines the calibration target for the scoring model.</p></div>
+    <div class="oq"><div class="oq-q">?</div><p>Do the tools customers most commonly request have sandbox environments available? If not, how do we handle the case where real credentials are required even for initial testing?</p></div>
+    <div class="oq"><div class="oq-q">?</div><p>Is there a rollout conflict between internal CloudEagle implementation team use and customer-facing access? Are there contractual obligations to current customers that create timeline pressure?</p></div>
+    <div class="oq"><div class="oq-q">?</div><p>How does the Governance Coverage Score handle Shadow IT tools not yet in SaaSMap? Does an unknown tool count against the score &mdash; and if so, does that create a perverse incentive to ignore Shadow IT?</p></div>
+  </div>
+  <div style="margin-top:40px;padding-top:28px;border-top:1px solid var(--rule);text-align:center">
+    <p style="color:var(--mist);font-size:13px;margin-bottom:20px">All three assignment deliverables are embedded in the relevant sections above and linked directly below.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="/ux" style="background:var(--ink);color:var(--white);padding:10px 22px;border-radius:9px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:8px">&#127912; D1 &middot; UX Design</a>
+      <a href="#s9" style="background:var(--teal);color:var(--white);padding:10px 22px;border-radius:9px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:8px">&#128737; D2 &middot; Safeguards &rarr; Section 09</a>
+      <a href="/prototype" style="background:var(--blue);color:var(--white);padding:10px 22px;border-radius:9px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:8px">&#129302; D3 &middot; Prototype</a>
+    </div>
+  </div>
+</div></div>
+
+</div>
+<script>
+const sections=document.querySelectorAll('[id^="s"]');
+const links=document.querySelectorAll('.sb-link');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){links.forEach(l=>{l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id)})}
+  });
+},{threshold:0.25,rootMargin:'-5% 0px -65% 0px'});
+sections.forEach(s=>{if(s.id)obs.observe(s)});
+</script>
+<script>
+(function(){
+  /* ─── Design system tokens ─── */
+  const BLUE='#1B4FCC', GREEN='#10B981', AMBER='#F59E0B', RED='#EF4444';
+  const INK='#0C111D', MIST='#6B7FA0', FOG='#9AABC5', SURFACE='#EEF1F8', RULE='#DDE3EE';
+  const FONT="'DM Sans',system-ui,sans-serif";
+
+  Chart.defaults.font.family=FONT;
+  Chart.defaults.plugins.tooltip.backgroundColor='rgba(12,17,29,0.92)';
+  Chart.defaults.plugins.tooltip.titleColor='#fff';
+  Chart.defaults.plugins.tooltip.bodyColor='rgba(255,255,255,0.75)';
+  Chart.defaults.plugins.tooltip.cornerRadius=8;
+  Chart.defaults.plugins.tooltip.padding=10;
+  Chart.defaults.plugins.tooltip.borderColor='rgba(255,255,255,0.08)';
+  Chart.defaults.plugins.tooltip.borderWidth=1;
+
+  /* ─── Utility: create gradient fill ─── */
+  function makeGradient(ctx,color,alpha0,alpha1){
+    const g=ctx.createLinearGradient(0,0,0,ctx.canvas.height);
+    g.addColorStop(0,color.replace(')',`,${alpha0})`).replace('rgb','rgba'));
+    g.addColorStop(1,color.replace(')',`,${alpha1})`).replace('rgb','rgba'));
+    return g;
+  }
+
+  /* ─── Utility: hex to rgba ─── */
+  function hexAlpha(hex,a){
+    const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+    return `rgba(${r},${g},${b},${a})`;
+  }
+
+  /* ─── IntersectionObserver for animate-on-scroll ─── */
+  const chartInits=new Map();
+  function registerChart(canvasId,initFn){
+    const el=document.getElementById(canvasId);
+    if(!el)return;
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          initFn();
+          io.disconnect();
+        }
+      });
+    },{threshold:0.15});
+    io.observe(el);
+  }
+
+  /* ════════════════════════════════════════════
+     1. DONUT CHART — Governance Gap
+  ════════════════════════════════════════════ */
+  registerChart('donutChart',function(){
+    const ctx=document.getElementById('donutChart').getContext('2d');
+    new Chart(ctx,{
+      type:'doughnut',
+      data:{
+        labels:['500 apps — Deeply governed','149,500 apps — Ungoverned'],
+        datasets:[{
+          data:[500,149500],
+          backgroundColor:[BLUE,SURFACE],
+          borderColor:[BLUE,RULE],
+          borderWidth:[2,1],
+          hoverOffset:6
+        }]
+      },
+      options:{
+        responsive:true,
+        cutout:'68%',
+        animation:{animateRotate:true,duration:900},
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            callbacks:{
+              label:function(ctx){
+                const total=150000;
+                const val=ctx.parsed;
+                const pct=((val/total)*100).toFixed(2);
+                return ` ${val.toLocaleString()} apps (${pct}%)`;
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+
+  /* ════════════════════════════════════════════
+     2. SHADOW AI LINE CHART
+  ════════════════════════════════════════════ */
+  registerChart('shadowLineChart',function(){
+    const canvas=document.getElementById('shadowLineChart');
+    const ctx=canvas.getContext('2d');
+    /* gradient fill */
+    const grad=ctx.createLinearGradient(0,0,0,180);
+    grad.addColorStop(0,hexAlpha(BLUE,0.18));
+    grad.addColorStop(1,hexAlpha(BLUE,0.0));
+
+    /* ChatGPT annotation plugin */
+    const annotationPlugin={
+      id:'chatgptAnnotation',
+      afterDraw(chart){
+        const meta=chart.getDatasetMeta(0);
+        if(!meta.data||meta.data.length<3)return;
+        const pt=meta.data[2]; // 2023 index
+        const {ctx:c,chartArea:{top}}=chart;
+        c.save();
+        c.setLineDash([3,2]);
+        c.strokeStyle=BLUE;
+        c.lineWidth=1;
+        c.beginPath();c.moveTo(pt.x,pt.y-4);c.lineTo(pt.x,top+20);c.stroke();
+        c.setLineDash([]);
+        const lw=80,lh=16,lx=pt.x-lw/2,ly=top+4;
+        c.fillStyle=hexAlpha(BLUE,0.12);
+        c.strokeStyle=hexAlpha(BLUE,0.4);
+        c.lineWidth=1;
+        c.beginPath();c.roundRect(lx,ly,lw,lh,3);c.fill();c.stroke();
+        c.fillStyle=BLUE;
+        c.font=`700 9px ${FONT}`;
+        c.textAlign='center';
+        c.fillText('ChatGPT launch',pt.x,ly+11);
+        c.restore();
+      }
+    };
+
+    new Chart(ctx,{
+      type:'line',
+      plugins:[annotationPlugin],
+      data:{
+        labels:['2021','2022','2023','2024','2025'],
+        datasets:[{
+          label:'AI tools without IT approval (per 1,000 employees)',
+          data:[3,5,12,28,42],
+          borderColor:BLUE,
+          borderWidth:2.5,
+          tension:0.4,
+          pointBackgroundColor:BLUE,
+          pointRadius:[4,4,6,4,4],
+          pointHoverRadius:7,
+          fill:true,
+          backgroundColor:grad
+        }]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        animation:{duration:900},
+        scales:{
+          x:{
+            grid:{color:SURFACE},
+            ticks:{color:FOG,font:{size:10}}
+          },
+          y:{
+            min:0,max:50,
+            grid:{color:SURFACE},
+            ticks:{color:FOG,font:{size:10},stepSize:10}
+          }
+        },
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            callbacks:{
+              label:ctx=>`${ctx.parsed.y} tools`
+            }
+          }
+        }
+      }
+    });
+  });
+
+  /* ════════════════════════════════════════════
+     3. RICE BUBBLE CHART
+  ════════════════════════════════════════════ */
+  registerChart('riceBubbleChart',function(){
+    const ctx=document.getElementById('riceBubbleChart').getContext('2d');
+
+    const mvpColor={bg:hexAlpha('#10B981',0.15),border:'#10B981'};
+    const postColor={bg:hexAlpha('#F59E0B',0.15),border:'#F9C97C'};
+    const futColor={bg:hexAlpha('#9CA3AF',0.12),border:'#DDE3EE'};
+
+    const features=[
+      {label:'Doc Ingest', x:9,   y:8.8,  r:6,  priority:'MVP',      c:mvpColor},
+      {label:'Plan View',  x:8,   y:7.9,  r:6,  priority:'MVP',      c:mvpColor},
+      {label:'Sandbox',    x:8.75,y:6.85, r:6,  priority:'MVP',      c:mvpColor},
+      {label:'Approval',   x:7.25,y:8.18, r:6,  priority:'MVP',      c:mvpColor},
+      {label:'GCS',        x:8.25,y:5.88, r:5.3,priority:'MVP',      c:mvpColor},
+      {label:'API Monitor',x:4,   y:8.3,  r:4.3,priority:'Post-MVP', c:postColor},
+      {label:'Ind. Models',x:3.375,y:7.27,r:3,  priority:'Post-MVP', c:postColor},
+      {label:'Multi-lang', x:4.375,y:3.64,r:4.7,priority:'Post-MVP', c:postColor},
+      {label:'Staged',     x:1.25,y:3.21, r:3.7,priority:'Future',   c:futColor}
+    ];
+
+    /* Group into datasets by priority */
+    const groups={MVP:[],PostMVP:[],'Future':[]};
+    features.forEach(f=>{
+      const key=f.priority.replace('-','');
+      if(!groups[key])groups[key]=[];
+      groups[key].push({x:f.x,y:f.y,r:f.r*3.5,_label:f.label,_priority:f.priority});
+    });
+
+    new Chart(ctx,{
+      type:'bubble',
+      data:{
+        datasets:[
+          {label:'MVP',     data:groups.MVP,     backgroundColor:hexAlpha('#10B981',0.15),borderColor:'#10B981',borderWidth:2,hoverBorderWidth:3},
+          {label:'Post-MVP',data:groups.PostMVP, backgroundColor:hexAlpha('#F59E0B',0.15),borderColor:'#F9C97C',borderWidth:2,hoverBorderWidth:3},
+          {label:'Future',  data:groups.Future,  backgroundColor:hexAlpha('#9CA3AF',0.12),borderColor:'#DDE3EE',borderWidth:2,hoverBorderWidth:3}
+        ]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        animation:{duration:900},
+        scales:{
+          x:{
+            min:0,max:10,
+            title:{display:true,text:'REACH',color:FOG,font:{size:10,weight:'700'}},
+            grid:{color:SURFACE},
+            ticks:{color:FOG,font:{size:9}}
+          },
+          y:{
+            min:0,max:10,
+            title:{display:true,text:'IMPACT',color:FOG,font:{size:10,weight:'700'}},
+            grid:{color:SURFACE},
+            ticks:{color:FOG,font:{size:9}}
+          }
+        },
+        plugins:{
+          legend:{
+            position:'bottom',
+            labels:{color:INK,font:{size:11},boxWidth:10,padding:16,
+              usePointStyle:true,pointStyle:'circle'}
+          },
+          tooltip:{
+            callbacks:{
+              label:function(ctx){
+                const d=ctx.raw;
+                return [
+                  ` ${d._label}`,
+                  ` Priority: ${d._priority}`,
+                  ` Reach: ${d.x} · Impact: ${d.y}`
+                ];
+              }
+            }
+          }
+        }
+      },
+      plugins:[{
+        id:'quadrantLines',
+        afterDraw(chart){
+          const{ctx:c,scales:{x,y},chartArea}=chart;
+          const mx=x.getPixelForValue(5);
+          const my=y.getPixelForValue(5);
+          c.save();
+          c.setLineDash([4,3]);
+          c.strokeStyle=RULE;
+          c.lineWidth=1;
+          c.beginPath();c.moveTo(mx,chartArea.top);c.lineTo(mx,chartArea.bottom);c.stroke();
+          c.beginPath();c.moveTo(chartArea.left,my);c.lineTo(chartArea.right,my);c.stroke();
+          c.restore();
+        }
+      },{
+        id:'bubbleLabels',
+        afterDatasetsDraw(chart){
+          const{ctx:c}=chart;
+          chart.data.datasets.forEach((ds,di)=>{
+            const meta=chart.getDatasetMeta(di);
+            ds.data.forEach((d,i)=>{
+              const el=meta.data[i];
+              if(!el)return;
+              c.save();
+              c.font=`700 8px ${FONT}`;
+              c.fillStyle='#1A2640';
+              c.textAlign='center';
+              c.textBaseline='middle';
+              c.fillText(d._label,el.x,el.y);
+              c.restore();
+            });
+          });
+        }
+      }]
+    });
+  });
+
+  /* ════════════════════════════════════════════
+     4. COST/TIME HORIZONTAL BAR CHART
+  ════════════════════════════════════════════ */
+  registerChart('costTimeChart',function(){
+    const ctx=document.getElementById('costTimeChart').getContext('2d');
+    new Chart(ctx,{
+      type:'bar',
+      data:{
+        labels:['Time to Integration (hours)','Cost per Integration ($)'],
+        datasets:[
+          {
+            label:'Manual / Today',
+            data:[336,40000],  /* 6 weeks = 336 hours; $40,000 */
+            backgroundColor:hexAlpha(RED,0.25),
+            borderColor:RED,
+            borderWidth:2,
+            borderRadius:5
+          },
+          {
+            label:'AI Integration Builder',
+            data:[4,0.50],
+            backgroundColor:hexAlpha(BLUE,0.25),
+            borderColor:BLUE,
+            borderWidth:2,
+            borderRadius:5
+          }
+        ]
+      },
+      options:{
+        indexAxis:'y',
+        responsive:true,
+        maintainAspectRatio:false,
+        animation:{duration:900},
+        scales:{
+          x:{
+            type:'logarithmic',
+            min:0.1,
+            grid:{color:SURFACE},
+            ticks:{
+              color:FOG,font:{size:10},
+              callback:function(val){
+                if([0.5,4,336,40000].includes(val)){
+                  if(val===336)return '6–8 wks';
+                  if(val===4)return '<4 hrs';
+                  if(val===40000)return '$40K';
+                  if(val===0.5)return '$0.50';
+                }
+                return '';
+              }
+            }
+          },
+          y:{
+            grid:{display:false},
+            ticks:{color:MIST,font:{size:11,weight:'600'}}
+          }
+        },
+        plugins:{
+          legend:{position:'bottom',labels:{color:INK,font:{size:11},boxWidth:12,padding:14}},
+          tooltip:{
+            callbacks:{
+              label:function(ctx){
+                const label=ctx.dataset.label;
+                const idx=ctx.dataIndex;
+                const vals=[['6–8 weeks','< 4 hours'],['~$40,000','~$0.50']];
+                return ` ${label}: ${vals[idx][ctx.datasetIndex]}`;
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+
+})();
+</script>
+<script>
+(function(){
+  var el=document.getElementById("hero-h1");
+  if(!el){return;}
+  var plain=el.getAttribute("data-plain").split(" ");
+  var em=el.getAttribute("data-em").split(" ");
+  var all=[];
+  for(var p=0;p<plain.length;p++){all.push({t:plain[p],e:false});}
+  for(var e=0;e<em.length;e++){all.push({t:em[e],e:true});}
+  var idx=0;
+  function tick(){
+    if(idx>=all.length){el.classList.add("done");return;}
+    var w=all[idx];
+    var node=document.createElement(w.e?"em":"span");
+    node.textContent=(idx===0?"":" ")+w.t;
+    el.appendChild(node);
+    idx++;
+    setTimeout(tick,60);
+  }
+  setTimeout(tick,150);
+})();
+</script>
+</body>
+</html>

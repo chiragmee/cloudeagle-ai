@@ -21,8 +21,8 @@
 body{background:var(--white);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{text-decoration:none;color:inherit}
 
-/* NAV */
-.topnav{border-bottom:1px solid var(--rule);padding:14px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);z-index:100;gap:16px}
+/* ── NAV ── */
+.topnav{border-bottom:1px solid var(--rule);padding:14px 48px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);z-index:100;gap:16px}
 .nav-left{display:flex;align-items:center;gap:14px}
 .avatar{width:42px;height:42px;border-radius:50%;overflow:hidden;border:2px solid var(--rule);flex-shrink:0}
 .avatar img{width:100%;height:100%;object-fit:cover;object-position:center 55%;transform:scale(2.2);transform-origin:center 55%;display:block}
@@ -36,72 +36,93 @@ a{text-decoration:none;color:inherit}
 .cta-top{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--white);padding:10px 22px;border-radius:8px;font-size:13px;font-weight:700;white-space:nowrap;transition:opacity .15s;flex-shrink:0}
 .cta-top:hover{opacity:.82}
 
-/* HERO */
-.hero{max-width:820px;margin:0 auto;padding:72px 48px 60px;border-bottom:1px solid var(--rule)}
+/* ── PAGE WRAP ── */
+.page{max-width:1160px;margin:0 auto;padding:0 48px}
+
+/* ── TWO-COLUMN LAYOUT ── */
+.layout{display:grid;grid-template-columns:240px 1fr;gap:56px;align-items:start}
+
+/* ── LEFT SIDEBAR ── */
+.sidebar{position:sticky;top:80px;padding:52px 0 52px}
+.sidebar-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--fog);margin-bottom:16px}
+.del-stack{display:flex;flex-direction:column;gap:10px}
+.del-card{border:1.5px solid var(--rule);border-radius:11px;padding:18px 16px;display:flex;flex-direction:column;gap:5px;transition:border-color .15s,box-shadow .15s;cursor:pointer}
+.del-card:hover{border-color:var(--blue);box-shadow:0 3px 16px rgba(27,79,204,.08)}
+.del-card.featured{background:var(--ink);border-color:var(--ink)}
+.del-num{font-family:var(--mono);font-size:9px;color:var(--fog);font-weight:500}
+.del-card.featured .del-num{color:rgba(255,255,255,.3)}
+.del-card h3{font-size:13px;font-weight:700;color:var(--ink);line-height:1.3}
+.del-card.featured h3{color:var(--white)}
+.del-card p{font-size:11px;color:var(--mist);line-height:1.5}
+.del-card.featured p{color:rgba(255,255,255,.45)}
+.del-link{font-size:11px;font-weight:700;color:var(--blue);margin-top:4px;display:inline-flex;align-items:center;gap:4px}
+.del-card.featured .del-link{color:#6EE7B7}
+.sidebar-divider{height:1px;background:var(--rule);margin:20px 0}
+.sidebar-note{font-size:11px;color:var(--fog);line-height:1.6}
+
+/* ── HERO CONTENT ── */
+.hero-content{padding:52px 0 52px;border-bottom:1px solid var(--rule)}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--bluefg);border:1px solid var(--blueborder);color:var(--blue);padding:4px 14px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:28px}
 .pulse{width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pulse 1.8s ease infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
-.hero h1{font-family:var(--serif);font-size:clamp(30px,4vw,46px);line-height:1.1;letter-spacing:-.3px;margin-bottom:22px;max-width:720px}
-.hero h1 em{font-style:italic;color:var(--mist)}
+.hero-content h1{font-family:var(--serif);font-size:clamp(28px,3.2vw,44px);line-height:1.1;letter-spacing:-.3px;margin-bottom:22px}
+.hero-content h1 em{font-style:italic;color:var(--mist)}
 #hero-h1::after{content:'|';color:var(--blue);animation:blink .6s step-end infinite}
 #hero-h1.done::after{display:none}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.hero-body{font-size:15px;color:var(--mist);line-height:1.8;margin-bottom:28px;max-width:660px}
+.hero-body{font-size:15px;color:var(--mist);line-height:1.8;margin-bottom:28px;max-width:580px}
 .hero-body strong{color:var(--ink)}
-.sec-strip{display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--rule);border-radius:10px;overflow:hidden}
-.sec-item{display:flex;align-items:center;gap:8px;padding:11px 18px;font-size:12px;color:var(--slate);font-weight:500;border-right:1px solid var(--rule);flex:1;min-width:160px}
-.sec-item:last-child{border-right:none}
+.sec-strip{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--rule);border-radius:10px;overflow:hidden;max-width:560px}
+.sec-item{display:flex;align-items:center;gap:8px;padding:11px 16px;font-size:12px;color:var(--slate);font-weight:500;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.sec-item:nth-child(2){border-right:none}
+.sec-item:nth-child(3){border-bottom:none}
+.sec-item:nth-child(4){border-right:none;border-bottom:none}
 .sec-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
 
-/* SECTIONS */
-.section{max-width:820px;margin:0 auto;padding:56px 48px;border-bottom:1px solid var(--rule)}
+/* ── CONTENT SECTIONS ── */
+.content-section{padding:52px 0;border-bottom:1px solid var(--rule)}
 .sec-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--fog);margin-bottom:10px}
-.section h2{font-family:var(--serif);font-size:26px;font-weight:600;line-height:1.15;margin-bottom:8px}
+.content-section h2{font-family:var(--serif);font-size:26px;font-weight:600;line-height:1.15;margin-bottom:8px}
 .sub{font-size:14px;color:var(--mist);margin-bottom:32px;line-height:1.7}
 
-/* COST TABLE */
+/* ── COST TABLE ── */
 .cost-table{width:100%;border-collapse:collapse;font-size:13px}
 .cost-table thead tr{border-bottom:2px solid var(--rule)}
 .cost-table th{text-align:left;padding:10px 16px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--fog)}
 .cost-table td{padding:15px 16px;border-bottom:1px solid var(--rule);line-height:1.55;vertical-align:top}
 .cost-table tbody tr:last-child td{border-bottom:none;background:var(--surface);font-weight:700}
 .cost-table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap;width:22%}
-.cost-table td:nth-child(2){color:var(--mist);width:20%}
+.cost-table td:nth-child(2){color:var(--mist);width:18%}
 .ai-val{display:flex;align-items:flex-start;gap:8px}
 .ai-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:5px}
-.gain{display:inline-flex;align-items:center;background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd);border-radius:100px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap}
+.gain{display:inline-flex;background:var(--greenfg);color:var(--green);border:1px solid var(--greenbd);border-radius:100px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap}
 
-/* VALIDATOR */
+/* ── VALIDATOR ── */
 .pull-quote{border-left:3px solid var(--blue);padding:18px 24px;background:var(--bluefg);border-radius:0 10px 10px 0;margin-bottom:28px}
-.pull-quote p{font-family:var(--serif);font-size:20px;line-height:1.45;color:var(--ink);font-style:italic}
-.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pull-quote p{font-family:var(--serif);font-size:19px;line-height:1.45;color:var(--ink);font-style:italic}
+.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .vcard{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:18px 20px}
 .vcard-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--fog);margin-bottom:6px}
 .vcard h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px}
 .vcard p{font-size:12px;color:var(--mist);line-height:1.6}
 
-/* DELIVERABLES */
-.deliverables{max-width:820px;margin:0 auto;padding:56px 48px 72px}
-.del-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
-.del-card{border:1.5px solid var(--rule);border-radius:12px;padding:24px 20px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,box-shadow .15s}
-.del-card:hover{border-color:var(--blue);box-shadow:0 4px 20px rgba(27,79,204,.08)}
-.del-num{font-family:var(--mono);font-size:10px;color:var(--fog)}
-.del-card h3{font-size:15px;font-weight:700;color:var(--ink)}
-.del-card p{font-size:12px;color:var(--mist);line-height:1.55;flex:1}
-.del-link{font-size:12px;font-weight:700;color:var(--blue);margin-top:6px;display:inline-flex;align-items:center;gap:4px}
-.del-card.featured{border-color:var(--ink);background:var(--ink)}
-.del-card.featured h3,.del-card.featured p,.del-card.featured .del-num{color:rgba(255,255,255,.5)}
-.del-card.featured h3{color:var(--white)}
-.del-card.featured .del-link{color:#6EE7B7}
+/* ── FOOTER ── */
+.page-footer{padding:32px 0;text-align:center}
+.page-footer p{font-size:12px;color:var(--fog)}
+.page-footer a{color:var(--blue);font-weight:600}
 
-@media(max-width:700px){
+@media(max-width:800px){
+  .page{padding:0 20px}
+  .layout{grid-template-columns:1fr;gap:0}
+  .sidebar{position:static;padding:32px 0 0}
+  .del-stack{flex-direction:row;flex-wrap:wrap}
+  .del-card{flex:1;min-width:160px}
+  .hero-content{padding-top:32px}
+  .sec-strip{grid-template-columns:1fr}
+  .sec-item{border-right:none}
+  .vgrid{grid-template-columns:1fr}
   .topnav{padding:12px 20px}
   .nav-tags{display:none}
-  .hero,.section,.deliverables{padding-left:20px;padding-right:20px}
-  .sec-strip{flex-direction:column}
-  .sec-item{border-right:none;border-bottom:1px solid var(--rule)}
-  .sec-item:last-child{border-bottom:none}
-  .vgrid,.del-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -125,127 +146,144 @@ a{text-decoration:none;color:inherit}
   <a href="/full" class="cta-top">Read Complete Brief →</a>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="eyebrow"><div class="pulse"></div>Senior PM Assignment · CloudEagle · AI Integration Builder</div>
-  <h1 id="hero-h1" data-plain="CloudEagle manages $20B in SaaS spend. But adding a new integration" data-em="still takes weeks."></h1>
-  <p class="hero-body">
-    CloudEagle's integration bottleneck costs <strong>$40K and 8 weeks</strong> of engineering per custom integration.
-    The <strong>AI Integration Builder</strong> eliminates this — AI reads API documentation, maps schemas,
-    generates secure code, and runs it in a sandbox. PMs and IT Managers act as
-    <strong>Validators, not builders.</strong>
-  </p>
-  <div class="sec-strip">
-    <div class="sec-item"><div class="sec-dot"></div>AES-256 Encryption</div>
-    <div class="sec-item"><div class="sec-dot"></div>Zero-Trust Sandbox</div>
-    <div class="sec-item"><div class="sec-dot"></div>No LLM Training on Your Data</div>
-    <div class="sec-item"><div class="sec-dot"></div>PII Masking Before API Calls</div>
-  </div>
-</div>
+<div class="page">
+  <div class="layout">
 
-<!-- COST TABLE -->
-<div class="section">
-  <div class="sec-label">The Economic Shift</div>
-  <h2>$40,000 per integration → $0.50</h2>
-  <p class="sub">Every phase of the manual integration workflow — eliminated or automated.</p>
-  <table class="cost-table">
-    <thead>
-      <tr>
-        <th>Phase</th>
-        <th>Traditional</th>
-        <th>AI Integration Builder</th>
-        <th>Efficiency</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Requirements Gathering</td>
-        <td>1 Week</td>
-        <td><div class="ai-val"><div class="ai-dot"></div>Instant — Doc Scraper reads and parses API documentation automatically</div></td>
-        <td><span class="gain">99%</span></td>
-      </tr>
-      <tr>
-        <td>Technical Mapping</td>
-        <td>2 Weeks</td>
-        <td><div class="ai-val"><div class="ai-dot"></div>Automated — Auto-Schema maps fields, auth models, and rate limits</div></td>
-        <td><span class="gain">98%</span></td>
-      </tr>
-      <tr>
-        <td>Development</td>
-        <td>4 Weeks</td>
-        <td><div class="ai-val"><div class="ai-dot"></div>Real-time — Code Gen produces API client, auth setup, pagination, and error handling</div></td>
-        <td><span class="gain">100%</span></td>
-      </tr>
-      <tr>
-        <td>QA &amp; Testing</td>
-        <td>1 Week</td>
-        <td><div class="ai-val"><div class="ai-dot"></div>Automated — Test cases generated and run in isolated sandbox environment</div></td>
-        <td><span class="gain">90%</span></td>
-      </tr>
-      <tr>
-        <td>Total Cost</td>
-        <td>~$40,000</td>
-        <td><div class="ai-val"><div class="ai-dot"></div>~$0.50 in AI compute</div></td>
-        <td><span class="gain">90%+ Faster</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+    <!-- LEFT SIDEBAR — deliverable cards -->
+    <div class="sidebar">
+      <div class="sidebar-label">Explore the Submission</div>
+      <div class="del-stack">
+        <a href="/full" class="del-card featured">
+          <div class="del-num">D0</div>
+          <h3>Complete PM Brief</h3>
+          <p>All sections — problem, personas, architecture, metrics, and risks.</p>
+          <div class="del-link">Read full brief →</div>
+        </a>
+        <a href="/ux" class="del-card">
+          <div class="del-num">D1</div>
+          <h3>UX Design</h3>
+          <p>Screen-by-screen Validator Interface — URL to production.</p>
+          <div class="del-link">View UX →</div>
+        </a>
+        <a href="/prototype" class="del-card">
+          <div class="del-num">D3</div>
+          <h3>Live Prototype</h3>
+          <p>Working AI demo — paste an API doc URL and watch it generate.</p>
+          <div class="del-link">Open prototype →</div>
+        </a>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-note">Senior PM Assignment · CloudEagle · AI Integration Builder</div>
+    </div>
 
-<!-- VALIDATOR CALLOUT -->
-<div class="section">
-  <div class="sec-label">The Human Element</div>
-  <div class="pull-quote">
-    <p>"The shift is not from manual to automatic — it is from building to validating."</p>
-  </div>
-  <div class="vgrid">
-    <div class="vcard">
-      <div class="vcard-label">Custom Test Cases</div>
-      <h4>You define the edge cases</h4>
-      <p>Input specific validation rules before deployment — e.g. "Tenant ID must never allow special characters" — the engine enforces them.</p>
-    </div>
-    <div class="vcard">
-      <div class="vcard-label">Pass / Fail Suite</div>
-      <h4>Human-defined checklist</h4>
-      <p>Every integration runs a validator-defined Pass/Fail suite. Nothing ships without explicit human sign-off at the Approval Gate.</p>
-    </div>
-    <div class="vcard">
-      <div class="vcard-label">Version Drift Detection</div>
-      <h4>API changes flagged automatically</h4>
-      <p>The engine monitors API documentation for updates and flags breaking changes — offering an auto-update patch for validator review.</p>
-    </div>
-    <div class="vcard">
-      <div class="vcard-label">Parallel Integrations</div>
-      <h4>Migrate entire stacks at once</h4>
-      <p>Architected to handle multiple integrations simultaneously — IT teams can migrate entire software stacks in a single session.</p>
-    </div>
-  </div>
-</div>
+    <!-- RIGHT — all content -->
+    <div>
 
-<!-- DELIVERABLES -->
-<div class="deliverables">
-  <div class="sec-label">Explore the Full Submission</div>
-  <div class="del-grid">
-    <a href="/full" class="del-card featured">
-      <div class="del-num">D0</div>
-      <h3>Complete PM Brief</h3>
-      <p>All sections — problem, personas, architecture, metrics, risks, and GTM. The full strategic argument.</p>
-      <div class="del-link">Read the full brief →</div>
-    </a>
-    <a href="/ux" class="del-card">
-      <div class="del-num">D1</div>
-      <h3>UX Design</h3>
-      <p>Screen-by-screen Validator Interface — from URL input to sandbox testing and production deployment.</p>
-      <div class="del-link">View UX design →</div>
-    </a>
-    <a href="/prototype" class="del-card">
-      <div class="del-num">D3</div>
-      <h3>Live Prototype</h3>
-      <p>Working AI-powered demo. Paste an API doc URL and watch the integration generate in real time.</p>
-      <div class="del-link">Open prototype →</div>
-    </a>
-  </div>
-</div>
+      <!-- HERO -->
+      <div class="hero-content">
+        <div class="eyebrow"><div class="pulse"></div>Senior PM Assignment · CloudEagle</div>
+        <h1 id="hero-h1" data-plain="CloudEagle manages $20B in SaaS spend. But adding a new integration" data-em="still takes weeks."></h1>
+        <p class="hero-body">
+          CloudEagle's integration bottleneck costs <strong>$40K and 8 weeks</strong> of engineering per custom integration.
+          The <strong>AI Integration Builder</strong> eliminates this — AI reads API documentation, maps schemas,
+          generates secure code, and runs it in a sandbox. PMs and IT Managers act as
+          <strong>Validators, not builders.</strong>
+        </p>
+        <div class="sec-strip">
+          <div class="sec-item"><div class="sec-dot"></div>AES-256 Encryption</div>
+          <div class="sec-item"><div class="sec-dot"></div>Zero-Trust Sandbox</div>
+          <div class="sec-item"><div class="sec-dot"></div>No LLM Training on Your Data</div>
+          <div class="sec-item"><div class="sec-dot"></div>PII Masking Before API Calls</div>
+        </div>
+      </div>
+
+      <!-- COST TABLE -->
+      <div class="content-section">
+        <div class="sec-label">The Economic Shift</div>
+        <h2>$40,000 per integration → $0.50</h2>
+        <p class="sub">Every phase of the manual integration workflow — eliminated or automated.</p>
+        <table class="cost-table">
+          <thead>
+            <tr>
+              <th>Phase</th>
+              <th>Traditional</th>
+              <th>AI Integration Builder</th>
+              <th>Efficiency</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Requirements Gathering</td>
+              <td>1 Week</td>
+              <td><div class="ai-val"><div class="ai-dot"></div>Instant — Doc Scraper reads and parses API documentation automatically</div></td>
+              <td><span class="gain">99%</span></td>
+            </tr>
+            <tr>
+              <td>Technical Mapping</td>
+              <td>2 Weeks</td>
+              <td><div class="ai-val"><div class="ai-dot"></div>Automated — Auto-Schema maps fields, auth models, and rate limits</div></td>
+              <td><span class="gain">98%</span></td>
+            </tr>
+            <tr>
+              <td>Development</td>
+              <td>4 Weeks</td>
+              <td><div class="ai-val"><div class="ai-dot"></div>Real-time — Code Gen produces API client, auth setup, pagination, and error handling</div></td>
+              <td><span class="gain">100%</span></td>
+            </tr>
+            <tr>
+              <td>QA &amp; Testing</td>
+              <td>1 Week</td>
+              <td><div class="ai-val"><div class="ai-dot"></div>Automated — Test cases generated and run in isolated sandbox environment</div></td>
+              <td><span class="gain">90%</span></td>
+            </tr>
+            <tr>
+              <td>Total Cost</td>
+              <td>~$40,000</td>
+              <td><div class="ai-val"><div class="ai-dot"></div>~$0.50 in AI compute</div></td>
+              <td><span class="gain">90%+ Faster</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- VALIDATOR -->
+      <div class="content-section">
+        <div class="sec-label">The Human Element</div>
+        <div class="pull-quote">
+          <p>"The shift is not from manual to automatic — it is from building to validating."</p>
+        </div>
+        <div class="vgrid">
+          <div class="vcard">
+            <div class="vcard-label">Custom Test Cases</div>
+            <h4>You define the edge cases</h4>
+            <p>Input specific validation rules before deployment — e.g. "Tenant ID must never allow special characters" — the engine enforces them.</p>
+          </div>
+          <div class="vcard">
+            <div class="vcard-label">Pass / Fail Suite</div>
+            <h4>Human-defined checklist</h4>
+            <p>Every integration runs a validator-defined Pass/Fail suite. Nothing ships without explicit human sign-off at the Approval Gate.</p>
+          </div>
+          <div class="vcard">
+            <div class="vcard-label">Version Drift Detection</div>
+            <h4>API changes flagged automatically</h4>
+            <p>The engine monitors API documentation for updates and flags breaking changes — offering an auto-update patch for validator review.</p>
+          </div>
+          <div class="vcard">
+            <div class="vcard-label">Parallel Integrations</div>
+            <h4>Migrate entire stacks at once</h4>
+            <p>Architected to handle multiple integrations simultaneously — IT teams can migrate entire software stacks in a single session.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="page-footer">
+        <p>Chirag Mewara · <a href="mailto:chirag.mewara.18@gmail.com">chirag.mewara.18@gmail.com</a> · <a href="https://github.com/chiragmee" target="_blank">github.com/chiragmee</a></p>
+      </div>
+
+    </div><!-- end right column -->
+  </div><!-- end layout -->
+</div><!-- end page -->
 
 <script>
 (function(){
