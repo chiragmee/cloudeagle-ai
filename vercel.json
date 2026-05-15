@@ -1,9 +1,9 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
-    { "src": "/", "dest": "/cloudeagle-ai.html" },
-    { "src": "/ux", "dest": "/cloudeagle-ux-ai.html" },
-    { "src": "/prototype", "dest": "/cloudeagle-prototype-ai.html" }
+  "rewrites": [
+    { "source": "/", "destination": "/cloudeagle-ai.html" },
+    { "source": "/ux", "destination": "/cloudeagle-ux-ai.html" },
+    { "source": "/prototype", "destination": "/cloudeagle-prototype-ai.html" }
   ]
 }
